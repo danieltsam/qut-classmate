@@ -5,7 +5,10 @@ import * as cheerio from "cheerio"
 import { formatDayName, formatLocation, formatTeachingStaff } from "./format-utils"
 
 export async function fetchTimetableData(unitCode: string, teachingPeriodId: string): Promise<TimetableEntry[]> {
-  const url = new URL("https://qutvirtual3.qut.edu.au/qvpublic/ttab_unit_search_p.process_search")
+  const apiUrl =
+    process.env.NEXT_PUBLIC_QUT_VIRTUAL_API_URL ||
+    "https://qutvirtual3.qut.edu.au/qvpublic/ttab_unit_search_p.process_search"
+  const url = new URL(apiUrl)
 
   // Add query parameters
   url.searchParams.append("p_unit_cd", unitCode)
@@ -52,7 +55,7 @@ export async function fetchTimetableData(unitCode: string, teachingPeriodId: str
     const table = $("table.qv_table")
 
     if (table.length === 0) {
-      throw new Error("Timetable table not found in the response")
+      throw new Error("Sorry, we couldn't find that unit. 😢")
     }
 
     // Extract data from each row
@@ -106,6 +109,7 @@ export async function fetchTimetableData(unitCode: string, teachingPeriodId: str
           activityType,
           classTitle,
           dayFormatted,
+          day, // Keep for backward compatibility
           startTime,
           endTime,
           location,

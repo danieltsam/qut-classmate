@@ -1,45 +1,58 @@
-import { Github, Linkedin, Globe } from "lucide-react"
+"use client"
+
+import { Github, Linkedin, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
 
 export function Footer() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    // Add a small delay before showing the footer for a nice animation
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <footer className="border-t border-gray-200 dark:border-gray-800 mt-12 py-6 px-4">
+    <footer
+      className={`mt-12 py-6 border-t border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-700 ${isVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
+    >
       <div className="container mx-auto flex flex-col items-center justify-center">
         <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">Built by Daniel Sam</p>
         <p className="text-gray-600 dark:text-gray-400 mb-4 text-center text-xs">(coded with vibes 😉)</p>
         <div className="flex space-x-4">
           <Button
             variant="outline"
-            size="icon"
-            className="border-[#003A6E] dark:border-blue-300 hover:bg-[#003A6E]/10 dark:hover:bg-blue-300/10 transition-all duration-200 shadow-sm hover:shadow"
-            asChild
+            size="sm"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow animate-in fade-in-50 duration-300"
+            onClick={() => window.open("https://github.com/danieltsam", "_blank")}
+            style={{ animationDelay: "100ms" }}
           >
-            <a href="https://github.com/danieltsam" target="_blank" rel="noopener noreferrer">
-              <Github className="h-5 w-5 text-[#003A6E] dark:text-blue-300" />
-              <span className="sr-only">GitHub</span>
-            </a>
+            <Github className="h-4 w-4 mr-2" />
+            GitHub
           </Button>
           <Button
             variant="outline"
-            size="icon"
-            className="border-[#003A6E] dark:border-blue-300 hover:bg-[#003A6E]/10 dark:hover:bg-blue-300/10 transition-all duration-200 shadow-sm hover:shadow"
-            asChild
+            size="sm"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow animate-in fade-in-50 duration-300"
+            onClick={() => window.open("https://linkedin.com/in/daniel-sam-852487236/", "_blank")}
+            style={{ animationDelay: "200ms" }}
           >
-            <a href="https://linkedin.com/in/daniel-sam-852487236/" target="_blank" rel="noopener noreferrer">
-              <Linkedin className="h-5 w-5 text-[#003A6E] dark:text-blue-300" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
+            <Linkedin className="h-4 w-4 mr-2" />
+            LinkedIn
           </Button>
           <Button
             variant="outline"
-            size="icon"
-            className="border-[#003A6E] dark:border-blue-300 hover:bg-[#003A6E]/10 dark:hover:bg-blue-300/10 transition-all duration-200 shadow-sm hover:shadow"
-            asChild
+            size="sm"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow animate-in fade-in-50 duration-300"
+            onClick={() => window.open("https://danieltsam.github.io", "_blank")}
+            style={{ animationDelay: "300ms" }}
           >
-            <a href="https://danieltsam.github.io" target="_blank" rel="noopener noreferrer">
-              <Globe className="h-5 w-5 text-[#003A6E] dark:text-blue-300" />
-              <span className="sr-only">Portfolio</span>
-            </a>
+            <ExternalLink className="h-4 w-4 mr-2" />
+            Portfolio
           </Button>
         </div>
       </div>

@@ -10,38 +10,154 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2, Search, AlertCircle } from "lucide-react"
+import { Loader2, Search, AlertCircle, Info } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { teachingPeriods } from "@/lib/teaching-periods"
 import { useToast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useRouter } from "next/navigation"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+
+// Constants for rate limiting
+const RATE_LIMIT_KEY = "qut_timetable_search_count"
+const RATE_LIMIT_DATE_KEY = "qut_timetable_search_date"
+const DAILY_RATE_LIMIT = 15
+const REQUEST_INTERVAL = 2000 // 2 seconds
 
 export function UnitSearch() {
   const { toast } = useToast()
+  const router = useRouter()
   const [unitCode, setUnitCode] = useState("")
   const [unitName, setUnitName] = useState("")
   const [teachingPeriodId, setTeachingPeriodId] = useState("621050") // Default to Semester 1 2025
   const [timetableData, setTimetableData] = useState<TimetableEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [toastShown, setToastShown] = useState(false)
+  const [validationError, setValidationError] = useState<string | null>(null)
+  const [lastRequestTime, setLastRequestTime] = useState(0)
+  const [searchCount, setSearchCount] = useState(0)
+  const [isFormVisible, setIsFormVisible] = useState(false)
 
-  // Show toast on first render
+  // Initialize rate limiting from localStorage
   useEffect(() => {
-    toast({
-      title: "Unit Search",
-      description: "Hover over classes to see more details about them.",
-      duration: 5000,
-    })
-  }, [toast])
+    const storedDate = localStorage.getItem(RATE_LIMIT_DATE_KEY)
+    const today = new Date().toDateString()
+
+    if (storedDate !== today) {
+      // Reset count for a new day
+      localStorage.setItem(RATE_LIMIT_DATE_KEY, today)
+      localStorage.setItem(RATE_LIMIT_KEY, "0")
+      setSearchCount(0)
+    } else {
+      // Get current count
+      const count = Number.parseInt(localStorage.getItem(RATE_LIMIT_KEY) || "0", 10)
+      setSearchCount(count)
+    }
+
+    // Animate form in after a small delay
+    const timer = setTimeout(() => {
+      setIsFormVisible(true)
+    }, 200)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Show toast only once
+  useEffect(() => {
+    if (!toastShown) {
+      toast({
+        title: "Unit Search",
+        description: "Click on the info icon to see more details about classes.",
+        duration: 5000,
+      })
+      setToastShown(true)
+    }
+  }, [toast, toastShown])
+
+  // Validate unit code
+  const validateUnitCode = (code: string): boolean => {
+    // Empty check
+    if (!code.trim()) {
+      setValidationError("Please enter a unit code")
+      return false
+    }
+
+    // Format check: 3 letters followed by 3 digits
+    const unitCodePattern = /^[A-Za-z]{3}[0-9]{3}$/
+    if (!unitCodePattern.test(code.trim())) {
+      setValidationError("Unit code must be 3 letters followed by 3 digits (e.g., CAB202)")
+      return false
+    }
+
+    setValidationError(null)
+    return true
+  }
+
+  // Check rate limits
+  const checkRateLimits = (): boolean => {
+    // Check daily limit
+    if (searchCount >= DAILY_RATE_LIMIT) {
+      toast({
+        title: "Daily Search Limit Reached",
+        description: `You've reached the maximum of ${DAILY_RATE_LIMIT} searches per day. Please try again tomorrow.`,
+        variant: "destructive",
+        duration: 6000,
+      })
+      return false
+    }
+
+    // Check request interval
+    const now = Date.now()
+    if (now - lastRequestTime < REQUEST_INTERVAL) {
+      toast({
+        title: "Please wait",
+        description: "Too many requests. Please wait a moment before trying again.",
+        variant: "destructive",
+      })
+      return false
+    }
+
+    return true
+  }
+
+  // Update search count
+  const incrementSearchCount = () => {
+    const newCount = searchCount + 1
+    setSearchCount(newCount)
+    localStorage.setItem(RATE_LIMIT_KEY, newCount.toString())
+
+    // Show toast when approaching limit
+    if (newCount === DAILY_RATE_LIMIT - 3) {
+      toast({
+        title: "Search Limit Warning",
+        description: `You have only 3 searches remaining today. Daily limit: ${DAILY_RATE_LIMIT} searches.`,
+        duration: 5000,
+      })
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Validate unit code
+    if (!validateUnitCode(unitCode)) {
+      return
+    }
+
+    // Check rate limits
+    if (!checkRateLimits()) {
+      return
+    }
+
+    setLastRequestTime(Date.now())
     setIsLoading(true)
     setError(null)
 
     try {
       const data = await fetchTimetableData(unitCode.trim().toUpperCase(), teachingPeriodId.trim())
       setTimetableData(data)
+      incrementSearchCount()
 
       // Extract unit name from the first entry if available
       if (data.length > 0 && data[0].unitName) {
@@ -56,9 +172,26 @@ export function UnitSearch() {
     }
   }
 
+  const handleViewInTimetableMaker = (entry: TimetableEntry) => {
+    // Store the entry in localStorage to pass it to the timetable maker
+    localStorage.setItem("viewInTimetableMaker", JSON.stringify(entry))
+
+    // Switch to timetable maker tab
+    router.push("/?tab=timetable")
+
+    toast({
+      title: "Class Added",
+      description: `${entry.unitCode} ${entry.classTitle || entry.activityType} has been added to your timetable.`,
+      duration: 3000,
+      className: "bg-[#003A6E] text-white dark:bg-blue-800 border-none shadow-lg",
+    })
+  }
+
   return (
     <div className="space-y-6">
-      <Card className="border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+      <Card
+        className={`border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-500 ${isFormVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
+      >
         <CardHeader className="bg-[#003A6E]/5 dark:bg-blue-900/20 rounded-t-xl">
           <CardTitle className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
             Search for a Unit
@@ -66,34 +199,56 @@ export function UnitSearch() {
           <CardDescription className="dark:text-gray-400 transition-colors duration-300">
             Need to check when your classes actually are? Or maybe you're like me and just want to show up to practicals
             when you happen to be on campus?
-            <br/>
-            <br/>
-            Quickly find class times, locations, and staff for any QUT unit.
+            <br />
+            <br />
+            Quickly find class times, locations, and staff for any QUT unit. Simply enter the unit code, teaching period, and location.
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6 dark:bg-gray-900 transition-colors duration-300">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="unitCode" className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
-                  Unit Code
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label
+                    htmlFor="unitCode"
+                    className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300"
+                  >
+                    Unit Code
+                  </Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-gray-500">
+                          <Info className="h-4 w-4" />
+                          <span className="sr-only">Unit code format</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Enter a unit code in the format: 3 letters followed by 3 digits (e.g., CAB202)</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <Input
                   id="unitCode"
                   placeholder="e.g. CAB202"
                   value={unitCode}
-                  onChange={(e) => setUnitCode(e.target.value)}
+                  onChange={(e) => {
+                    setUnitCode(e.target.value)
+                    if (validationError) validateUnitCode(e.target.value)
+                  }}
                   required
                   disabled={isLoading}
                   className="focus-visible:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
                 />
+                {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
               </div>
               <div className="space-y-2">
                 <Label
                   htmlFor="teachingPeriod"
                   className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300"
                 >
-                  Teaching Period
+                  Teaching Period & Campus
                 </Label>
                 <Select value={teachingPeriodId} onValueChange={setTeachingPeriodId} disabled={isLoading}>
                   <SelectTrigger
@@ -118,8 +273,8 @@ export function UnitSearch() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
-              disabled={isLoading}
+              className="w-full bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg animate-pulse-once"
+              disabled={isLoading || searchCount >= DAILY_RATE_LIMIT}
             >
               {isLoading ? (
                 <>
@@ -154,7 +309,13 @@ export function UnitSearch() {
         </div>
       )}
 
-      {!isLoading && timetableData.length > 0 && <TimetableResults entries={timetableData} unitName={unitName} />}
+      {!isLoading && timetableData.length > 0 && (
+        <TimetableResults
+          entries={timetableData}
+          unitName={unitName}
+          onViewInTimetableMaker={handleViewInTimetableMaker}
+        />
+      )}
     </div>
   )
 }

@@ -27,9 +27,10 @@ export function TimetableForm({ onSubmit, isLoading }: TimetableFormProps) {
     <Card>
       <CardHeader>
         <CardTitle>Enter Unit Details</CardTitle>
-        <CardDescription>Sick of QUT's awful UI? Same, let's fix that! 
-        
-        Enter a QUT unit code and teaching period ID to view it's schedule.</CardDescription>
+        <CardDescription>
+          Sick of QUT's awful UI? Same, let's fix that! Enter a QUT unit code and teaching period ID to view it's
+          schedule.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

@@ -2,7 +2,7 @@ import type { TeachingPeriod } from "./types"
 
 export const teachingPeriods: TeachingPeriod[] = [
   { id: "621050", name: "Semester 1, 2025", campus: "Gardens Point" },
-  { id: "621051", name: "Semester 1, 2025", campus: "Kelvin Grove" }
+  { id: "621051", name: "Semester 1, 2025", campus: "Kelvin Grove" },
 ]
 
 export function getTeachingPeriodName(id: string): string {

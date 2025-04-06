@@ -4,11 +4,13 @@ import type { TimetableEntry, SelectedClass } from "@/lib/types"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
+import { formatActivityType } from "@/lib/format-utils"
 
 interface WeeklyTimetableProps {
   selectedClasses: SelectedClass[]
   hoveredClass: TimetableEntry | null
   onClassToggle: (classEntry: TimetableEntry | SelectedClass) => void
+  previewClasses?: TimetableEntry[]
 }
 
 // Days of the week (Monday to Friday)
@@ -17,7 +19,12 @@ const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 // Time slots from 8am to 10pm
 const timeSlots = Array.from({ length: 15 }, (_, i) => i + 8)
 
-export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }: WeeklyTimetableProps) {
+export function WeeklyTimetable({
+  selectedClasses,
+  hoveredClass,
+  onClassToggle,
+  previewClasses = [],
+}: WeeklyTimetableProps) {
   // Function to convert time string to hour number (e.g., "10:00am" -> 10)
   const timeToHour = (timeStr: string): number => {
     const isPM = timeStr.toLowerCase().includes("pm")
@@ -103,18 +110,18 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
 
     // Dark mode variants
     const darkColors = [
-      { bg: "dark:bg-blue-900/30", border: "dark:border-blue-700", text: "dark:text-blue-300" },
-      { bg: "dark:bg-green-900/30", border: "dark:border-green-700", text: "dark:text-green-300" },
-      { bg: "dark:bg-purple-900/30", border: "dark:border-purple-700", text: "dark:text-purple-300" },
-      { bg: "dark:bg-amber-900/30", border: "dark:border-amber-700", text: "dark:text-amber-300" },
-      { bg: "dark:bg-pink-900/30", border: "dark:border-pink-700", text: "dark:text-pink-300" },
-      { bg: "dark:bg-cyan-900/30", border: "dark:border-cyan-700", text: "dark:text-cyan-300" },
-      { bg: "dark:bg-indigo-900/30", border: "dark:border-indigo-700", text: "dark:text-indigo-300" },
-      { bg: "dark:bg-rose-900/30", border: "dark:border-rose-700", text: "dark:text-rose-300" },
-      { bg: "dark:bg-teal-900/30", border: "dark:border-teal-700", text: "dark:text-teal-300" },
-      { bg: "dark:bg-orange-900/30", border: "dark:border-orange-700", text: "dark:text-orange-300" },
-      { bg: "dark:bg-lime-900/30", border: "dark:border-lime-700", text: "dark:text-lime-300" },
-      { bg: "dark:bg-emerald-900/30", border: "dark:border-emerald-700", text: "dark:text-emerald-300" },
+      { bg: "dark:bg-blue-900/50", border: "dark:border-blue-700", text: "dark:text-blue-300" },
+      { bg: "dark:bg-green-900/50", border: "dark:border-green-700", text: "dark:text-green-300" },
+      { bg: "dark:bg-purple-900/50", border: "dark:border-purple-700", text: "dark:text-purple-300" },
+      { bg: "dark:bg-amber-900/50", border: "dark:border-amber-700", text: "dark:text-amber-300" },
+      { bg: "dark:bg-pink-900/50", border: "dark:border-pink-700", text: "dark:text-pink-300" },
+      { bg: "dark:bg-cyan-900/50", border: "dark:border-cyan-700", text: "dark:text-cyan-300" },
+      { bg: "dark:bg-indigo-900/50", border: "dark:border-indigo-700", text: "dark:text-indigo-300" },
+      { bg: "dark:bg-rose-900/50", border: "dark:border-rose-700", text: "dark:text-rose-300" },
+      { bg: "dark:bg-teal-900/50", border: "dark:border-teal-700", text: "dark:text-teal-300" },
+      { bg: "dark:bg-orange-900/50", border: "dark:border-orange-700", text: "dark:text-orange-300" },
+      { bg: "dark:bg-lime-900/50", border: "dark:border-lime-700", text: "dark:text-lime-300" },
+      { bg: "dark:bg-emerald-900/50", border: "dark:border-emerald-700", text: "dark:text-emerald-300" },
     ]
 
     // Use a hash function to get a consistent index
@@ -132,19 +139,19 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
   }
 
   return (
-    <Card className="h-full border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <Card className="h-full border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg sticky top-4">
       <CardContent className="p-4 dark:bg-gray-900 transition-colors duration-300">
         <div className="overflow-x-auto">
           <div className="min-w-[800px]">
             {/* Header row with days */}
-            <div className="grid grid-cols-[60px_repeat(5,1fr)] gap-1 mb-1">
-              <div className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-2 text-center font-medium rounded-md text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+            <div className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 mb-1">
+              <div className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-2 text-center font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md">
                 Time
               </div>
               {days.map((day) => (
                 <div
                   key={day}
-                  className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-2 text-center font-medium rounded-md text-[#003A6E] dark:text-blue-300 transition-colors duration-300"
+                  className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-2 text-center font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md"
                 >
                   {day}
                 </div>
@@ -153,8 +160,8 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
 
             {/* Time slots */}
             {timeSlots.map((hour) => (
-              <div key={hour} className="grid grid-cols-[60px_repeat(5,1fr)] gap-1 mb-1">
-                <div className="bg-[#003A6E]/5 dark:bg-blue-900/20 p-1 text-center text-xs rounded-md font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+              <div key={hour} className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 mb-1">
+                <div className="bg-[#003A6E]/5 dark:bg-blue-900/20 p-2 text-center text-sm text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md">
                   {hour % 12 || 12}
                   {hour >= 12 ? "pm" : "am"}
                 </div>
@@ -162,6 +169,12 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
                 {days.map((day) => {
                   // Filter classes for this day and hour
                   const classesForSlot = selectedClasses.filter(
+                    (cls) =>
+                      cls.dayFormatted === day && timeToHour(cls.startTime) <= hour && timeToHour(cls.endTime) > hour,
+                  )
+
+                  // Filter preview classes for this day and hour
+                  const previewClassesForSlot = previewClasses.filter(
                     (cls) =>
                       cls.dayFormatted === day && timeToHour(cls.startTime) <= hour && timeToHour(cls.endTime) > hour,
                   )
@@ -176,7 +189,7 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
                   return (
                     <div
                       key={`${day}-${hour}`}
-                      className="relative h-10 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 transition-colors duration-300"
+                      className="relative min-h-[60px] bg-gray-50 dark:bg-gray-800 transition-colors duration-300 rounded-md"
                     >
                       {/* Render selected classes */}
                       {classesForSlot.map((cls) => {
@@ -186,24 +199,26 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
                           const colors = getUnitColor(cls.unitCode)
                           const classMode = getClassMode(cls)
                           const weeksInfo = getWeeksInfo(cls)
+                          const activityTypeFull = formatActivityType(cls.activityType)
 
                           return (
                             <TooltipProvider key={cls.id}>
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <div
-                                    className={`absolute inset-x-0 rounded-md border ${colors.bg} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs cursor-pointer transition-all duration-200 hover:shadow-md animate-in fade-in-50`}
+                                    className={`absolute inset-x-0 rounded-md border ${colors.bg} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs cursor-pointer transition-all duration-200 hover:shadow-md animate-in fade-in-50 shadow-sm`}
                                     style={{
                                       top: position.top,
                                       height: position.height,
                                       zIndex: 10,
+                                      margin: "0 2px",
                                     }}
                                     onClick={() => onClassToggle(cls)}
                                   >
                                     <div className="flex justify-between items-start">
                                       <div>
                                         <div className="font-medium">
-                                          {cls.unitCode} {cls.classTitle || cls.activityType}
+                                          {cls.unitCode} {activityTypeFull}
                                         </div>
                                         <div className="text-xs whitespace-nowrap">
                                           {cls.startTime} - {cls.endTime}
@@ -216,7 +231,7 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
                                 <TooltipContent className="max-w-md dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-lg">
                                   <div className="space-y-1">
                                     <p className="font-bold">
-                                      {cls.unitCode} - {cls.classTitle || cls.activityType}
+                                      {cls.unitCode} - {activityTypeFull}
                                     </p>
                                     <p>{cls.class}</p>
                                     <p className="text-[#003A6E] dark:text-blue-300">
@@ -246,6 +261,47 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
                         return null
                       })}
 
+                      {/* Render preview classes */}
+                      {previewClassesForSlot.map((cls, idx) => {
+                        // Only render at the starting hour and if not already selected
+                        if (
+                          timeToHour(cls.startTime) === hour &&
+                          !selectedClasses.some(
+                            (selected) =>
+                              selected.unitCode === cls.unitCode &&
+                              selected.activityType === cls.activityType &&
+                              selected.dayFormatted === cls.dayFormatted &&
+                              selected.startTime === cls.startTime &&
+                              selected.location === cls.location,
+                          )
+                        ) {
+                          const position = calculateClassPosition(cls)
+                          const colors = getUnitColor(cls.unitCode)
+                          const activityTypeFull = formatActivityType(cls.activityType)
+
+                          return (
+                            <div
+                              key={`preview-${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.location}-${idx}`}
+                              className={`absolute inset-x-0 rounded-md border-dashed border ${colors.bg.replace("/50", "/30")} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-50 transition-all duration-200`}
+                              style={{
+                                top: position.top,
+                                height: position.height,
+                                zIndex: 5,
+                                margin: "0 2px",
+                              }}
+                            >
+                              <div className="font-medium">
+                                {cls.unitCode} {activityTypeFull}
+                              </div>
+                              <div className="text-xs whitespace-nowrap">
+                                {cls.startTime} - {cls.endTime}
+                              </div>
+                            </div>
+                          )
+                        }
+                        return null
+                      })}
+
                       {/* Render hovered class preview */}
                       {isHoveredHere && hoveredClass && timeToHour(hoveredClass.startTime) === hour && (
                         <div
@@ -253,10 +309,11 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
                           style={{
                             ...calculateClassPosition(hoveredClass),
                             zIndex: 5,
+                            margin: "0 2px",
                           }}
                         >
                           <div className="font-medium">
-                            {hoveredClass.unitCode} {hoveredClass.classTitle || hoveredClass.activityType}
+                            {hoveredClass.unitCode} {formatActivityType(hoveredClass.activityType)}
                           </div>
                           <div className="text-xs whitespace-nowrap">
                             {hoveredClass.startTime} - {hoveredClass.endTime}
@@ -271,13 +328,6 @@ export function WeeklyTimetable({ selectedClasses, hoveredClass, onClassToggle }
             ))}
           </div>
         </div>
-
-        {selectedClasses.length === 0 && !hoveredClass && (
-          <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-in fade-in-50 duration-300">
-            <p>Your timetable is empty</p>
-            <p className="text-sm mt-1">Select classes from the sidebar to build your timetable</p>
-          </div>
-        )}
       </CardContent>
     </Card>
   )

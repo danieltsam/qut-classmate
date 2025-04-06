@@ -13,6 +13,7 @@ export interface TimetableEntry {
   unitCode?: string
   unitName?: string // Added for unit name
   teachingPeriodId?: string
+  day?: string // For backward compatibility
 }
 
 export interface SelectedClass extends TimetableEntry {
