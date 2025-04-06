@@ -16,12 +16,10 @@ import { teachingPeriods } from "@/lib/teaching-periods"
 import { useToast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useRouter } from "next/navigation"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 
-// Constants for rate limiting
-const RATE_LIMIT_KEY = "qut_timetable_search_count"
-const RATE_LIMIT_DATE_KEY = "qut_timetable_search_date"
-const DAILY_RATE_LIMIT = 15
+// Constants for request throttling (client-side)
 const REQUEST_INTERVAL = 2000 // 2 seconds
 
 export function UnitSearch() {
@@ -36,25 +34,36 @@ export function UnitSearch() {
   const [toastShown, setToastShown] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [lastRequestTime, setLastRequestTime] = useState(0)
-  const [searchCount, setSearchCount] = useState(0)
+  const [remainingRequests, setRemainingRequests] = useState<number | null>(null)
   const [isFormVisible, setIsFormVisible] = useState(false)
 
-  // Initialize rate limiting from localStorage
+  // Load cached data from localStorage on component mount
   useEffect(() => {
-    const storedDate = localStorage.getItem(RATE_LIMIT_DATE_KEY)
-    const today = new Date().toDateString()
+    const cachedData = localStorage.getItem(`timetable-${unitCode}-${teachingPeriodId}`)
+    if (cachedData) {
+      try {
+        const parsedData = JSON.parse(cachedData)
+        // Only use cached data if it's less than 96 hours old
+        const cacheTime = parsedData.timestamp || 0
+        const now = Date.now()
+        const cacheAge = now - cacheTime
+        const cacheDurationMs = 96 * 60 * 60 * 1000 // 96 hours (4 days)
 
-    if (storedDate !== today) {
-      // Reset count for a new day
-      localStorage.setItem(RATE_LIMIT_DATE_KEY, today)
-      localStorage.setItem(RATE_LIMIT_KEY, "0")
-      setSearchCount(0)
-    } else {
-      // Get current count
-      const count = Number.parseInt(localStorage.getItem(RATE_LIMIT_KEY) || "0", 10)
-      setSearchCount(count)
+        if (cacheAge < cacheDurationMs) {
+          console.log(`🔄 Loading ${unitCode} from localStorage cache`)
+          setTimetableData(parsedData.data)
+          if (parsedData.data.length > 0 && parsedData.data[0].unitName) {
+            setUnitName(parsedData.data[0].unitName)
+          }
+        }
+      } catch (error) {
+        console.error("Error parsing cached timetable data:", error)
+      }
     }
+  }, [unitCode, teachingPeriodId])
 
+  // Remove the toast that appears when component mounts
+  useEffect(() => {
     // Animate form in after a small delay
     const timer = setTimeout(() => {
       setIsFormVisible(true)
@@ -62,18 +71,6 @@ export function UnitSearch() {
 
     return () => clearTimeout(timer)
   }, [])
-
-  // Show toast only once
-  useEffect(() => {
-    if (!toastShown) {
-      toast({
-        title: "Unit Search",
-        description: "Click on the info icon to see more details about classes.",
-        duration: 5000,
-      })
-      setToastShown(true)
-    }
-  }, [toast, toastShown])
 
   // Validate unit code
   const validateUnitCode = (code: string): boolean => {
@@ -94,20 +91,9 @@ export function UnitSearch() {
     return true
   }
 
-  // Check rate limits
-  const checkRateLimits = (): boolean => {
-    // Check daily limit
-    if (searchCount >= DAILY_RATE_LIMIT) {
-      toast({
-        title: "Daily Search Limit Reached",
-        description: `You've reached the maximum of ${DAILY_RATE_LIMIT} searches per day. Please try again tomorrow.`,
-        variant: "destructive",
-        duration: 6000,
-      })
-      return false
-    }
-
-    // Check request interval
+  // Check client-side throttling
+  const checkThrottling = (): boolean => {
+    // Check request interval (client-side throttling)
     const now = Date.now()
     if (now - lastRequestTime < REQUEST_INTERVAL) {
       toast({
@@ -121,22 +107,7 @@ export function UnitSearch() {
     return true
   }
 
-  // Update search count
-  const incrementSearchCount = () => {
-    const newCount = searchCount + 1
-    setSearchCount(newCount)
-    localStorage.setItem(RATE_LIMIT_KEY, newCount.toString())
-
-    // Show toast when approaching limit
-    if (newCount === DAILY_RATE_LIMIT - 3) {
-      toast({
-        title: "Search Limit Warning",
-        description: `You have only 3 searches remaining today. Daily limit: ${DAILY_RATE_LIMIT} searches.`,
-        duration: 5000,
-      })
-    }
-  }
-
+  // Replace the handleSubmit function with this updated version
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -145,28 +116,90 @@ export function UnitSearch() {
       return
     }
 
-    // Check rate limits
-    if (!checkRateLimits()) {
+    // Check client-side throttling
+    if (!checkThrottling()) {
       return
     }
 
-    setLastRequestTime(Date.now())
+    const formattedUnitCode = unitCode.trim().toUpperCase()
+    const formattedTeachingPeriodId = teachingPeriodId.trim()
+
     setIsLoading(true)
     setError(null)
 
-    try {
-      const data = await fetchTimetableData(unitCode.trim().toUpperCase(), teachingPeriodId.trim())
-      setTimetableData(data)
-      incrementSearchCount()
+    // Check cache first
+    const cachedData = checkCache(formattedUnitCode, formattedTeachingPeriodId)
+    if (cachedData) {
+      setTimetableData(cachedData)
 
       // Extract unit name from the first entry if available
-      if (data.length > 0 && data[0].unitName) {
-        setUnitName(data[0].unitName)
+      if (cachedData.length > 0 && cachedData[0].unitName) {
+        setUnitName(cachedData[0].unitName)
       } else {
         setUnitName("")
       }
+
+      setIsLoading(false)
+      return
+    }
+
+    // If no cache or cache is expired, fetch from server
+    setLastRequestTime(Date.now())
+
+    try {
+      const response = await fetchTimetableData(formattedUnitCode, formattedTeachingPeriodId)
+
+      // Update remaining requests if available
+      if ("remainingRequests" in response) {
+        setRemainingRequests(response.remainingRequests)
+      }
+
+      if (response.error) {
+        setError(response.message)
+
+        // Show rate limit toast if applicable
+        if (response.rateLimitExceeded) {
+          toast({
+            title: "Rate Limit Exceeded",
+            description: response.message,
+            variant: "destructive",
+            duration: 6000,
+          })
+        }
+      } else {
+        console.log(`📡 Fetched ${formattedUnitCode} from server`)
+
+        // Cache the response data in localStorage
+        const cacheData = {
+          data: response.data,
+          timestamp: Date.now(),
+        }
+        const cacheKey = `timetable-${formattedUnitCode}-${formattedTeachingPeriodId}`
+        safelyStoreInCache(cacheKey, cacheData)
+        console.log(`💾 Saved ${formattedUnitCode} to cache with key: ${cacheKey}`)
+
+        setTimetableData(response.data)
+
+        // Extract unit name from the first entry if available
+        if (response.data.length > 0 && response.data[0].unitName) {
+          setUnitName(response.data[0].unitName)
+        } else {
+          setUnitName("")
+        }
+
+        // Show remaining requests toast when getting low
+        if (response.remainingRequests <= 3) {
+          toast({
+            title: "Search Limit Warning",
+            description: `You have only ${response.remainingRequests} searches remaining today.`,
+            duration: 5000,
+          })
+        }
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch timetable data")
+      // Handle any unexpected errors
+      setError("An unexpected error occurred. Please try again later.")
+      console.error("Unexpected error:", err)
     } finally {
       setIsLoading(false)
     }
@@ -201,7 +234,8 @@ export function UnitSearch() {
             when you happen to be on campus?
             <br />
             <br />
-            Quickly find class times, locations, and staff for any QUT unit. Simply enter the unit code, teaching period, and location.
+            Quickly find class times, locations, and staff for any QUT unit. Simply enter the unit code, teaching
+            period, and location.
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6 dark:bg-gray-900 transition-colors duration-300">
@@ -215,19 +249,17 @@ export function UnitSearch() {
                   >
                     Unit Code
                   </Label>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-gray-500">
-                          <Info className="h-4 w-4" />
-                          <span className="sr-only">Unit code format</span>
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Enter a unit code in the format: 3 letters followed by 3 digits (e.g., CAB202)</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-gray-500">
+                        <Info className="h-4 w-4" />
+                        <span className="sr-only">Unit code format</span>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <p>Enter a unit code in the format: 3 letters followed by 3 digits (e.g., CAB202)</p>
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <Input
                   id="unitCode"
@@ -274,7 +306,7 @@ export function UnitSearch() {
             <Button
               type="submit"
               className="w-full bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg animate-pulse-once"
-              disabled={isLoading || searchCount >= DAILY_RATE_LIMIT}
+              disabled={isLoading || remainingRequests === 0}
             >
               {isLoading ? (
                 <>
@@ -288,6 +320,11 @@ export function UnitSearch() {
                 </>
               )}
             </Button>
+            {remainingRequests !== null && (
+              <div className="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">
+                {30 - remainingRequests}/20 searches used today
+              </div>
+            )}
           </form>
         </CardContent>
       </Card>

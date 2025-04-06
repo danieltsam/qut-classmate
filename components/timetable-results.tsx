@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { getTeachingPeriodWithCampus } from "@/lib/teaching-periods"
-import { Download, Calendar } from "lucide-react"
+import { Download } from "lucide-react"
 import { exportToICS } from "@/lib/export-utils"
 import { useToast } from "@/components/ui/use-toast"
 
@@ -50,86 +50,6 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
     }
   }
 
-  // Export to Google Calendar
-  const handleGoogleCalendarExport = () => {
-    if (entries.length === 0) return
-
-    // Create a base URL for Google Calendar
-    const baseUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-
-    // Open a new window for each class
-    entries.forEach((cls, index) => {
-      // Format date for Google Calendar
-      const startDate = new Date()
-      const dayMap: Record<string, number> = {
-        Monday: 1,
-        Tuesday: 2,
-        Wednesday: 3,
-        Thursday: 4,
-        Friday: 5,
-        Saturday: 6,
-        Sunday: 0,
-      }
-
-      // Set to next occurrence of the day
-      const currentDay = startDate.getDay()
-      const targetDay = dayMap[cls.dayFormatted]
-      let daysToAdd = targetDay - currentDay
-      if (daysToAdd <= 0) daysToAdd += 7
-
-      startDate.setDate(startDate.getDate() + daysToAdd)
-
-      // Parse time
-      const [hourStr, minuteStr] = cls.startTime.replace(/[ap]m/i, "").split(":")
-      const [endHourStr, endMinuteStr] = cls.endTime.replace(/[ap]m/i, "").split(":")
-
-      let hour = Number.parseInt(hourStr)
-      const minute = Number.parseInt(minuteStr)
-      let endHour = Number.parseInt(endHourStr)
-      const endMinute = Number.parseInt(endMinuteStr)
-
-      // Convert to 24-hour format
-      if (cls.startTime.toLowerCase().includes("pm") && hour < 12) hour += 12
-      if (cls.startTime.toLowerCase().includes("am") && hour === 12) hour = 0
-      if (cls.endTime.toLowerCase().includes("pm") && endHour < 12) endHour += 12
-      if (cls.endTime.toLowerCase().includes("am") && endHour === 12) endHour = 0
-
-      // Format dates for Google Calendar
-      const startDateTime = new Date(startDate)
-      startDateTime.setHours(hour, minute, 0, 0)
-
-      const endDateTime = new Date(startDate)
-      endDateTime.setHours(endHour, endMinute, 0, 0)
-
-      // Format as ISO strings and remove timezone part
-      const start = startDateTime
-        .toISOString()
-        .replace(/\.\d{3}Z$/, "")
-        .replace(/[-:]/g, "")
-      const end = endDateTime
-        .toISOString()
-        .replace(/\.\d{3}Z$/, "")
-        .replace(/[-:]/g, "")
-
-      // Create Google Calendar URL for this class
-      let url = `${baseUrl}&text=${encodeURIComponent(`${cls.unitCode} - ${cls.classTitle || cls.activityType}`)}`
-      url += `&dates=${start}/${end}`
-      url += `&location=${encodeURIComponent(cls.location)}`
-      url += `&details=${encodeURIComponent(`${cls.class}\nTeaching Staff: ${cls.teachingStaff}`)}`
-
-      // Open in a new tab with a slight delay to prevent popup blocking
-      setTimeout(() => {
-        window.open(url, `_blank${index}`)
-      }, index * 300)
-    })
-
-    toast({
-      title: "Google Calendar Export",
-      description: `${entries.length} classes have been exported to Google Calendar. Please check your browser for popup windows. (You may have to allow pop-ups in the address bar)`,
-      duration: 5000,
-    })
-  }
-
   return (
     <div className="space-y-4 animate-in fade-in-50 duration-300">
       <div className="flex justify-between items-center">
@@ -144,15 +64,6 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
         </div>
 
         <div className="flex space-x-2 animate-in slide-in-from-right-5 duration-300">
-          <Button
-            onClick={handleGoogleCalendarExport}
-            variant="outline"
-            size="sm"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
-          >
-            <Calendar className="mr-2 h-4 w-4" />
-            Google Calendar
-          </Button>
           <Button
             onClick={handleExport}
             variant="outline"

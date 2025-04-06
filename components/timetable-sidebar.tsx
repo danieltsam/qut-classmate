@@ -17,6 +17,7 @@ import { formatActivityType } from "@/lib/format-utils"
 import { Badge } from "@/components/ui/badge"
 import { fetchTimetableData } from "@/lib/timetable-actions"
 import { useToast } from "@/components/ui/use-toast"
+import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 
 interface TimetableSidebarProps {
   onClassHover: (classEntry: TimetableEntry | null) => void
@@ -28,10 +29,7 @@ interface TimetableSidebarProps {
   onAddClasses?: (classes: TimetableEntry[]) => void
 }
 
-// Constants for rate limiting
-const RATE_LIMIT_KEY = "qut_timetable_search_count"
-const RATE_LIMIT_DATE_KEY = "qut_timetable_search_date"
-const DAILY_RATE_LIMIT = 15
+// Constants for client-side throttling
 const REQUEST_INTERVAL = 2000 // 2 seconds
 
 export function TimetableSidebar({
@@ -55,24 +53,7 @@ export function TimetableSidebar({
   const [searchHistory, setSearchHistory] = useState<Record<string, TimetableEntry[]>>({})
   const [validationError, setValidationError] = useState<string | null>(null)
   const [lastRequestTime, setLastRequestTime] = useState(0)
-  const [searchCount, setSearchCount] = useState(0)
-
-  // Initialize rate limiting from localStorage
-  useState(() => {
-    const storedDate = localStorage.getItem(RATE_LIMIT_DATE_KEY)
-    const today = new Date().toDateString()
-
-    if (storedDate !== today) {
-      // Reset count for a new day
-      localStorage.setItem(RATE_LIMIT_DATE_KEY, today)
-      localStorage.setItem(RATE_LIMIT_KEY, "0")
-      setSearchCount(0)
-    } else {
-      // Get current count
-      const count = Number.parseInt(localStorage.getItem(RATE_LIMIT_KEY) || "0", 10)
-      setSearchCount(count)
-    }
-  })
+  const [remainingRequests, setRemainingRequests] = useState<number | null>(null)
 
   // Validate unit code
   const validateUnitCode = (code: string): boolean => {
@@ -93,20 +74,9 @@ export function TimetableSidebar({
     return true
   }
 
-  // Check rate limits
-  const checkRateLimits = (): boolean => {
-    // Check daily limit
-    if (searchCount >= DAILY_RATE_LIMIT) {
-      toast({
-        title: "Daily Search Limit Reached",
-        description: `You've reached the maximum of ${DAILY_RATE_LIMIT} searches per day. Please try again tomorrow.`,
-        variant: "destructive",
-        duration: 6000,
-      })
-      return false
-    }
-
-    // Check request interval
+  // Check client-side throttling
+  const checkThrottling = (): boolean => {
+    // Check request interval (client-side throttling)
     const now = Date.now()
     if (now - lastRequestTime < REQUEST_INTERVAL) {
       toast({
@@ -118,22 +88,6 @@ export function TimetableSidebar({
     }
 
     return true
-  }
-
-  // Update search count
-  const incrementSearchCount = () => {
-    const newCount = searchCount + 1
-    setSearchCount(newCount)
-    localStorage.setItem(RATE_LIMIT_KEY, newCount.toString())
-
-    // Show toast when approaching limit
-    if (newCount === DAILY_RATE_LIMIT - 3) {
-      toast({
-        title: "Search Limit Warning",
-        description: `You have only 3 searches remaining today. Daily limit: ${DAILY_RATE_LIMIT} searches.`,
-        duration: 5000,
-      })
-    }
   }
 
   // Toggle activity expansion
@@ -164,8 +118,36 @@ export function TimetableSidebar({
       return
     }
 
-    // Check rate limits
-    if (!checkRateLimits()) {
+    // Check client-side throttling
+    if (!checkThrottling()) {
+      return
+    }
+
+    const formattedUnitCode = unitCode.trim().toUpperCase()
+
+    // Check cache first
+    const cachedData = checkCache(formattedUnitCode, teachingPeriodId.trim())
+    if (cachedData) {
+      setSearchResults(cachedData)
+
+      // Extract unit name from the first entry if available
+      if (cachedData.length > 0 && cachedData[0].unitName) {
+        setUnitName(cachedData[0].unitName)
+      } else {
+        setUnitName("")
+      }
+
+      // Add to search history
+      const key = `${formattedUnitCode}-${teachingPeriodId}`
+      setSearchHistory((prev) => ({
+        ...prev,
+        [key]: cachedData,
+      }))
+
+      // Notify parent component
+      onAddSearchedUnit(formattedUnitCode, teachingPeriodId)
+      onAddClasses(cachedData)
+
       return
     }
 
@@ -175,29 +157,67 @@ export function TimetableSidebar({
 
     try {
       const formattedUnitCode = unitCode.trim().toUpperCase()
-      const data = await fetchTimetableData(formattedUnitCode, teachingPeriodId.trim())
-      setSearchResults(data)
-      incrementSearchCount()
+      const response = await fetchTimetableData(formattedUnitCode, teachingPeriodId.trim())
 
-      // Extract unit name from the first entry if available
-      if (data.length > 0 && data[0].unitName) {
-        setUnitName(data[0].unitName)
-      } else {
-        setUnitName("")
+      // Update remaining requests if available
+      if ("remainingRequests" in response) {
+        setRemainingRequests(response.remainingRequests)
       }
 
-      // Add to search history
-      const key = `${formattedUnitCode}-${teachingPeriodId}`
-      setSearchHistory((prev) => ({
-        ...prev,
-        [key]: data,
-      }))
+      if (response.error) {
+        setError(response.message)
 
-      // Notify parent component
-      onAddSearchedUnit(formattedUnitCode, teachingPeriodId)
-      onAddClasses(data)
+        // Show rate limit toast if applicable
+        if (response.rateLimitExceeded) {
+          toast({
+            title: "Rate Limit Exceeded",
+            description: response.message,
+            variant: "destructive",
+            duration: 6000,
+          })
+        }
+      } else {
+        console.log(`📡 Fetched ${formattedUnitCode} from server`)
+        setSearchResults(response.data)
+
+        // Cache the response data in localStorage
+        const cacheData = {
+          data: response.data,
+          timestamp: Date.now(),
+        }
+        safelyStoreInCache(`timetable-${formattedUnitCode}-${teachingPeriodId.trim()}`, cacheData)
+
+        // Extract unit name from the first entry if available
+        if (response.data.length > 0 && response.data[0].unitName) {
+          setUnitName(response.data[0].unitName)
+        } else {
+          setUnitName("")
+        }
+
+        // Add to search history
+        const key = `${formattedUnitCode}-${teachingPeriodId}`
+        setSearchHistory((prev) => ({
+          ...prev,
+          [key]: response.data,
+        }))
+
+        // Notify parent component
+        onAddSearchedUnit(formattedUnitCode, teachingPeriodId)
+        onAddClasses(response.data)
+
+        // Show remaining requests toast when getting low
+        if (response.remainingRequests <= 3) {
+          toast({
+            title: "Search Limit Warning",
+            description: `You have only ${response.remainingRequests} searches remaining today.`,
+            duration: 5000,
+          })
+        }
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch timetable data")
+      // Handle any unexpected errors
+      setError("An unexpected error occurred. Please try again later.")
+      console.error("Unexpected error:", err)
     } finally {
       setIsLoading(false)
     }
@@ -215,34 +235,89 @@ export function TimetableSidebar({
       return
     }
 
-    // Otherwise fetch it
-    setUnitCode(unitCode)
-    setTeachingPeriodId(teachingPeriodId)
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const data = await fetchTimetableData(unitCode, teachingPeriodId)
-      setSearchResults(data)
-      incrementSearchCount()
-
-      // Extract unit name from the first entry if available
-      if (data.length > 0 && data[0].unitName) {
-        setUnitName(data[0].unitName)
-      } else {
-        setUnitName("")
-      }
+    // Check cache before making a request
+    const cachedData = checkCache(unitCode, teachingPeriodId)
+    if (cachedData) {
+      setSearchResults(cachedData)
+      setUnitCode(unitCode)
+      setTeachingPeriodId(teachingPeriodId)
 
       // Add to search history
       setSearchHistory((prev) => ({
         ...prev,
-        [key]: data,
+        [key]: cachedData,
       }))
 
       // Notify parent component
-      onAddClasses(data)
+      onAddClasses(cachedData)
+
+      return
+    }
+
+    // Otherwise fetch it
+    if (!checkThrottling()) {
+      return
+    }
+
+    setUnitCode(unitCode)
+    setTeachingPeriodId(teachingPeriodId)
+    setIsLoading(true)
+    setError(null)
+    setLastRequestTime(Date.now())
+
+    try {
+      const response = await fetchTimetableData(unitCode, teachingPeriodId)
+
+      // Update remaining requests if available
+      if ("remainingRequests" in response) {
+        setRemainingRequests(response.remainingRequests)
+      }
+
+      if (response.error) {
+        setError(response.message)
+
+        // Show rate limit toast if applicable
+        if (response.rateLimitExceeded) {
+          toast({
+            title: "Rate Limit Exceeded",
+            description: response.message,
+            variant: "destructive",
+            duration: 6000,
+          })
+        }
+      } else {
+        console.log(`📡 Fetched ${unitCode} from server`)
+        setSearchResults(response.data)
+
+        // Extract unit name from the first entry if available
+        if (response.data.length > 0 && response.data[0].unitName) {
+          setUnitName(response.data[0].unitName)
+        } else {
+          setUnitName("")
+        }
+
+        // Add to search history
+        setSearchHistory((prev) => ({
+          ...prev,
+          [key]: response.data,
+        }))
+
+        // Notify parent component
+        onAddClasses(response.data)
+
+        // Show remaining requests toast when getting low
+        if (response.remainingRequests <= 3) {
+          toast({
+            title: "Search Limit Warning",
+            description: `You have only ${response.remainingRequests} searches remaining today.`,
+            duration: 5000,
+          })
+        }
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch timetable data")
+      // Handle any unexpected errors
+      setError("An unexpected error occurred. Please try again later.")
+      console.error("Unexpected error:", err)
     } finally {
       setIsLoading(false)
     }
@@ -387,7 +462,7 @@ export function TimetableSidebar({
               <Button
                 type="submit"
                 className="w-full bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
-                disabled={isLoading || searchCount >= DAILY_RATE_LIMIT}
+                disabled={isLoading || remainingRequests === 0}
               >
                 {isLoading ? (
                   <>
@@ -401,6 +476,11 @@ export function TimetableSidebar({
                   </>
                 )}
               </Button>
+              {remainingRequests !== null && (
+                <div className="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">
+                  {30 - remainingRequests}/20 searches used today
+                </div>
+              )}
             </form>
 
             {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
@@ -446,12 +526,12 @@ export function TimetableSidebar({
                         key={`${unitCode}-${activityType}`}
                         value={`${unitCode}-${activityType}`}
                         className="border-b-0 last:border-0 data-[state=open]:bg-[#003A6E]/5 dark:data-[state=open]:bg-blue-900/10 rounded-lg mb-1 transition-colors duration-200"
-                        onMouseEnter={() => onActivityTypeHover(activityType, unitCode)}
-                        onMouseLeave={() => onActivityTypeHover(null, null)}
                       >
                         <AccordionTrigger
                           className="px-2 py-2 hover:no-underline hover:bg-[#003A6E]/5 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"
                           onClick={() => toggleActivity(unitCode, activityType)}
+                          onMouseEnter={() => onActivityTypeHover(activityType, unitCode)}
+                          onMouseLeave={() => onActivityTypeHover(null, null)}
                         >
                           <div className="flex items-center text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
                             <span>{fullActivityType}</span>

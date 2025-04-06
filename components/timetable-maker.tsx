@@ -23,25 +23,20 @@ export function TimetableMaker() {
   const [allClasses, setAllClasses] = useState<TimetableEntry[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
 
-  // Show toast only once
-  useEffect(() => {
-    if (!toastShown) {
-      toast({
-        title: "Timetable Maker",
-        description: "Hover over class types to preview all matching classes.",
-        duration: 5000,
-        className: "bg-[#003A6E] text-white dark:bg-blue-800 border-none shadow-lg",
-      })
-      setToastShown(true)
-    }
+  // Handle class hover
+  const handleClassHover = (classEntry: TimetableEntry | null) => {
+    setHoveredClass(classEntry)
+  }
 
+  // Remove the toast and just handle animation
+  useEffect(() => {
     // Set loaded state after a small delay for animations
     const timer = setTimeout(() => {
       setIsLoaded(true)
     }, 200)
 
     return () => clearTimeout(timer)
-  }, [toast, toastShown])
+  }, [])
 
   // Check for class from Unit Search
   useEffect(() => {
@@ -57,10 +52,8 @@ export function TimetableMaker() {
     }
   }, [])
 
-  // Handle class hover for preview
-  const handleClassHover = (classEntry: TimetableEntry | null) => {
-    setHoveredClass(classEntry)
-  }
+  // Update the handleActivityTypeHover function to fix the filtering logic
+  // and add more detailed debugging
 
   // Handle activity type hover for preview
   const handleActivityTypeHover = (activityType: string | null, unitCode: string | null) => {
@@ -68,7 +61,16 @@ export function TimetableMaker() {
 
     if (activityType && unitCode) {
       // Filter classes by activity type and unit code
-      const matchingClasses = allClasses.filter((cls) => cls.activityType === activityType && cls.unitCode === unitCode)
+      const matchingClasses = allClasses.filter((cls) => {
+        // Normalize strings for comparison (trim whitespace and convert to uppercase)
+        const clsActivityType = cls.activityType?.trim().toUpperCase()
+        const clsUnitCode = cls.unitCode?.trim().toUpperCase()
+        const targetActivityType = activityType.trim().toUpperCase()
+        const targetUnitCode = unitCode.trim().toUpperCase()
+
+        return clsActivityType === targetActivityType && clsUnitCode === targetUnitCode
+      })
+
       setPreviewClasses(matchingClasses)
     } else {
       setPreviewClasses([])
@@ -111,6 +113,7 @@ export function TimetableMaker() {
         }
       })
 
+      console.log(`All classes collection now has ${newClasses.length} classes`)
       return newClasses
     })
   }
@@ -362,7 +365,7 @@ export function TimetableMaker() {
                   className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
                 >
                   <Calendar className="mr-2 h-4 w-4" />
-                  Google Calendar
+                  Add to Google Calendar
                 </Button>
                 <Button
                   onClick={handleExport}

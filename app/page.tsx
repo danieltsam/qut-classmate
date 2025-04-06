@@ -17,25 +17,16 @@ export default function Home() {
   const [toastShown, setToastShown] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
 
-  // Show toast on first load, only once
+  // Remove the toast that appears on page load
+  // Replace the useEffect block with an empty one that just sets isLoaded
   useEffect(() => {
-    if (!toastShown) {
-      toast({
-        title: "Welcome to QUT Timetable Planner",
-        description: "Hover over classes to see more details about them.",
-        duration: 5000,
-        className: "bg-[#003A6E] text-white dark:bg-blue-800 border-none shadow-lg",
-      })
-      setToastShown(true)
-    }
-
     // Set loaded state after a small delay for animations
     const timer = setTimeout(() => {
       setIsLoaded(true)
     }, 100)
 
     return () => clearTimeout(timer)
-  }, [toast, toastShown])
+  }, [])
 
   // Update URL when tab changes
   const handleTabChange = (value: string) => {
@@ -61,7 +52,7 @@ export default function Home() {
         <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">
           The timetable tool QUT should've made, but didn't.
           <br />
-          Find class times, build your timetable, and maybe even show up to a prac on time.
+          Find class times, build your timetable, maybe even show up to a prac on time.
         </p>
       </div>
 

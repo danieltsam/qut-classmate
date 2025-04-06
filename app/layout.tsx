@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "QUT Classmate",
   description: "Search for units and build your perfect semester schedule",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.svg",
   },
     generator: 'v0.dev'
 }
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head>
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
       <body className={`${inter.className} min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

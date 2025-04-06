@@ -138,6 +138,69 @@ export function WeeklyTimetable({
     }
   }
 
+  // Detect overlapping classes for a specific day and hour
+  const getOverlappingClasses = (day: string, hour: number, classes: (SelectedClass | TimetableEntry)[]) => {
+    // Filter classes that start at this hour on this day
+    const classesAtHour = classes.filter((cls) => cls.dayFormatted === day && timeToHour(cls.startTime) === hour)
+
+    // If there's only one or no class, no need for special handling
+    if (classesAtHour.length <= 1) return []
+
+    // Group overlapping classes
+    const overlappingGroups: (SelectedClass | TimetableEntry)[][] = []
+
+    // Check each class against others to find overlaps
+    classesAtHour.forEach((cls) => {
+      // Find a group this class overlaps with
+      const overlappingGroupIndex = overlappingGroups.findIndex((group) =>
+        group.some((groupCls) =>
+          doTimesOverlap(
+            cls.dayFormatted,
+            cls.startTime,
+            cls.endTime,
+            groupCls.dayFormatted,
+            groupCls.startTime,
+            groupCls.endTime,
+          ),
+        ),
+      )
+
+      if (overlappingGroupIndex >= 0) {
+        // Add to existing group
+        overlappingGroups[overlappingGroupIndex].push(cls)
+      } else {
+        // Create new group
+        overlappingGroups.push([cls])
+      }
+    })
+
+    // Return groups with more than one class (actual overlaps)
+    return overlappingGroups.filter((group) => group.length > 1)
+  }
+
+  // Helper function to check if two time ranges overlap
+  const doTimesOverlap = (
+    day1: string,
+    start1: string,
+    end1: string,
+    day2: string,
+    start2: string,
+    end2: string,
+  ): boolean => {
+    if (day1 !== day2) return false
+
+    const start1Minutes = timeToMinutes(start1)
+    const end1Minutes = timeToMinutes(end1)
+    const start2Minutes = timeToMinutes(start2)
+    const end2Minutes = timeToMinutes(end2)
+
+    return (
+      (start1Minutes >= start2Minutes && start1Minutes < end2Minutes) ||
+      (end1Minutes > start2Minutes && end1Minutes <= end2Minutes) ||
+      (start1Minutes <= start2Minutes && end1Minutes >= end2Minutes)
+    )
+  }
+
   return (
     <Card className="h-full border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg sticky top-4">
       <CardContent className="p-4 dark:bg-gray-900 transition-colors duration-300">
@@ -201,30 +264,51 @@ export function WeeklyTimetable({
                           const weeksInfo = getWeeksInfo(cls)
                           const activityTypeFull = formatActivityType(cls.activityType)
 
+                          // Find overlapping classes
+                          const overlappingGroups = getOverlappingClasses(day, hour, selectedClasses)
+                          const isOverlapping = overlappingGroups.some((group) =>
+                            group.some((overlapCls) => overlapCls.id === cls.id),
+                          )
+
+                          // Find which group this class belongs to
+                          const overlapGroupIndex = overlappingGroups.findIndex((group) =>
+                            group.some((overlapCls) => overlapCls.id === cls.id),
+                          )
+
+                          // Find position in the group
+                          const positionInGroup =
+                            overlapGroupIndex >= 0
+                              ? overlappingGroups[overlapGroupIndex].findIndex((overlapCls) => overlapCls.id === cls.id)
+                              : 0
+
+                          // Calculate width and left offset for overlapping classes
+                          const totalInGroup = overlapGroupIndex >= 0 ? overlappingGroups[overlapGroupIndex].length : 1
+                          const widthPercentage = isOverlapping ? 100 / totalInGroup : 100
+                          const leftOffset = isOverlapping ? positionInGroup * widthPercentage : 0
+
                           return (
                             <TooltipProvider key={cls.id}>
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <div
-                                    className={`absolute inset-x-0 rounded-md border ${colors.bg} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs cursor-pointer transition-all duration-200 hover:shadow-md animate-in fade-in-50 shadow-sm`}
+                                    className={`absolute rounded-md border ${colors.bg} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs cursor-pointer transition-all duration-200 hover:shadow-md animate-in fade-in-50 shadow-sm ${isOverlapping ? "border-dashed" : ""}`}
                                     style={{
                                       top: position.top,
                                       height: position.height,
+                                      width: isOverlapping ? `calc(${widthPercentage}% - 4px)` : "calc(100% - 4px)",
+                                      left: isOverlapping ? `${leftOffset}%` : "2px",
                                       zIndex: 10,
-                                      margin: "0 2px",
                                     }}
                                     onClick={() => onClassToggle(cls)}
                                   >
-                                    <div className="flex justify-between items-start">
-                                      <div>
-                                        <div className="font-medium">
-                                          {cls.unitCode} {activityTypeFull}
-                                        </div>
-                                        <div className="text-xs whitespace-nowrap">
-                                          {cls.startTime} - {cls.endTime}
-                                        </div>
-                                        <div className="text-xs truncate">{cls.location}</div>
+                                    <div className="flex flex-col h-full">
+                                      <div className="font-medium truncate">
+                                        {cls.unitCode} {activityTypeFull}
                                       </div>
+                                      <div className="text-xs whitespace-nowrap truncate">
+                                        {cls.startTime} - {cls.endTime}
+                                      </div>
+                                      {!isOverlapping && <div className="text-xs truncate">{cls.location}</div>}
                                     </div>
                                   </div>
                                 </TooltipTrigger>
@@ -246,6 +330,14 @@ export function WeeklyTimetable({
                                       {classMode && (
                                         <Badge variant="outline" className="text-xs">
                                           {classMode}
+                                        </Badge>
+                                      )}
+                                      {isOverlapping && (
+                                        <Badge
+                                          variant="outline"
+                                          className="text-xs bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700"
+                                        >
+                                          Overlapping
                                         </Badge>
                                       )}
                                     </div>
@@ -279,23 +371,40 @@ export function WeeklyTimetable({
                           const colors = getUnitColor(cls.unitCode)
                           const activityTypeFull = formatActivityType(cls.activityType)
 
+                          // Check for overlaps with selected classes
+                          const overlappingWithSelected = selectedClasses.some(
+                            (selected) =>
+                              selected.dayFormatted === cls.dayFormatted &&
+                              doTimesOverlap(
+                                selected.dayFormatted,
+                                selected.startTime,
+                                selected.endTime,
+                                cls.dayFormatted,
+                                cls.startTime,
+                                cls.endTime,
+                              ),
+                          )
+
                           return (
                             <div
                               key={`preview-${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.location}-${idx}`}
-                              className={`absolute inset-x-0 rounded-md border-dashed border ${colors.bg.replace("/50", "/30")} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-50 transition-all duration-200`}
+                              className={`absolute rounded-md border-dashed border ${colors.bg.replace("/50", "/30")} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-70 transition-all duration-200`}
                               style={{
                                 top: position.top,
                                 height: position.height,
+                                width: "calc(100% - 4px)",
+                                left: "2px",
                                 zIndex: 5,
-                                margin: "0 2px",
+                                borderColor: overlappingWithSelected ? "rgba(234, 179, 8, 0.5)" : undefined,
                               }}
                             >
-                              <div className="font-medium">
+                              <div className="font-medium truncate">
                                 {cls.unitCode} {activityTypeFull}
                               </div>
-                              <div className="text-xs whitespace-nowrap">
+                              <div className="text-xs whitespace-nowrap truncate">
                                 {cls.startTime} - {cls.endTime}
                               </div>
+                              <div className="text-xs truncate">{cls.location}</div>
                             </div>
                           )
                         }
@@ -310,12 +419,26 @@ export function WeeklyTimetable({
                             ...calculateClassPosition(hoveredClass),
                             zIndex: 5,
                             margin: "0 2px",
+                            borderColor: selectedClasses.some(
+                              (selected) =>
+                                selected.dayFormatted === hoveredClass.dayFormatted &&
+                                doTimesOverlap(
+                                  selected.dayFormatted,
+                                  selected.startTime,
+                                  selected.endTime,
+                                  hoveredClass.dayFormatted,
+                                  hoveredClass.startTime,
+                                  hoveredClass.endTime,
+                                ),
+                            )
+                              ? "rgba(234, 179, 8, 0.5)"
+                              : undefined,
                           }}
                         >
-                          <div className="font-medium">
+                          <div className="font-medium truncate">
                             {hoveredClass.unitCode} {formatActivityType(hoveredClass.activityType)}
                           </div>
-                          <div className="text-xs whitespace-nowrap">
+                          <div className="text-xs whitespace-nowrap truncate">
                             {hoveredClass.startTime} - {hoveredClass.endTime}
                           </div>
                           <div className="text-xs truncate">{hoveredClass.location}</div>
