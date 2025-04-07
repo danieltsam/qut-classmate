@@ -28,7 +28,7 @@ export function HelpDialog() {
           <span className="sr-only">Help</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px] dark:bg-gray-900 dark:text-white rounded-xl shadow-lg">
+      <DialogContent className="sm:max-w-[625px] max-h-[80vh] dark:bg-gray-900 dark:text-white rounded-xl shadow-lg overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-[#003A6E] dark:text-blue-300 text-xl text-center animate-in fade-in-50 duration-300">
             Need a hand?
@@ -52,9 +52,12 @@ export function HelpDialog() {
               <TabsTrigger value="timetable" className="rounded-md">
                 Timetable Maker
               </TabsTrigger>
+              <TabsTrigger value="changelog" className="rounded-md">
+                Changelog
+              </TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="about" className="space-y-4 mt-4">
+          <TabsContent value="about" className="space-y-4 mt-4 overflow-y-auto max-h-[60vh] pr-2">
             <div className="animate-in fade-in-50 duration-300">
               <h3 className="font-semibold text-[#003A6E] dark:text-blue-300 text-center">Why This Exists</h3>
               <div className="mt-2 text-center">
@@ -65,14 +68,14 @@ export function HelpDialog() {
                 </p>
                 <p className="mt-2">- Daniel 😃</p>
                 <div className="italic text-sm text-gray-500 dark:text-gray-400 mt-4">
-                  You're limited to 30 searches per day to keep this app available for everyone. Thanks for your
+                  You're limited to 15 searches per day to keep this app available for everyone. Thanks for your
                   understanding!
                 </div>
               </div>
             </div>
           </TabsContent>
 
-          <TabsContent value="unit-search" className="space-y-4 mt-4">
+          <TabsContent value="unit-search" className="space-y-4 mt-4 overflow-y-auto max-h-[60vh] pr-2">
             <div className="animate-in fade-in-50 duration-300">
               <h3 className="font-semibold text-[#003A6E] dark:text-blue-300 text-center">Unit Search</h3>
               <br />
@@ -99,7 +102,7 @@ export function HelpDialog() {
             </div>
           </TabsContent>
 
-          <TabsContent value="timetable" className="space-y-4 mt-4">
+          <TabsContent value="timetable" className="space-y-4 mt-4 overflow-y-auto max-h-[60vh] pr-2">
             <div className="animate-in fade-in-50 duration-300">
               <h3 className="font-semibold text-[#003A6E] dark:text-blue-300 text-center">Timetable Maker</h3>
               <br />
@@ -121,8 +124,59 @@ export function HelpDialog() {
                 <li>Hover over class types to preview all matching classes.</li>
               </ol>
               <p className="italic text-sm text-gray-600 dark:text-gray-400 mt-2 text-center">
-                The app will warn you about time conflicts between classes, but you can still add them anyway if you really want to.
+                The app will warn you about time conflicts between classes, but you can still add them anyway if you
+                really want to.
               </p>
+            </div>
+          </TabsContent>
+          <TabsContent value="changelog" className="space-y-4 mt-4 overflow-y-auto max-h-[60vh] pr-2">
+            <div className="animate-in fade-in-50 duration-300">
+              <h3 className="font-semibold text-[#003A6E] dark:text-blue-300 text-center">Changelog</h3>
+              <div className="mt-4 space-y-6 text-sm">
+                <div>
+                  <h4 className="font-semibold text-[#003A6E] dark:text-blue-300">v1.3</h4>
+                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                    <li>Added server-side caching with Redis/Vercel KV for faster responses</li>
+                    <li>Improved rate limiting with better error handling</li>
+                    <li>Extended client-side cache duration to 30 days</li>
+                    <li>Optimized data fetching with multi-level caching strategy</li>
+                    <li>Added detailed console logging for debugging</li>
+                    <li>Enhanced scrollbar styling for better visibility and interaction</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-[#003A6E] dark:text-blue-300">v1.2</h4>
+                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                    <li>
+                      Added rate limiting: 15 requests/day per user (checking cookies secondarily + IP primarily) to be
+                      a responsible user of the public QUT website.
+                    </li>
+                    <li>Timetable class uniqueness: fixed duplicate selections</li>
+                    <li>Sticky timetable view on scroll</li>
+                    <li>
+                      Saved unit cache in `localStorage`, cleared when not used. Will allow a new unit data request
+                      every 96 hours. This also reduces serverless api calls on Vercel.
+                    </li>
+                    <li>Added loading animations and section fade-ins</li>
+                    <li>Improved hover effects for timetable cells</li>
+                    <li>Allowing for overlaps in timetable by making them side-by-side.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-[#003A6E] dark:text-blue-300">v1.1</h4>
+                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                    <li>Added validation for unit code input</li>
+                    <li>Improved error messaging and toast notifications</li>
+                    <li>Converted activity types (e.g., `LEC` → `Lecture`)</li>
+                    <li>Google Calendar integration</li>
+                    <li>Added transition button to move from unit search → timetable maker</li>
+                    <li>Timetable hover effects when highlighting an activity type</li>
+                    <li>Click-to-expand unit info instead of hover</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

@@ -202,6 +202,12 @@ export function UnitSearch() {
 
         setTimetableData(result.data)
 
+        // Log the data source but don't display it in the UI
+        console.log(
+          `%c🔍 DATA SOURCE: ${result.source || "unknown"}`,
+          "background: #673ab7; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold;",
+        )
+
         // Extract unit name from the first entry if available
         if (result.data.length > 0 && result.data[0].unitName) {
           setUnitName(result.data[0].unitName)
@@ -350,7 +356,7 @@ export function UnitSearch() {
               ) : isRateLimited ? (
                 <>
                   <AlertCircle className="mr-2 h-4 w-4" />
-                  Rate Limit Reached
+                  Daily Search Limit Reached
                 </>
               ) : (
                 <>

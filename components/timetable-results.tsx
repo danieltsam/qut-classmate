@@ -54,9 +54,16 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
     <div className="space-y-4 animate-in fade-in-50 duration-300">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-semibold text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
-            {entries[0]?.unitCode} {unitName && <span className="font-normal">- {unitName}</span>}
-          </h2>
+          <div className="flex items-center">
+            <h2 className="text-xl font-semibold text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+              {entries[0]?.unitCode} {unitName && <span className="font-normal">- {unitName}</span>}
+            </h2>
+            {entries[0]?.cached && (
+              <span className="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded-full">
+                Cached
+              </span>
+            )}
+          </div>
           <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">
             {entries[0]?.teachingPeriodId && getTeachingPeriodWithCampus(entries[0].teachingPeriodId)} •{" "}
             {entries.length} classes

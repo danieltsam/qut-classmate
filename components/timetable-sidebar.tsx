@@ -529,7 +529,7 @@ export function TimetableSidebar({
                 ) : isRateLimited ? (
                   <>
                     <AlertCircle className="mr-2 h-4 w-4" />
-                    Rate Limit Reached
+                    Daily Search Limit Reached
                   </>
                 ) : (
                   <>

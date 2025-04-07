@@ -1,6 +1,7 @@
 // Constants
 const MAX_STORAGE_SIZE = 10 * 1024 * 1024 // 10MB in bytes
 const CACHE_PREFIX = "timetable-"
+const CACHE_DURATION_MS = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
 
 /**
  * Calculates the approximate size of a string in bytes
@@ -128,25 +129,31 @@ export function checkCache(unitCode: string, teachingPeriodId: string): any | nu
   if (cachedData) {
     try {
       const parsedData = JSON.parse(cachedData)
-      // Only use cached data if it's less than 24 hours old
+      // Only use cached data if it's less than 30 days old
       const cacheTime = parsedData.timestamp || 0
       const now = Date.now()
       const cacheAge = now - cacheTime
-      const cacheDurationMs = 96 * 60 * 60 * 1000 // 96 hours (4 days)
 
-      if (cacheAge < cacheDurationMs) {
+      if (cacheAge < CACHE_DURATION_MS) {
         console.log(
-          `🔄 Loading ${unitCode} from localStorage cache (age: ${Math.round(cacheAge / (60 * 60 * 1000))} hours)`,
+          `%c🔄 CLIENT CACHE HIT: Loading ${unitCode} from localStorage (age: ${Math.round(cacheAge / (60 * 60 * 1000))} hours)`,
+          "background: #ffeb3b; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold;",
         )
         return parsedData.data
       } else {
-        console.log(`⏰ Cache for ${unitCode} is older than 96 hours, fetching fresh data`)
+        console.log(
+          `%c⏰ CLIENT CACHE EXPIRED: Cache for ${unitCode} is older than 30 days`,
+          "background: #ff9800; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold;",
+        )
       }
     } catch (error) {
       console.error("Error parsing cached data:", error)
     }
   } else {
-    console.log(`❌ No cache found for ${unitCode}`)
+    console.log(
+      `%c❌ CLIENT CACHE MISS: No localStorage cache found for ${unitCode}`,
+      "background: #f44336; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold;",
+    )
   }
 
   return null

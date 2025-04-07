@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import * as cheerio from "cheerio"
 import { formatDayName, formatLocation, formatTeachingStaff } from "@/lib/format-utils"
 import type { TimetableEntry } from "@/lib/types"
+import { getTimetableFromCache, storeTimetableInCache } from "@/lib/redis-cache"
 
 // Rate limiting constants
 const DAILY_RATE_LIMIT = 15
@@ -23,7 +24,19 @@ export async function POST(req: NextRequest) {
     // The middleware has already handled incrementing the counter
     const remainingRequests = Number.parseInt(req.headers.get("X-RateLimit-Remaining") || "0", 10)
 
-    // Continue with the API request
+    // Check server-side cache first
+    const cachedData = await getTimetableFromCache(unitCode, teachingPeriodId)
+    if (cachedData) {
+      return NextResponse.json({
+        error: false,
+        data: cachedData,
+        cached: true,
+        source: "redis_cache",
+        remainingRequests,
+      })
+    }
+
+    // Continue with the API request if not in cache
     const apiUrl =
       process.env.NEXT_PUBLIC_QUT_VIRTUAL_API_URL ||
       "https://qutvirtual3.qut.edu.au/qvpublic/ttab_unit_search_p.process_search"
@@ -38,6 +51,11 @@ export async function POST(req: NextRequest) {
 
     // Fetch the HTML content
     const response = await fetch(url.toString())
+
+    console.log(
+      `%c📡 QUT API FETCH: Fetching ${unitCode} directly from QUT API`,
+      "background: #9c27b0; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold;",
+    )
 
     if (!response.ok) {
       return NextResponse.json(
@@ -173,9 +191,14 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Store in server-side cache
+    await storeTimetableInCache(unitCode, teachingPeriodId, timetableEntries)
+
     return NextResponse.json({
       error: false,
       data: timetableEntries,
+      cached: false,
+      source: "qut_api",
       remainingRequests,
     })
   } catch (error) {

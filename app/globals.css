@@ -158,3 +158,36 @@
   animation-delay: 500ms;
 }
 
+/* Custom scrollbar styles */
+@layer base {
+  /* For Webkit browsers (Chrome, Safari, etc.) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#003A6E]/50 dark:bg-blue-700/70 rounded-full transition-colors duration-200 hover:bg-[#003A6E]/70 dark:hover:bg-blue-600/90;
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  :root {
+    --scrollbar-track: #f3f4f6;
+    --scrollbar-thumb: rgba(0, 58, 110, 0.5);
+  }
+
+  .dark {
+    --scrollbar-track: #1f2937;
+    --scrollbar-thumb: rgba(59, 130, 246, 0.7);
+  }
+}
+

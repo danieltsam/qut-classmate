@@ -87,7 +87,7 @@ function checkRateLimit(): { allowed: boolean; remainingRequests: number } {
         sessionToken,
       }),
       {
-        maxAge: 86400, // 1 day
+        maxAge: 86400 * 30, // 30 days
         path: "/",
         sameSite: "strict",
         secure: process.env.NODE_ENV === "production",
@@ -112,7 +112,7 @@ function checkRateLimit(): { allowed: boolean; remainingRequests: number } {
           sessionToken,
         }),
         {
-          maxAge: 86400, // 1 day
+          maxAge: 86400 * 30, // 30 days
           path: "/",
           sameSite: "strict",
           secure: process.env.NODE_ENV === "production",
@@ -141,7 +141,7 @@ function checkRateLimit(): { allowed: boolean; remainingRequests: number } {
         sessionToken,
       }),
       {
-        maxAge: 86400, // 1 day
+        maxAge: 86400 * 30, // 30 days
         path: "/",
         sameSite: "strict",
         secure: process.env.NODE_ENV === "production",
@@ -163,7 +163,7 @@ function checkRateLimit(): { allowed: boolean; remainingRequests: number } {
         sessionToken,
       }),
       {
-        maxAge: 86400, // 1 day
+        maxAge: 86400 * 30, // 30 days
         path: "/",
         sameSite: "strict",
         secure: process.env.NODE_ENV === "production",

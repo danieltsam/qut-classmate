@@ -11,22 +11,22 @@ import { RateLimitProvider } from "@/context/RateLimitContext"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "QUT Classmate | Easy Timetable Planning for QUT Students",
+  title: "QUT Classmate",
   description:
     "Build your perfect QUT semester schedule with QUT Classmate. Search for units, view class times, and create conflict-free timetables without the hassle of Allocate+.",
   keywords:
-    "QUT, timetable, class schedule, Queensland University of Technology, Allocate+, unit search, course planner",
+    "QUT, timetable, class schedule, Queensland University of Technology, Allocate+, unit search, course planner, qut timetable, qut classmate, qut unit search",
   openGraph: {
-    title: "QUT Classmate | Easy Timetable Planning for QUT Students",
+    title: "QUT Classmate",
     description:
       "Build your perfect QUT semester schedule with QUT Classmate. Search for units, view class times, and create conflict-free timetables without the hassle of Allocate+.",
-    url: "https://qut-classmate.vercel.app/",
+    url: "https://qut.vercel.app/",
     siteName: "QUT Classmate",
     images: [
       {
-        url: "/og-image.png", // You'll need to create this image
-        width: 1200,
-        height: 630,
+        url: "/favicon.svg", // You'll need to create this image
+        width: 16,
+        height: 16,
         alt: "QUT Classmate Timetable Planner",
       },
     ],
@@ -35,16 +35,16 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "QUT Classmate | Easy Timetable Planning for QUT Students",
+    title: "QUT Classmate",
     description:
       "Build your perfect QUT semester schedule with QUT Classmate. Search for units, view class times, and create conflict-free timetables without the hassle of Allocate+.",
-    images: ["/og-image.png"], // Same as OG image
+    images: ["/favicon.svg"], // Same as OG image
   },
   icons: {
     icon: "/favicon.svg",
-    apple: "/apple-icon.png", // You'll need to create this
+    apple: "/favicon.svg", // You'll need to create this
   },
-  metadataBase: new URL("https://qut-classmate.vercel.app/"), // Update with your actual URL
+  metadataBase: new URL("https://qut.vercel.app/"), // Update with your actual URL
     generator: 'v0.dev'
 }
 
@@ -69,7 +69,7 @@ export default function RootLayout({
           }}
         />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="canonical" href="https://qut-classmate.vercel.app/" />
+        <link rel="canonical" href="https://qut.vercel.app/" />
         <meta name="google-site-verification" content="RWVD2qcByloMLqvEwbrWD4iJ7XkWenFjb_9MlGf-SnM" />
       </head>
       <body className={`${inter.className} min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100`}>
