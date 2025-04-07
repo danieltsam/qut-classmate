@@ -98,6 +98,13 @@ The application uses the following environment variable:
 - Improved hover effects for timetable cells
 - Allowing for overlaps in timetable by making them side-by-side.
 
+### v1.3
+- Added server-side caching with Redis/Vercel KV for faster responses
+- Improved rate limiting with better error handling
+- Extended client-side cache duration to 30 days
+- Optimized data fetching with multi-level caching strategy
+- Added detailed console logging for debugging and to check where data is coming from
+- Enhanced scrollbar styling for better visibility and interaction
 ---
 
 Thanks for checking out QUT Classmate! Built by a student, for students. 🚀
