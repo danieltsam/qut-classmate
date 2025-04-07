@@ -1,0 +1,7 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://qut-classmate.vercel.app/sitemap.xml
+

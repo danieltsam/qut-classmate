@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { fetchTimetableData } from "@/lib/timetable-actions"
 import type { TimetableEntry } from "@/lib/types"
 import { TimetableResults } from "./timetable-results"
 import { Button } from "@/components/ui/button"
@@ -18,6 +17,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useRouter } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
+import { useRateLimit } from "@/context/RateLimitContext"
 
 // Constants for request throttling (client-side)
 const REQUEST_INTERVAL = 2000 // 2 seconds
@@ -31,11 +31,12 @@ export function UnitSearch() {
   const [timetableData, setTimetableData] = useState<TimetableEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [toastShown, setToastShown] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [lastRequestTime, setLastRequestTime] = useState(0)
-  const [remainingRequests, setRemainingRequests] = useState<number | null>(null)
   const [isFormVisible, setIsFormVisible] = useState(false)
+
+  // Use the shared rate limit context
+  const { remainingRequests, isRateLimited, checkRateLimit, isPendingRequest, setIsPendingRequest } = useRateLimit()
 
   // Load cached data from localStorage on component mount
   useEffect(() => {
@@ -107,7 +108,7 @@ export function UnitSearch() {
     return true
   }
 
-  // Replace the handleSubmit function with this updated version
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -116,16 +117,29 @@ export function UnitSearch() {
       return
     }
 
+    // Strict enforcement - completely prevent searches when limit is reached
+    if (isRateLimited) {
+      toast({
+        title: "Rate Limit Exceeded",
+        description: "You have used your 15 searches for today. Please try again tomorrow.",
+        variant: "destructive",
+        duration: 6000,
+      })
+      return
+    }
+
     // Check client-side throttling
     if (!checkThrottling()) {
       return
     }
 
-    const formattedUnitCode = unitCode.trim().toUpperCase()
-    const formattedTeachingPeriodId = teachingPeriodId.trim()
-
+    // Set loading immediately
     setIsLoading(true)
     setError(null)
+    setIsPendingRequest(true)
+
+    const formattedUnitCode = unitCode.trim().toUpperCase()
+    const formattedTeachingPeriodId = teachingPeriodId.trim()
 
     // Check cache first
     const cachedData = checkCache(formattedUnitCode, formattedTeachingPeriodId)
@@ -140,6 +154,7 @@ export function UnitSearch() {
       }
 
       setIsLoading(false)
+      setIsPendingRequest(false)
       return
     }
 
@@ -147,21 +162,28 @@ export function UnitSearch() {
     setLastRequestTime(Date.now())
 
     try {
-      const response = await fetchTimetableData(formattedUnitCode, formattedTeachingPeriodId)
+      // Use the fetchTimetableData function from lib/timetable-actions
+      const response = await fetch("/api/timetable/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          unitCode: formattedUnitCode,
+          teachingPeriodId: formattedTeachingPeriodId,
+        }),
+      })
 
-      // Update remaining requests if available
-      if ("remainingRequests" in response) {
-        setRemainingRequests(response.remainingRequests)
-      }
+      const result = await response.json()
 
-      if (response.error) {
-        setError(response.message)
+      if (result.error) {
+        setError(result.message)
 
         // Show rate limit toast if applicable
-        if (response.rateLimitExceeded) {
+        if (result.rateLimitExceeded || response.status === 429) {
           toast({
             title: "Rate Limit Exceeded",
-            description: response.message,
+            description: result.message || "You have used your 15 searches for today. Please try again tomorrow.",
             variant: "destructive",
             duration: 6000,
           })
@@ -171,27 +193,27 @@ export function UnitSearch() {
 
         // Cache the response data in localStorage
         const cacheData = {
-          data: response.data,
+          data: result.data,
           timestamp: Date.now(),
         }
         const cacheKey = `timetable-${formattedUnitCode}-${formattedTeachingPeriodId}`
         safelyStoreInCache(cacheKey, cacheData)
         console.log(`💾 Saved ${formattedUnitCode} to cache with key: ${cacheKey}`)
 
-        setTimetableData(response.data)
+        setTimetableData(result.data)
 
         // Extract unit name from the first entry if available
-        if (response.data.length > 0 && response.data[0].unitName) {
-          setUnitName(response.data[0].unitName)
+        if (result.data.length > 0 && result.data[0].unitName) {
+          setUnitName(result.data[0].unitName)
         } else {
           setUnitName("")
         }
 
         // Show remaining requests toast when getting low
-        if (response.remainingRequests <= 3) {
+        if (result.remainingRequests <= 3 && result.remainingRequests > 0) {
           toast({
             title: "Search Limit Warning",
-            description: `You have only ${response.remainingRequests} searches remaining today.`,
+            description: `You have only ${result.remainingRequests} searches remaining today.`,
             duration: 5000,
           })
         }
@@ -202,6 +224,10 @@ export function UnitSearch() {
       console.error("Unexpected error:", err)
     } finally {
       setIsLoading(false)
+      setIsPendingRequest(false)
+
+      // Refresh the rate limit state after the request is complete
+      await checkRateLimit()
     }
   }
 
@@ -270,7 +296,7 @@ export function UnitSearch() {
                     if (validationError) validateUnitCode(e.target.value)
                   }}
                   required
-                  disabled={isLoading}
+                  disabled={isLoading || isRateLimited || isPendingRequest}
                   className="focus-visible:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
                 />
                 {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
@@ -282,7 +308,11 @@ export function UnitSearch() {
                 >
                   Teaching Period & Campus
                 </Label>
-                <Select value={teachingPeriodId} onValueChange={setTeachingPeriodId} disabled={isLoading}>
+                <Select
+                  value={teachingPeriodId}
+                  onValueChange={setTeachingPeriodId}
+                  disabled={isLoading || isRateLimited || isPendingRequest}
+                >
                   <SelectTrigger
                     id="teachingPeriod"
                     className="focus:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
@@ -305,13 +335,22 @@ export function UnitSearch() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg animate-pulse-once"
-              disabled={isLoading || remainingRequests === 0}
+              className={`w-full ${
+                isRateLimited || isPendingRequest
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#003A6E] hover:bg-[#003A6E]/90 dark:bg-blue-800 dark:hover:bg-blue-700"
+              } text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg animate-pulse-once`}
+              disabled={isLoading || isRateLimited || isPendingRequest}
             >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Fetching Timetable...
+                </>
+              ) : isRateLimited ? (
+                <>
+                  <AlertCircle className="mr-2 h-4 w-4" />
+                  Rate Limit Reached
                 </>
               ) : (
                 <>
@@ -321,8 +360,16 @@ export function UnitSearch() {
               )}
             </Button>
             {remainingRequests !== null && (
-              <div className="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">
-                {30 - remainingRequests}/20 searches used today
+              <div
+                className={`text-xs text-center ${
+                  isRateLimited
+                    ? "text-red-500 font-semibold"
+                    : remainingRequests <= 3
+                      ? "text-amber-500"
+                      : "text-gray-500 dark:text-gray-400"
+                } mt-2`}
+              >
+                {remainingRequests}/15 searches remaining today
               </div>
             )}
           </form>

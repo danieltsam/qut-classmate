@@ -8,16 +8,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Search, Check } from "lucide-react"
+import { Loader2, Search, Check, AlertCircle } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { teachingPeriods, getTeachingPeriodWithCampus } from "@/lib/teaching-periods"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { formatActivityType } from "@/lib/format-utils"
 import { Badge } from "@/components/ui/badge"
-import { fetchTimetableData } from "@/lib/timetable-actions"
 import { useToast } from "@/components/ui/use-toast"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
+import { useRateLimit } from "@/context/RateLimitContext"
 
 interface TimetableSidebarProps {
   onClassHover: (classEntry: TimetableEntry | null) => void
@@ -53,7 +53,9 @@ export function TimetableSidebar({
   const [searchHistory, setSearchHistory] = useState<Record<string, TimetableEntry[]>>({})
   const [validationError, setValidationError] = useState<string | null>(null)
   const [lastRequestTime, setLastRequestTime] = useState(0)
-  const [remainingRequests, setRemainingRequests] = useState<number | null>(null)
+
+  // Use the shared rate limit context
+  const { remainingRequests, isRateLimited, checkRateLimit, isPendingRequest, setIsPendingRequest } = useRateLimit()
 
   // Validate unit code
   const validateUnitCode = (code: string): boolean => {
@@ -109,12 +111,23 @@ export function TimetableSidebar({
     })
   }
 
-  // Handle search form submission
+  // Update the handleSubmit function with the same strict enforcement
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     // Validate unit code
     if (!validateUnitCode(unitCode)) {
+      return
+    }
+
+    // Strict enforcement - completely prevent searches when limit is reached
+    if (isRateLimited) {
+      toast({
+        title: "Rate Limit Exceeded",
+        description: "You have used your 15 searches for today. Please try again tomorrow.",
+        variant: "destructive",
+        duration: 6000,
+      })
       return
     }
 
@@ -151,45 +164,53 @@ export function TimetableSidebar({
       return
     }
 
+    // Set pending state to prevent multiple requests
+    setIsPendingRequest(true)
     setLastRequestTime(Date.now())
     setIsLoading(true)
     setError(null)
 
     try {
-      const formattedUnitCode = unitCode.trim().toUpperCase()
-      const response = await fetchTimetableData(formattedUnitCode, teachingPeriodId.trim())
+      // Use the new API endpoint
+      const response = await fetch("/api/timetable/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          unitCode: formattedUnitCode,
+          teachingPeriodId: teachingPeriodId.trim(),
+        }),
+      })
 
-      // Update remaining requests if available
-      if ("remainingRequests" in response) {
-        setRemainingRequests(response.remainingRequests)
-      }
+      const result = await response.json()
 
-      if (response.error) {
-        setError(response.message)
+      if (result.error) {
+        setError(result.message)
 
         // Show rate limit toast if applicable
-        if (response.rateLimitExceeded) {
+        if (result.rateLimitExceeded || response.status === 429) {
           toast({
             title: "Rate Limit Exceeded",
-            description: response.message,
+            description: result.message || "You have used your 15 searches for today. Please try again tomorrow.",
             variant: "destructive",
             duration: 6000,
           })
         }
       } else {
         console.log(`📡 Fetched ${formattedUnitCode} from server`)
-        setSearchResults(response.data)
+        setSearchResults(result.data)
 
         // Cache the response data in localStorage
         const cacheData = {
-          data: response.data,
+          data: result.data,
           timestamp: Date.now(),
         }
         safelyStoreInCache(`timetable-${formattedUnitCode}-${teachingPeriodId.trim()}`, cacheData)
 
         // Extract unit name from the first entry if available
-        if (response.data.length > 0 && response.data[0].unitName) {
-          setUnitName(response.data[0].unitName)
+        if (result.data.length > 0 && result.data[0].unitName) {
+          setUnitName(result.data[0].unitName)
         } else {
           setUnitName("")
         }
@@ -198,18 +219,18 @@ export function TimetableSidebar({
         const key = `${formattedUnitCode}-${teachingPeriodId}`
         setSearchHistory((prev) => ({
           ...prev,
-          [key]: response.data,
+          [key]: result.data,
         }))
 
         // Notify parent component
         onAddSearchedUnit(formattedUnitCode, teachingPeriodId)
-        onAddClasses(response.data)
+        onAddClasses(result.data)
 
         // Show remaining requests toast when getting low
-        if (response.remainingRequests <= 3) {
+        if (result.remainingRequests <= 3) {
           toast({
             title: "Search Limit Warning",
-            description: `You have only ${response.remainingRequests} searches remaining today.`,
+            description: `You have only ${result.remainingRequests} searches remaining today.`,
             duration: 5000,
           })
         }
@@ -220,14 +241,29 @@ export function TimetableSidebar({
       console.error("Unexpected error:", err)
     } finally {
       setIsLoading(false)
+      setIsPendingRequest(false)
+
+      // Refresh the rate limit state after the request is complete
+      await checkRateLimit()
     }
   }
 
   // Load a previously searched unit
   const loadSearchedUnit = async (unitCode: string, teachingPeriodId: string) => {
+    // Strict enforcement - completely prevent searches when limit is reached
+    if (isRateLimited) {
+      toast({
+        title: "Rate Limit Exceeded",
+        description: "You have used your 15 searches for today. Please try again tomorrow.",
+        variant: "destructive",
+        duration: 6000,
+      })
+      return
+    }
+
     const key = `${unitCode}-${teachingPeriodId}`
 
-    // If we already have the data in history, use it
+    // If we already have the data in history, use it without consuming a search
     if (searchHistory[key]) {
       setSearchResults(searchHistory[key])
       setUnitCode(unitCode)
@@ -235,7 +271,7 @@ export function TimetableSidebar({
       return
     }
 
-    // Check cache before making a request
+    // Check cache before making a request (using cache doesn't count against limit)
     const cachedData = checkCache(unitCode, teachingPeriodId)
     if (cachedData) {
       setSearchResults(cachedData)
@@ -254,11 +290,13 @@ export function TimetableSidebar({
       return
     }
 
-    // Otherwise fetch it
+    // For actual server requests, enforce rate limits
     if (!checkThrottling()) {
       return
     }
 
+    // Set pending state to prevent multiple requests
+    setIsPendingRequest(true)
     setUnitCode(unitCode)
     setTeachingPeriodId(teachingPeriodId)
     setIsLoading(true)
@@ -266,32 +304,39 @@ export function TimetableSidebar({
     setLastRequestTime(Date.now())
 
     try {
-      const response = await fetchTimetableData(unitCode, teachingPeriodId)
+      // Use the new API endpoint
+      const response = await fetch("/api/timetable/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          unitCode,
+          teachingPeriodId,
+        }),
+      })
 
-      // Update remaining requests if available
-      if ("remainingRequests" in response) {
-        setRemainingRequests(response.remainingRequests)
-      }
+      const result = await response.json()
 
-      if (response.error) {
-        setError(response.message)
+      if (result.error) {
+        setError(result.message)
 
         // Show rate limit toast if applicable
-        if (response.rateLimitExceeded) {
+        if (result.rateLimitExceeded || response.status === 429) {
           toast({
             title: "Rate Limit Exceeded",
-            description: response.message,
+            description: result.message || "You have used your 15 searches for today. Please try again tomorrow.",
             variant: "destructive",
             duration: 6000,
           })
         }
       } else {
         console.log(`📡 Fetched ${unitCode} from server`)
-        setSearchResults(response.data)
+        setSearchResults(result.data)
 
         // Extract unit name from the first entry if available
-        if (response.data.length > 0 && response.data[0].unitName) {
-          setUnitName(response.data[0].unitName)
+        if (result.data.length > 0 && result.data[0].unitName) {
+          setUnitName(result.data[0].unitName)
         } else {
           setUnitName("")
         }
@@ -299,17 +344,17 @@ export function TimetableSidebar({
         // Add to search history
         setSearchHistory((prev) => ({
           ...prev,
-          [key]: response.data,
+          [key]: result.data,
         }))
 
         // Notify parent component
-        onAddClasses(response.data)
+        onAddClasses(result.data)
 
         // Show remaining requests toast when getting low
-        if (response.remainingRequests <= 3) {
+        if (result.remainingRequests <= 3) {
           toast({
             title: "Search Limit Warning",
-            description: `You have only ${response.remainingRequests} searches remaining today.`,
+            description: `You have only ${result.remainingRequests} searches remaining today.`,
             duration: 5000,
           })
         }
@@ -320,6 +365,10 @@ export function TimetableSidebar({
       console.error("Unexpected error:", err)
     } finally {
       setIsLoading(false)
+      setIsPendingRequest(false)
+
+      // Refresh the rate limit state after the request is complete
+      await checkRateLimit()
     }
   }
 
@@ -427,7 +476,7 @@ export function TimetableSidebar({
                     if (validationError) validateUnitCode(e.target.value)
                   }}
                   required
-                  disabled={isLoading}
+                  disabled={isLoading || isPendingRequest}
                   className="focus-visible:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
                 />
                 {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
@@ -439,7 +488,11 @@ export function TimetableSidebar({
                 >
                   Teaching Period
                 </Label>
-                <Select value={teachingPeriodId} onValueChange={setTeachingPeriodId} disabled={isLoading}>
+                <Select
+                  value={teachingPeriodId}
+                  onValueChange={setTeachingPeriodId}
+                  disabled={isLoading || isPendingRequest}
+                >
                   <SelectTrigger
                     id="teachingPeriod"
                     className="focus:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
@@ -461,13 +514,22 @@ export function TimetableSidebar({
               </div>
               <Button
                 type="submit"
-                className="w-full bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
-                disabled={isLoading || remainingRequests === 0}
+                className={`w-full ${
+                  isRateLimited || isPendingRequest
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700"
+                } rounded-lg transition-all duration-300 shadow-md hover:shadow-lg`}
+                disabled={isLoading || isRateLimited || isPendingRequest}
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Searching...
+                  </>
+                ) : isRateLimited ? (
+                  <>
+                    <AlertCircle className="mr-2 h-4 w-4" />
+                    Rate Limit Reached
                   </>
                 ) : (
                   <>
@@ -477,8 +539,16 @@ export function TimetableSidebar({
                 )}
               </Button>
               {remainingRequests !== null && (
-                <div className="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">
-                  {30 - remainingRequests}/20 searches used today
+                <div
+                  className={`text-xs text-center ${
+                    isRateLimited
+                      ? "text-red-500 font-semibold"
+                      : remainingRequests <= 3
+                        ? "text-amber-500"
+                        : "text-gray-500 dark:text-gray-400"
+                  } mt-2`}
+                >
+                  {remainingRequests}/15 searches remaining today
                 </div>
               )}
             </form>

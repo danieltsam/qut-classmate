@@ -3,7 +3,8 @@
 import type { TimetableEntry } from "./types"
 import * as cheerio from "cheerio"
 import { formatDayName, formatLocation, formatTeachingStaff } from "./format-utils"
-import { headers } from "next/headers"
+import { headers, cookies } from "next/headers"
+import crypto from "crypto"
 
 // Define error response type
 type ErrorResponse = {
@@ -24,86 +25,169 @@ type SuccessResponse = {
 export type TimetableResponse = ErrorResponse | SuccessResponse
 
 // Rate limiting constants
-const DAILY_RATE_LIMIT = 20
+const DAILY_RATE_LIMIT = 15
 const REQUEST_INTERVAL = 2000 // 2 seconds in milliseconds
 
-// In-memory cache for rate limiting
-// In a production environment, this should be replaced with Redis or a database
-// This will reset when the server restarts
-type RateLimitEntry = {
-  count: number
-  lastRequest: number
-  resetDate: string
-}
-
-const rateLimitCache = new Map<string, RateLimitEntry>()
-
-// Helper function to get client IP
-function getClientIP(): string {
+// Generate a fingerprint from request headers
+function generateFingerprint(): string {
   const headersList = headers()
 
-  // Try to get IP from various headers
-  const forwardedFor = headersList.get("x-forwarded-for")
-  if (forwardedFor) {
-    // x-forwarded-for can contain multiple IPs, take the first one
-    return forwardedFor.split(",")[0].trim()
-  }
+  // Collect various headers to create a more unique fingerprint
+  const userAgent = headersList.get("user-agent") || ""
+  const acceptLanguage = headersList.get("accept-language") || ""
+  const acceptEncoding = headersList.get("accept-encoding") || ""
+  const connection = headersList.get("connection") || ""
+  const ip = headersList.get("x-forwarded-for") || headersList.get("x-real-ip") || "unknown"
 
-  const realIP = headersList.get("x-real-ip")
-  if (realIP) {
-    return realIP
-  }
+  // Create a hash of these values
+  const fingerprint = crypto
+    .createHash("sha256")
+    .update(`${ip}-${userAgent}-${acceptLanguage}-${acceptEncoding}-${connection}`)
+    .digest("hex")
 
-  // Fallback to a unique identifier if we can't get the IP
-  // This is not ideal but better than nothing
-  const userAgent = headersList.get("user-agent") || "unknown"
-  return `unknown-${userAgent.substring(0, 20)}`
+  return fingerprint
 }
 
-// Check rate limit for the given IP
-function checkRateLimit(ip: string): { allowed: boolean; remainingRequests: number } {
+// Check rate limit using cookies and fingerprinting
+function checkRateLimit(): { allowed: boolean; remainingRequests: number } {
+  const cookieStore = cookies()
   const today = new Date().toDateString()
-  const now = Date.now()
 
-  // Get or create rate limit entry for this IP
-  let entry = rateLimitCache.get(ip)
+  // Get or create a session token
+  let sessionToken = cookieStore.get("timetable-session")?.value
 
-  if (!entry || entry.resetDate !== today) {
-    // New day, reset counter
-    entry = { count: 0, lastRequest: 0, resetDate: today }
-    rateLimitCache.set(ip, entry)
+  if (!sessionToken) {
+    // Generate a new session token
+    sessionToken = crypto.randomUUID()
+
+    // Set the session token cookie (httpOnly and secure)
+    cookieStore.set("timetable-session", sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 86400 * 30, // 30 days
+      path: "/",
+    })
   }
 
-  // Check if we're within the rate limit
-  if (entry.count >= DAILY_RATE_LIMIT) {
-    return { allowed: false, remainingRequests: 0 }
+  // Generate a fingerprint
+  const fingerprint = generateFingerprint()
+
+  // Get the rate limit cookie
+  const rateLimitCookie = cookieStore.get("timetable-rate-limit")
+
+  if (!rateLimitCookie?.value) {
+    // No rate limit cookie, set a new one
+    cookieStore.set(
+      "timetable-rate-limit",
+      JSON.stringify({
+        count: 1, // Start with 1 since we're about to make a request
+        resetDate: today,
+        fingerprint,
+        sessionToken,
+      }),
+      {
+        maxAge: 86400, // 1 day
+        path: "/",
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+      },
+    )
+
+    return { allowed: true, remainingRequests: DAILY_RATE_LIMIT - 1 }
   }
 
-  // Check if we're respecting the request interval
-  if (now - entry.lastRequest < REQUEST_INTERVAL) {
-    return { allowed: false, remainingRequests: DAILY_RATE_LIMIT - entry.count }
+  try {
+    const data = JSON.parse(rateLimitCookie.value)
+
+    // Reset if it's a new day
+    if (data.resetDate !== today) {
+      cookieStore.set(
+        "timetable-rate-limit",
+        JSON.stringify({
+          count: 1, // Start with 1
+          resetDate: today,
+          fingerprint,
+          sessionToken,
+        }),
+        {
+          maxAge: 86400, // 1 day
+          path: "/",
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+          httpOnly: true,
+        },
+      )
+
+      return { allowed: true, remainingRequests: DAILY_RATE_LIMIT - 1 }
+    }
+
+    // Check if we've reached the limit
+    if (data.count >= DAILY_RATE_LIMIT) {
+      return { allowed: false, remainingRequests: 0 }
+    }
+
+    // Increment the count
+    const newCount = data.count + 1
+
+    // Update the cookie
+    cookieStore.set(
+      "timetable-rate-limit",
+      JSON.stringify({
+        count: newCount,
+        resetDate: today,
+        fingerprint,
+        sessionToken,
+      }),
+      {
+        maxAge: 86400, // 1 day
+        path: "/",
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+      },
+    )
+
+    return { allowed: true, remainingRequests: DAILY_RATE_LIMIT - newCount }
+  } catch (error) {
+    console.error("Error parsing rate limit cookie:", error)
+
+    // Set a new rate limit cookie
+    cookieStore.set(
+      "timetable-rate-limit",
+      JSON.stringify({
+        count: 1,
+        resetDate: today,
+        fingerprint,
+        sessionToken,
+      }),
+      {
+        maxAge: 86400, // 1 day
+        path: "/",
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+      },
+    )
+
+    return { allowed: true, remainingRequests: DAILY_RATE_LIMIT - 1 }
   }
-
-  // Update the entry
-  entry.count += 1
-  entry.lastRequest = now
-  rateLimitCache.set(ip, entry)
-
-  return { allowed: true, remainingRequests: DAILY_RATE_LIMIT - entry.count }
 }
 
+// Update the fetchTimetableData function to use our improved rate limiting
 export async function fetchTimetableData(unitCode: string, teachingPeriodId: string): Promise<TimetableResponse> {
   try {
-    // Get client IP and check rate limit
-    const clientIP = getClientIP()
-    const { allowed, remainingRequests } = checkRateLimit(clientIP)
+    // Check rate limit
+    const { allowed, remainingRequests } = checkRateLimit()
 
+    // If not allowed, return immediately
     if (!allowed) {
       return {
         error: true,
-        message: `Rate limit exceeded. Please try again later.`,
+        message: `Rate limit exceeded. You have used your ${DAILY_RATE_LIMIT} searches for today. Please try again tomorrow.`,
         rateLimitExceeded: true,
-        remainingRequests,
+        remainingRequests: 0,
       }
     }
 
