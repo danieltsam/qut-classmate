@@ -58,8 +58,10 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
     "zod": "^3.24.1",
+    "@vercel/kv": "latest",
     "cheerio": "latest",
-    "crypto": "latest"
+    "crypto": "latest",
+    "@upstash/redis": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
