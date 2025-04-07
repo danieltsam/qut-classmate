@@ -90,7 +90,7 @@ The application uses the following environment variable:
 - Click-to-expand unit info instead of hover
 
 ### v1.2
-- Added rate limiting: 20 requests/day per user (checking cookies secondarily + IP primarily) to be a responsible user of the public QUT website.
+- Added rate limiting: 15 requests/day per user (checking cookies secondarily + IP primarily) to be a responsible user of the public QUT website.
 - Timetable class uniqueness: fixed duplicate selections
 - Sticky timetable view on scroll
 - Saved unit cache in `localStorage`, cleared when not used. Will allow a new unit data request every 96 hours. This also reduces serverless api calls on Vercel.
