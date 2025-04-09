@@ -105,6 +105,12 @@ The application uses the following environment variable:
 - Optimized data fetching with multi-level caching strategy
 - Added detailed console logging for debugging and to check where data is coming from
 - Enhanced scrollbar styling for better visibility and interaction
+
+### v1.4
+- Renamed "Timetable Maker" to "Timetable Creator"
+- Added support for specific week patterns (single weeks, ranges, etc.)
+- Improved conflict detection and display to only warn about overlaps in the same weeks
+- Added unit code autocomplete by scraping 4000 QUT Units and using in a search dropdown
 ---
 
 Thanks for checking out QUT Classmate! Built by a student, for students. 🚀
