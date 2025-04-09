@@ -34,4 +34,3 @@ export interface TeachingPeriod {
   name: string
   campus?: string
 }
-

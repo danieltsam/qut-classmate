@@ -19,4 +19,3 @@ export async function GET(req: NextRequest) {
     limit: Number.parseInt(rateLimit, 10),
   })
 }
-

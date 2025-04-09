@@ -4,4 +4,3 @@ declare namespace NodeJS {
     // Add other environment variables here as needed
   }
 }
-

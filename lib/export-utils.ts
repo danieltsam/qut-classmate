@@ -107,4 +107,3 @@ export function exportToICS(entries: TimetableEntry[]): void {
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
 }
-

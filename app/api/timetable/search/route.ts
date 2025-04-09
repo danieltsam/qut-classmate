@@ -225,4 +225,3 @@ function parseLocation(location: string): { building: string; room: string } {
   // This is a placeholder implementation.
   return { building: location, room: "" }
 }
-

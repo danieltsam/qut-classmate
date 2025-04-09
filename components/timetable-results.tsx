@@ -132,4 +132,3 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
     </div>
   )
 }
-

@@ -175,4 +175,3 @@ export function UnitList({ units, onUnitRemove, onClassHover, onClassSelect, sel
     </div>
   )
 }
-

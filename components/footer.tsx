@@ -18,7 +18,7 @@ export function Footer() {
 
   return (
     <footer
-      className={`mt-12 py-6 border-t border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-700 ${isVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
+      className={`py-6 border-t border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-700 ${isVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
     >
       <div className="container mx-auto flex flex-col items-center justify-center">
         <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">Built by Daniel Sam</p>
@@ -59,4 +59,3 @@ export function Footer() {
     </footer>
   )
 }
-

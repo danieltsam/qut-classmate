@@ -6,18 +6,19 @@ import { useState } from "react"
 import type { SelectedClass, TimetableEntry } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Search, Check, AlertCircle } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { teachingPeriods, getTeachingPeriodWithCampus } from "@/lib/teaching-periods"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatActivityType } from "@/lib/format-utils"
+// Update the import to ensure we're using the extractWeeksInfo function
+import { formatActivityType, extractWeeksInfo } from "@/lib/format-utils"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 import { useRateLimit } from "@/context/RateLimitContext"
+import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
 
 interface TimetableSidebarProps {
   onClassHover: (classEntry: TimetableEntry | null) => void
@@ -231,7 +232,7 @@ export function TimetableSidebar({
           toast({
             title: "Search Limit Warning",
             description: `You have only ${result.remainingRequests} searches remaining today.`,
-            duration: 5000,
+            duration: 15000,
           })
         }
       }
@@ -355,7 +356,7 @@ export function TimetableSidebar({
           toast({
             title: "Search Limit Warning",
             description: `You have only ${result.remainingRequests} searches remaining today.`,
-            duration: 5000,
+            duration: 15000,
           })
         }
       }
@@ -374,7 +375,10 @@ export function TimetableSidebar({
 
   // Generate a unique ID for a class entry
   const generateUniqueClassId = (classEntry: TimetableEntry): string => {
-    return `${classEntry.unitCode}-${classEntry.activityType}-${classEntry.dayFormatted}-${classEntry.startTime}-${classEntry.endTime}-${classEntry.location}`
+    // Extract week information to include in the ID
+    const weekInfo = extractWeeksInfo(classEntry.class)
+
+    return `${classEntry.unitCode}-${classEntry.activityType}-${classEntry.dayFormatted}-${classEntry.startTime}-${classEntry.endTime}-${classEntry.location}-${weekInfo}`
   }
 
   // Check if a class is selected
@@ -386,7 +390,8 @@ export function TimetableSidebar({
         cls.dayFormatted === classEntry.dayFormatted &&
         cls.startTime === classEntry.startTime &&
         cls.endTime === classEntry.endTime &&
-        cls.location === classEntry.location,
+        cls.location === classEntry.location &&
+        extractWeeksInfo(cls.class) === extractWeeksInfo(classEntry.class), // Compare week information
     )
   }
 
@@ -467,17 +472,13 @@ export function TimetableSidebar({
                 <Label htmlFor="unitCode" className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
                   Unit Code
                 </Label>
-                <Input
-                  id="unitCode"
-                  placeholder="e.g. CAB202"
+                <UnitCodeAutocomplete
                   value={unitCode}
-                  onChange={(e) => {
-                    setUnitCode(e.target.value)
-                    if (validationError) validateUnitCode(e.target.value)
+                  onChange={(value) => {
+                    setUnitCode(value)
+                    if (validationError) validateUnitCode(value)
                   }}
-                  required
                   disabled={isLoading || isPendingRequest}
-                  className="focus-visible:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
                 />
                 {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
               </div>
@@ -497,16 +498,28 @@ export function TimetableSidebar({
                     id="teachingPeriod"
                     className="focus:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
                   >
-                    <SelectValue placeholder="Select a teaching period" />
+                    <SelectValue placeholder="Select a teaching period">
+                      {teachingPeriods.find((p) => p.id === teachingPeriodId)?.name}
+                      {teachingPeriods.find((p) => p.id === teachingPeriodId)?.campus
+                        ? ` @ ${teachingPeriods.find((p) => p.id === teachingPeriodId)?.campus}`
+                        : ""}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="dark:bg-gray-800 rounded-lg">
+                  <SelectContent className="dark:bg-gray-800 rounded-lg max-w-[350px] w-[var(--radix-select-trigger-width)]">
                     {teachingPeriods.map((period) => (
                       <SelectItem
                         key={period.id}
                         value={period.id}
-                        className="focus:bg-[#003A6E]/10 dark:focus:bg-blue-900/30 transition-colors duration-200"
+                        className="focus:bg-[#003A6E]/10 dark:focus:bg-blue-900/30 transition-colors duration-200 whitespace-normal"
                       >
-                        {period.name} {period.campus ? `- ${period.campus}` : ""}
+                        <div className="flex flex-col">
+                          <span>
+                            {period.name} {period.campus ? `@ ${period.campus}` : ""}
+                          </span>
+                          {period.dateRange && (
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{period.dateRange}</span>
+                          )}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -613,10 +626,12 @@ export function TimetableSidebar({
 
                         <AccordionContent className="pt-0 pb-1">
                           <div className="space-y-1">
+                            {/* Find the section where class entries are rendered in the sidebar and update it to display week info correctly */}
                             {classes.map((classEntry, idx) => {
                               const isSelected = isClassSelected(classEntry)
                               const unitColor = getUnitColor(classEntry.unitCode || "")
-                              const uniqueKey = generateUniqueClassId(classEntry) + `-${idx}`
+                              const weekInfo = extractWeeksInfo(classEntry.class)
+                              const uniqueKey = `${classEntry.unitCode}-${classEntry.activityType}-${classEntry.dayFormatted}-${classEntry.startTime}-${classEntry.location}-${weekInfo}-${idx}`
 
                               return (
                                 <div
@@ -639,6 +654,7 @@ export function TimetableSidebar({
                                   </div>
                                   <div className="mt-1 text-xs text-gray-600 dark:text-gray-400 transition-colors duration-300">
                                     <div>{classEntry.location}</div>
+                                    <div>{weekInfo}</div>
                                   </div>
                                   {isSelected && (
                                     <div className="mt-1 flex items-center text-xs text-green-700 dark:text-green-400 transition-colors duration-300">
@@ -679,6 +695,7 @@ export function TimetableSidebar({
                       <div className="p-2 space-y-2 dark:bg-gray-800 transition-colors duration-300">
                         {classes.map((cls) => {
                           const fullActivityType = formatActivityType(cls.activityType)
+                          const weekInfo = extractWeeksInfo(cls.class)
 
                           return (
                             <div
@@ -695,6 +712,9 @@ export function TimetableSidebar({
                               <div className="text-xs text-gray-600 dark:text-gray-400 transition-colors duration-300">
                                 {cls.location}
                               </div>
+                              <div className="text-xs text-gray-600 dark:text-gray-400 transition-colors duration-300">
+                                {weekInfo}
+                              </div>
                             </div>
                           )
                         })}
@@ -710,4 +730,3 @@ export function TimetableSidebar({
     </Card>
   )
 }
-

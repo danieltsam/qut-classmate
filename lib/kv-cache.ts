@@ -44,4 +44,3 @@ export async function storeTimetableInCache(unitCode: string, teachingPeriodId: 
     return false
   }
 }
-

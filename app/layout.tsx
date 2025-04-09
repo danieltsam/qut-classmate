@@ -72,10 +72,12 @@ export default function RootLayout({
         <link rel="canonical" href="https://qut.vercel.app/" />
         <meta name="google-site-verification" content="RWVD2qcByloMLqvEwbrWD4iJ7XkWenFjb_9MlGf-SnM" />
       </head>
-      <body className={`${inter.className} min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100`}>
+      <body
+        className={`${inter.className} min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col`}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <RateLimitProvider>
-            {children}
+            <div className="flex-grow">{children}</div>
             <Footer />
             <Toaster />
             <StructuredData />
@@ -85,7 +87,6 @@ export default function RootLayout({
     </html>
   )
 }
-
 
 
 import './globals.css'

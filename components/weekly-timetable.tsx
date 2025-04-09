@@ -4,7 +4,7 @@ import type { TimetableEntry, SelectedClass } from "@/lib/types"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
-import { formatActivityType } from "@/lib/format-utils"
+import { formatActivityType, extractWeeksInfo, doClassesOverlap } from "@/lib/format-utils"
 
 interface WeeklyTimetableProps {
   selectedClasses: SelectedClass[]
@@ -74,22 +74,6 @@ export function WeeklyTimetable({
     return ""
   }
 
-  // Extract weeks information
-  const getWeeksInfo = (entry: TimetableEntry | SelectedClass): string => {
-    // Default to "Weeks 1-13" if we can't extract specific weeks
-    let weeksInfo = "Weeks 1-13"
-
-    // Try to extract weeks from class info
-    const classInfo = entry.class
-    const weeksMatch = classInfo.match(/Week[s]?\s+(\d+)[-–](\d+)/i)
-
-    if (weeksMatch && weeksMatch.length >= 3) {
-      weeksInfo = `Weeks ${weeksMatch[1]}-${weeksMatch[2]}`
-    }
-
-    return weeksInfo
-  }
-
   // Get color for unit
   const getUnitColor = (unitCode: string): { bg: string; border: string; text: string } => {
     // Generate a consistent color based on the unit code
@@ -146,59 +130,160 @@ export function WeeklyTimetable({
     // If there's only one or no class, no need for special handling
     if (classesAtHour.length <= 1) return []
 
-    // Group overlapping classes
-    const overlappingGroups: (SelectedClass | TimetableEntry)[][] = []
+    // Group classes by unit code
+    const groupedByUnit: Record<string, (SelectedClass | TimetableEntry)[]> = {}
 
-    // Check each class against others to find overlaps
     classesAtHour.forEach((cls) => {
-      // Find a group this class overlaps with
-      const overlappingGroupIndex = overlappingGroups.findIndex((group) =>
-        group.some((groupCls) =>
-          doTimesOverlap(
-            cls.dayFormatted,
-            cls.startTime,
-            cls.endTime,
-            groupCls.dayFormatted,
-            groupCls.startTime,
-            groupCls.endTime,
-          ),
-        ),
-      )
+      const key = cls.unitCode || "unknown"
+      if (!groupedByUnit[key]) {
+        groupedByUnit[key] = []
+      }
+      groupedByUnit[key].push(cls)
+    })
 
-      if (overlappingGroupIndex >= 0) {
-        // Add to existing group
-        overlappingGroups[overlappingGroupIndex].push(cls)
-      } else {
-        // Create new group
-        overlappingGroups.push([cls])
+    // For each unit, group classes by activity type
+    const unitGroups: (SelectedClass | TimetableEntry)[][] = []
+
+    Object.values(groupedByUnit).forEach((unitClasses) => {
+      // Group by activity type within this unit
+      const activityGroups: Record<string, (SelectedClass | TimetableEntry)[]> = {}
+
+      unitClasses.forEach((cls) => {
+        const key = cls.activityType || "unknown"
+        if (!activityGroups[key]) {
+          activityGroups[key] = []
+        }
+        activityGroups[key].push(cls)
+      })
+
+      // If there's more than one activity type for this unit, add them as a group
+      if (Object.keys(activityGroups).length > 1) {
+        const allClassesForUnit: (SelectedClass | TimetableEntry)[] = []
+        Object.values(activityGroups).forEach((group) => {
+          allClassesForUnit.push(...group)
+        })
+        unitGroups.push(allClassesForUnit)
       }
     })
 
-    // Return groups with more than one class (actual overlaps)
-    return overlappingGroups.filter((group) => group.length > 1)
+    // Now check for overlaps between different units
+    const overlappingGroups: (SelectedClass | TimetableEntry)[][] = [...unitGroups]
+
+    // Create a flat list of all classes that are not part of a unit group
+    const remainingClasses = classesAtHour.filter(
+      (cls) => !unitGroups.some((group) => group.some((g) => g.id === (cls as SelectedClass).id)),
+    )
+
+    // Check each remaining class against others for time overlaps
+    const processedIds = new Set<string>()
+
+    remainingClasses.forEach((cls) => {
+      if (processedIds.has((cls as SelectedClass).id)) return
+
+      const overlappingClasses: (SelectedClass | TimetableEntry)[] = [cls]
+      processedIds.add((cls as SelectedClass).id)
+
+      remainingClasses.forEach((otherCls) => {
+        if ((cls as SelectedClass).id === (otherCls as SelectedClass).id) return
+        if (processedIds.has((otherCls as SelectedClass).id)) return
+
+        // Check if they overlap in time and weeks, ignoring activity type
+        if (doClassesOverlap(cls, otherCls, true)) {
+          overlappingClasses.push(otherCls)
+          processedIds.add((otherCls as SelectedClass).id)
+        }
+      })
+
+      if (overlappingClasses.length > 1) {
+        overlappingGroups.push(overlappingClasses)
+      }
+    })
+
+    return overlappingGroups
   }
 
-  // Helper function to check if two time ranges overlap
-  const doTimesOverlap = (
-    day1: string,
-    start1: string,
-    end1: string,
-    day2: string,
-    start2: string,
-    end2: string,
-  ): boolean => {
-    if (day1 !== day2) return false
+  // Merge classes with the same details but different weeks
+  const mergeClassesByWeek = (classes: SelectedClass[]): SelectedClass[] => {
+    const mergedClassesMap = new Map<string, SelectedClass>()
 
-    const start1Minutes = timeToMinutes(start1)
-    const end1Minutes = timeToMinutes(end1)
-    const start2Minutes = timeToMinutes(start2)
-    const end2Minutes = timeToMinutes(end2)
+    classes.forEach((cls) => {
+      // Create a key that identifies the class without the week information
+      const key = `${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.endTime}-${cls.location}`
 
-    return (
-      (start1Minutes >= start2Minutes && start1Minutes < end2Minutes) ||
-      (end1Minutes > start2Minutes && end1Minutes <= end2Minutes) ||
-      (start1Minutes <= start2Minutes && end1Minutes >= end2Minutes)
-    )
+      if (mergedClassesMap.has(key)) {
+        // If we already have this class, extract the week info from both and combine
+        const existingClass = mergedClassesMap.get(key)!
+        const existingWeekInfo = extractWeeksInfo(existingClass.class)
+        const newWeekInfo = extractWeeksInfo(cls.class)
+
+        // Only merge if the weeks are different
+        if (existingWeekInfo !== newWeekInfo) {
+          // Create a combined class description with merged week information
+          const combinedClass = {
+            ...existingClass,
+            class: existingClass.class.replace(existingWeekInfo, combineWeekInfo(existingWeekInfo, newWeekInfo)),
+          }
+          mergedClassesMap.set(key, combinedClass)
+        }
+      } else {
+        // If this is the first time we're seeing this class, add it to the map
+        mergedClassesMap.set(key, cls)
+      }
+    })
+
+    return Array.from(mergedClassesMap.values())
+  }
+
+  // Helper function to combine week information
+  const combineWeekInfo = (week1: string, week2: string): string => {
+    // Extract just the week numbers from strings like "Week 9" or "Weeks 1-13"
+    const extractNumbers = (weekStr: string): number[] => {
+      const numbers: number[] = []
+
+      // Handle ranges like "Weeks 1-13"
+      const rangeMatch = weekStr.match(/Weeks\s+(\d+)-(\d+)/i)
+      if (rangeMatch) {
+        const start = Number.parseInt(rangeMatch[1])
+        const end = Number.parseInt(rangeMatch[2])
+        for (let i = start; i <= end; i++) {
+          numbers.push(i)
+        }
+        return numbers
+      }
+
+      // Handle single weeks like "Week 9"
+      const singleMatch = weekStr.match(/Week\s+(\d+)/i)
+      if (singleMatch) {
+        numbers.push(Number.parseInt(singleMatch[1]))
+        return numbers
+      }
+
+      // Handle comma-separated weeks like "Weeks 1, 3, 5"
+      const commaMatch = weekStr.match(/Weeks\s+([\d,\s]+)/i)
+      if (commaMatch) {
+        const weekNumbers = commaMatch[1].split(",").map((w) => Number.parseInt(w.trim()))
+        return weekNumbers.filter((w) => !isNaN(w))
+      }
+
+      return numbers
+    }
+
+    // Extract week numbers from both strings
+    const numbers1 = extractNumbers(week1)
+    const numbers2 = extractNumbers(week2)
+
+    // Combine and sort all week numbers
+    const allNumbers = [...new Set([...numbers1, ...numbers2])].sort((a, b) => a - b)
+
+    // If we have no numbers, return the original
+    if (allNumbers.length === 0) return week1
+
+    // Format the combined week information
+    if (allNumbers.length === 1) {
+      return `Week ${allNumbers[0]}`
+    } else {
+      return `Weeks ${allNumbers.join(", ")}`
+    }
   }
 
   return (
@@ -231,7 +316,8 @@ export function WeeklyTimetable({
 
                 {days.map((day) => {
                   // Filter classes for this day and hour
-                  const classesForSlot = selectedClasses.filter(
+                  const mergedSelectedClasses = mergeClassesByWeek(selectedClasses)
+                  const classesForSlot = mergedSelectedClasses.filter(
                     (cls) =>
                       cls.dayFormatted === day && timeToHour(cls.startTime) <= hour && timeToHour(cls.endTime) > hour,
                   )
@@ -261,11 +347,11 @@ export function WeeklyTimetable({
                           const position = calculateClassPosition(cls)
                           const colors = getUnitColor(cls.unitCode)
                           const classMode = getClassMode(cls)
-                          const weeksInfo = getWeeksInfo(cls)
+                          const weeksInfo = extractWeeksInfo(cls.class)
                           const activityTypeFull = formatActivityType(cls.activityType)
 
                           // Find overlapping classes
-                          const overlappingGroups = getOverlappingClasses(day, hour, selectedClasses)
+                          const overlappingGroups = getOverlappingClasses(day, hour, mergedSelectedClasses)
                           const isOverlapping = overlappingGroups.some((group) =>
                             group.some((overlapCls) => overlapCls.id === cls.id),
                           )
@@ -302,13 +388,20 @@ export function WeeklyTimetable({
                                     onClick={() => onClassToggle(cls)}
                                   >
                                     <div className="flex flex-col h-full">
-                                      <div className="font-medium truncate">
+                                      <div className={`font-medium ${isOverlapping ? "" : "truncate"}`}>
                                         {cls.unitCode} {activityTypeFull}
                                       </div>
-                                      <div className="text-xs whitespace-nowrap truncate">
+                                      <div
+                                        className={`text-xs whitespace-normal ${isOverlapping ? "break-words" : "truncate"}`}
+                                      >
                                         {cls.startTime} - {cls.endTime}
                                       </div>
-                                      {!isOverlapping && <div className="text-xs truncate">{cls.location}</div>}
+                                      <div className={`text-xs ${isOverlapping ? "break-words" : "truncate"}`}>
+                                        {cls.location}
+                                      </div>
+                                      <div className={`text-xs ${isOverlapping ? "break-words" : "truncate"}`}>
+                                        {weeksInfo}
+                                      </div>
                                     </div>
                                   </div>
                                 </TooltipTrigger>
@@ -321,7 +414,15 @@ export function WeeklyTimetable({
                                     <p className="text-[#003A6E] dark:text-blue-300">
                                       {cls.dayFormatted} {cls.startTime} - {cls.endTime}
                                     </p>
-                                    <p>{cls.location}</p>
+                                    <p>
+                                      <span className="font-semibold">Location:</span>{" "}
+                                      {cls.locationBuilding
+                                        ? `${cls.locationBuilding} - ${cls.locationRoom}`
+                                        : cls.location}
+                                    </p>
+                                    <p>
+                                      <span className="font-semibold">Weeks:</span> {extractWeeksInfo(cls.class)}
+                                    </p>
                                     {cls.teachingStaff && <p>Staff: {cls.teachingStaff}</p>}
                                     <div className="flex gap-2 mt-2">
                                       <Badge variant="outline" className="text-xs">
@@ -370,41 +471,36 @@ export function WeeklyTimetable({
                           const position = calculateClassPosition(cls)
                           const colors = getUnitColor(cls.unitCode)
                           const activityTypeFull = formatActivityType(cls.activityType)
+                          const weeksInfo = extractWeeksInfo(cls.class)
 
                           // Check for overlaps with selected classes
-                          const overlappingWithSelected = selectedClasses.some(
-                            (selected) =>
-                              selected.dayFormatted === cls.dayFormatted &&
-                              doTimesOverlap(
-                                selected.dayFormatted,
-                                selected.startTime,
-                                selected.endTime,
-                                cls.dayFormatted,
-                                cls.startTime,
-                                cls.endTime,
-                              ),
+                          const overlappingWithSelected = selectedClasses.some((selected) =>
+                            doClassesOverlap(selected, cls, true),
                           )
 
                           return (
                             <div
                               key={`preview-${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.location}-${idx}`}
-                              className={`absolute rounded-md border-dashed border ${colors.bg.replace("/50", "/30")} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-70 transition-all duration-200`}
+                              className={`absolute rounded-md border-dashed border ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-90 transition-all duration-200`}
                               style={{
                                 top: position.top,
                                 height: position.height,
                                 width: "calc(100% - 4px)",
                                 left: "2px",
                                 zIndex: 5,
-                                borderColor: overlappingWithSelected ? "rgba(234, 179, 8, 0.5)" : undefined,
+                                backgroundColor: "rgba(0, 58, 110, 0.15)",
+                                borderColor: overlappingWithSelected ? "rgba(234, 179, 8, 0.8)" : undefined,
+                                borderWidth: "1.5px",
                               }}
                             >
-                              <div className="font-medium truncate">
+                              <div className="font-medium break-words">
                                 {cls.unitCode} {activityTypeFull}
                               </div>
-                              <div className="text-xs whitespace-nowrap truncate">
+                              <div className="text-xs whitespace-normal break-words">
                                 {cls.startTime} - {cls.endTime}
                               </div>
-                              <div className="text-xs truncate">{cls.location}</div>
+                              <div className="text-xs break-words">{cls.location}</div>
+                              <div className="text-xs break-words">{weeksInfo}</div>
                             </div>
                           )
                         }
@@ -414,34 +510,28 @@ export function WeeklyTimetable({
                       {/* Render hovered class preview */}
                       {isHoveredHere && hoveredClass && timeToHour(hoveredClass.startTime) === hour && (
                         <div
-                          className="absolute inset-x-0 rounded-md border border-dashed bg-[#003A6E]/5 dark:bg-blue-900/20 p-1 overflow-hidden text-xs transition-all duration-200 animate-in fade-in-50"
+                          className="absolute inset-x-0 rounded-md border border-dashed p-1 overflow-hidden text-xs transition-all duration-200 animate-in fade-in-50"
                           style={{
                             ...calculateClassPosition(hoveredClass),
                             zIndex: 5,
                             margin: "0 2px",
-                            borderColor: selectedClasses.some(
-                              (selected) =>
-                                selected.dayFormatted === hoveredClass.dayFormatted &&
-                                doTimesOverlap(
-                                  selected.dayFormatted,
-                                  selected.startTime,
-                                  selected.endTime,
-                                  hoveredClass.dayFormatted,
-                                  hoveredClass.startTime,
-                                  hoveredClass.endTime,
-                                ),
+                            backgroundColor: "rgba(0, 58, 110, 0.2)",
+                            borderColor: selectedClasses.some((selected) =>
+                              doClassesOverlap(selected, hoveredClass, true),
                             )
-                              ? "rgba(234, 179, 8, 0.5)"
-                              : undefined,
+                              ? "rgba(234, 179, 8, 0.8)"
+                              : "rgba(0, 58, 110, 0.6)",
+                            borderWidth: "1.5px",
                           }}
                         >
-                          <div className="font-medium truncate">
+                          <div className="font-medium break-words">
                             {hoveredClass.unitCode} {formatActivityType(hoveredClass.activityType)}
                           </div>
-                          <div className="text-xs whitespace-nowrap truncate">
+                          <div className="text-xs whitespace-normal break-words">
                             {hoveredClass.startTime} - {hoveredClass.endTime}
                           </div>
-                          <div className="text-xs truncate">{hoveredClass.location}</div>
+                          <div className="text-xs break-words">{hoveredClass.location}</div>
+                          <div className="text-xs break-words">{extractWeeksInfo(hoveredClass.class)}</div>
                         </div>
                       )}
                     </div>
@@ -455,4 +545,3 @@ export function WeeklyTimetable({
     </Card>
   )
 }
-

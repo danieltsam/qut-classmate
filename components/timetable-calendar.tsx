@@ -142,4 +142,3 @@ export function TimetableCalendar({ entries }: TimetableCalendarProps) {
     </div>
   )
 }
-

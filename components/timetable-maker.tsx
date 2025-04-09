@@ -9,7 +9,7 @@ import { exportToICS } from "@/lib/export-utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Download, Calendar } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
-import { doTimesOverlap } from "@/lib/format-utils"
+import { doClassesOverlap, extractWeeksInfo, formatActivityType } from "@/lib/format-utils"
 
 export function TimetableMaker() {
   const { toast } = useToast()
@@ -128,19 +128,13 @@ export function TimetableMaker() {
         return
       }
 
-      // Check for time overlap
-      if (
-        doTimesOverlap(
-          selected.dayFormatted,
-          selected.startTime,
-          selected.endTime,
-          newClass.dayFormatted,
-          newClass.startTime,
-          newClass.endTime,
-        )
-      ) {
+      // Check for time and week overlap
+      if (doClassesOverlap(selected, newClass)) {
+        const selectedWeeks = extractWeeksInfo(selected.class)
+        const newClassWeeks = extractWeeksInfo(newClass.class)
+
         conflicts.push(
-          `Conflicts with ${selected.unitCode} ${selected.classTitle || selected.activityType} on ${selected.dayFormatted} at ${selected.startTime}-${selected.endTime}`,
+          `Conflicts with ${selected.unitCode} ${selected.classTitle || selected.activityType} on ${selected.dayFormatted} at ${selected.startTime}-${selected.endTime} (${selectedWeeks} overlaps with ${newClassWeeks})`,
         )
       }
     })
@@ -150,7 +144,10 @@ export function TimetableMaker() {
 
   // Generate a unique ID for a class entry
   const generateUniqueClassId = (classEntry: TimetableEntry): string => {
-    return `${classEntry.unitCode}-${classEntry.activityType}-${classEntry.dayFormatted}-${classEntry.startTime}-${classEntry.endTime}-${classEntry.location}`
+    // Extract week information to include in the ID
+    const weekInfo = extractWeeksInfo(classEntry.class)
+
+    return `${classEntry.unitCode}-${classEntry.activityType}-${classEntry.dayFormatted}-${classEntry.startTime}-${classEntry.endTime}-${classEntry.location}-${weekInfo}`
   }
 
   // Check if two classes are the same (same unit, activity, day, time, location, and class description)
@@ -162,7 +159,7 @@ export function TimetableMaker() {
       class1.startTime === class2.startTime &&
       class1.endTime === class2.endTime &&
       class1.location === class2.location &&
-      class1.class === class2.class // Include the class description to differentiate between online/on-campus
+      extractWeeksInfo(class1.class) === extractWeeksInfo(class2.class) // Compare week information
     )
   }
 
@@ -189,6 +186,14 @@ export function TimetableMaker() {
       // Check for conflicts before selecting
       const newConflicts = checkConflicts(classEntry)
 
+      // Check if a class with the same activity type and unit code is already selected
+      const duplicateActivityType = selectedClasses.find(
+        (cls) =>
+          cls.unitCode === classEntry.unitCode &&
+          cls.activityType === classEntry.activityType &&
+          !isSameClass(cls, classEntry),
+      )
+
       // Add the new selection (without removing existing classes of the same type)
       setSelectedClasses([
         ...selectedClasses,
@@ -207,11 +212,21 @@ export function TimetableMaker() {
           description:
             "This class conflicts with other classes in your timetable. You can still add it, but be aware of the overlap.",
           variant: "destructive",
-          duration: 5000,
+          duration: 15000,
         })
       } else {
         setConflicts([])
+      }
 
+      // Show warning if duplicate activity type
+      if (duplicateActivityType) {
+        toast({
+          title: "Duplicate Activity Type",
+          description: `You've added another ${formatActivityType(classEntry.activityType)} for ${classEntry.unitCode}. This is unusual but allowed.`,
+          variant: "warning",
+          duration: 15000,
+        })
+      } else {
         toast({
           title: "Class added",
           description: `${classEntry.unitCode} ${classEntry.classTitle || classEntry.activityType} has been added to your timetable.`,
@@ -296,11 +311,16 @@ export function TimetableMaker() {
         .replace(/\.\d{3}Z$/, "")
         .replace(/[-:]/g, "")
 
+      // Get weeks information
+      const weeksInfo = extractWeeksInfo(cls.class)
+
       // Create Google Calendar URL for this class
       let url = `${baseUrl}&text=${encodeURIComponent(`${cls.unitCode} - ${cls.classTitle || cls.activityType}`)}`
       url += `&dates=${start}/${end}`
       url += `&location=${encodeURIComponent(cls.location)}`
-      url += `&details=${encodeURIComponent(`${cls.class}\nTeaching Staff: ${cls.teachingStaff}`)}`
+      url += `&details=${encodeURIComponent(`${cls.class}
+Teaching Staff: ${cls.teachingStaff}
+${weeksInfo}`)}`
 
       // Open in a new tab with a slight delay to prevent popup blocking
       setTimeout(() => {
@@ -393,4 +413,3 @@ export function TimetableMaker() {
     </div>
   )
 }
-

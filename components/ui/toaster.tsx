@@ -22,4 +22,3 @@ export function Toaster() {
     </ToastProvider>
   )
 }
-

@@ -40,18 +40,7 @@ export function TimetableTable({ entries, onViewInTimetableMaker }: TimetableTab
 
   // Extract weeks information
   const getWeeksInfo = (entry: TimetableEntry): string => {
-    // Default to "Weeks 1-13" if we can't extract specific weeks
-    let weeksInfo = "Weeks 1-13"
-
-    // Try to extract weeks from class info
-    const classInfo = entry.class
-    const weeksMatch = classInfo.match(/Week[s]?\s+(\d+)[-–](\d+)/i)
-
-    if (weeksMatch && weeksMatch.length >= 3) {
-      weeksInfo = `Weeks ${weeksMatch[1]}-${weeksMatch[2]}`
-    }
-
-    return weeksInfo
+    return extractWeeksInfo(entry.class)
   }
 
   // Handle sorting
@@ -178,9 +167,7 @@ export function TimetableTable({ entries, onViewInTimetableMaker }: TimetableTab
               >
                 <TableCell className="font-medium">
                   <div>{formatActivityType(entry.activityType)}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {weeksInfo.replace("Weeks", "Week")} {classMode && `| ${classMode}`}
-                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{weeksInfo}</div>
                 </TableCell>
                 <TableCell>{entry.dayFormatted}</TableCell>
                 <TableCell>
@@ -223,7 +210,11 @@ export function TimetableTable({ entries, onViewInTimetableMaker }: TimetableTab
                         </div>
                         <div>
                           <p className="text-sm font-medium text-[#003A6E] dark:text-blue-300">Location</p>
-                          <p className="text-sm">{entry.location}</p>
+                          <p className="text-sm">
+                            {entry.locationBuilding
+                              ? `${entry.locationBuilding} - ${entry.locationRoom}`
+                              : entry.location}
+                          </p>
                         </div>
                         {entry.teachingStaff && (
                           <div>
@@ -267,3 +258,32 @@ export function TimetableTable({ entries, onViewInTimetableMaker }: TimetableTab
   )
 }
 
+// Function to extract weeks information from class string
+const extractWeeksInfo = (classInfo: string): string => {
+  // Try to match week in parentheses pattern (e.g., "(Week 9)")
+  const parenthesesMatch = classInfo.match(/$$Week\s+(\d+)$$/i)
+  if (parenthesesMatch && parenthesesMatch.length >= 2) {
+    return `Week ${parenthesesMatch[1]}`
+  }
+
+  // Try to extract specific week patterns
+  const weekRangeMatch = classInfo.match(/Week[s]?\s+(\d+)[-–](\d+)/i)
+  if (weekRangeMatch && weekRangeMatch.length >= 3) {
+    return `Weeks ${weekRangeMatch[1]}-${weekRangeMatch[2]}`
+  }
+
+  // Try to match single week pattern (e.g., "Week 9")
+  const singleWeekMatch = classInfo.match(/Week\s+(\d+)(?!\s*[-–])/i)
+  if (singleWeekMatch && singleWeekMatch.length >= 2) {
+    return `Week ${singleWeekMatch[1]}`
+  }
+
+  // Try to match multiple individual weeks (e.g., "Weeks 1, 3, 5")
+  const multipleWeeksMatch = classInfo.match(/Weeks\s+(\d+(?:,\s*\d+)+)/i)
+  if (multipleWeeksMatch && multipleWeeksMatch.length >= 2) {
+    return `Weeks ${multipleWeeksMatch[1]}`
+  }
+
+  // Default to "Weeks 1-13" if no specific pattern is found
+  return "Weeks 1-13"
+}

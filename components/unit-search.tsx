@@ -6,7 +6,6 @@ import { useState, useEffect } from "react"
 import type { TimetableEntry } from "@/lib/types"
 import { TimetableResults } from "./timetable-results"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, Search, AlertCircle, Info } from "lucide-react"
@@ -18,6 +17,7 @@ import { useRouter } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 import { useRateLimit } from "@/context/RateLimitContext"
+import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
 
 // Constants for request throttling (client-side)
 const REQUEST_INTERVAL = 2000 // 2 seconds
@@ -220,7 +220,7 @@ export function UnitSearch() {
           toast({
             title: "Search Limit Warning",
             description: `You have only ${result.remainingRequests} searches remaining today.`,
-            duration: 5000,
+            duration: 15000,
           })
         }
       }
@@ -293,18 +293,17 @@ export function UnitSearch() {
                     </PopoverContent>
                   </Popover>
                 </div>
-                <Input
-                  id="unitCode"
-                  placeholder="e.g. CAB202"
-                  value={unitCode}
-                  onChange={(e) => {
-                    setUnitCode(e.target.value)
-                    if (validationError) validateUnitCode(e.target.value)
-                  }}
-                  required
-                  disabled={isLoading || isRateLimited || isPendingRequest}
-                  className="focus-visible:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
-                />
+                <div className="relative" style={{ position: "relative", zIndex: 50 }}>
+                  <UnitCodeAutocomplete
+                    value={unitCode}
+                    onChange={(value) => {
+                      setUnitCode(value)
+                      if (validationError) validateUnitCode(value)
+                    }}
+                    disabled={isLoading || isRateLimited || isPendingRequest}
+                    placeholder="e.g. CAB202"
+                  />
+                </div>
                 {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
               </div>
               <div className="space-y-2">
@@ -323,16 +322,28 @@ export function UnitSearch() {
                     id="teachingPeriod"
                     className="focus:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
                   >
-                    <SelectValue placeholder="Select a teaching period" />
+                    <SelectValue placeholder="Select a teaching period">
+                      {teachingPeriods.find((p) => p.id === teachingPeriodId)?.name}
+                      {teachingPeriods.find((p) => p.id === teachingPeriodId)?.campus
+                        ? ` @ ${teachingPeriods.find((p) => p.id === teachingPeriodId)?.campus}`
+                        : ""}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="dark:bg-gray-800 rounded-lg">
+                  <SelectContent className="dark:bg-gray-800 rounded-lg max-w-[350px] w-[var(--radix-select-trigger-width)]">
                     {teachingPeriods.map((period) => (
                       <SelectItem
                         key={period.id}
                         value={period.id}
-                        className="focus:bg-[#003A6E]/10 dark:focus:bg-blue-900/30 transition-colors duration-200"
+                        className="focus:bg-[#003A6E]/10 dark:focus:bg-blue-900/30 transition-colors duration-200 whitespace-normal"
                       >
-                        {period.name} {period.campus ? `- ${period.campus}` : ""}
+                        <div className="flex flex-col">
+                          <span>
+                            {period.name} {period.campus ? `@ ${period.campus}` : ""}
+                          </span>
+                          {period.dateRange && (
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{period.dateRange}</span>
+                          )}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -409,4 +420,3 @@ export function UnitSearch() {
     </div>
   )
 }
-

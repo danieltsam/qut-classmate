@@ -361,4 +361,3 @@ function parseLocation(location: string): { building: string; room: string } {
   // Example location strings: "GP-Z9-432", "B Block, Level 4"
   return { building: location, room: "" }
 }
-

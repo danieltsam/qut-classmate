@@ -35,7 +35,7 @@ export default function Home() {
   }
 
   return (
-    <main className="container mx-auto py-10 px-4 min-h-screen flex flex-col">
+    <main className="container mx-auto py-10 px-4 flex flex-col">
       <div
         className={`flex justify-end space-x-4 mb-4 items-center transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       >
@@ -70,7 +70,7 @@ export default function Home() {
             value="timetable"
             className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200"
           >
-            Timetable Maker
+            Timetable Creator
           </TabsTrigger>
         </TabsList>
 
@@ -91,4 +91,3 @@ export default function Home() {
     </main>
   )
 }
-

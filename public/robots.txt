@@ -4,4 +4,3 @@ Allow: /
 
 # Sitemap location
 Sitemap: https://qut-classmate.vercel.app/sitemap.xml
-

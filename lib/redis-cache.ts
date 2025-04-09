@@ -96,4 +96,3 @@ export async function clearAllCache(): Promise<number> {
     return 0
   }
 }
-
