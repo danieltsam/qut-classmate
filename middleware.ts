@@ -131,4 +131,3 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/api/timetable/:path*", "/api/check-rate-limit"],
 }
-
