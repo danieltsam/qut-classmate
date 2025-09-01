@@ -1,4 +1,4 @@
-# QUT Classmate App
+# <div align="center"> QUT Classmate App </div>
 
 **QUT Classmate** is a scheduling and unit planning app built specifically for students at the Queensland University of Technology (QUT). It's designed to solve the frustrations of using Allocate+ and streamline the process of planning your semester. Built using a modern full-stack architecture, the app is performance-optimized and AI-enhanced.
 
