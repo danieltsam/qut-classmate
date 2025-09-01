@@ -23,43 +23,37 @@ QUT Classmate was built to help students more easily search for units, view clas
 ## Features
 
 ### ✅ Unit Search
-- Fast, accurate search by unit code (e.g. CAB202)
-- See a table of class times, locations, and staff
-- Button to view the unit directly in the Timetable Creator
+- Fast, accurate search by unit code with sortable results table
 - Grouped results by class type with clear week info and online/internal tags
-- Sortable and rounded results table
 
 ### 🗓️ Timetable Creator
-- Select the classes you want, drag and drop them into your weekly view
-- Conflicts highlighted (but not blocked)
-- Class-type highlighting on hover
-- Clean rounded design with sticky timetable layout
-- Export your plan to `.ics` or Google Calendar
-- Toggle between light and dark mode with cool animations
+- Drag and drop classes into your weekly view with conflict highlighting
+- Clean rounded design with sticky layout and export to `.ics` or Google Calendar
 
 ### ⚡ Auto Timetable Generator
-- Instantly generates thousands of timetable combinations using Monte Carlo simulations
-- Automatically selects the most optimised plan based on your preferences
-- Preferences include unavailability blocks, day distribution, and gap minimisation
-- Conflict detection and smart resolution built-in
-- Blazing fast generation (5000+ iterations in under a second)
-- Option to keep or discard generated timetables for more control
+- Instantly generates thousands of optimized timetable combinations using Monte Carlo simulations
+- Smart preferences for unavailability blocks, day distribution, and gap minimization
+
+### 📝 Unit Reviews
+- Read and write reviews for units with rating system for difficulty and usefulness
+- Search and sort reviews with moderation capabilities
 
 ### ☁️ Export / Import
 - Export your final timetable as a `.ics` file or sync it with Google Calendar
-- Each class exports individually and accurately
-- Animations and clean UX for transitions
+- Clean UX with animations for smooth transitions
 
 ---
 
 ## Usage
 
-1. **Search for Units**: Enter a valid QUT unit code (e.g. CAB202).
-2. **Add to Timetable**: Select class times that work for you.
-3. **Preview**: See your week view and adjust as needed.
-4. **Auto Generate**: Let the app create an optimal timetable instantly.
-5. **Export**: Download an `.ics` or sync directly to Google Calendar.
-6. **Theme Toggle**: Use the switch to go light/dark with a smooth animated fade.
+### 📚 **First-Year Student - Sarah**
+Sarah is starting her Exercise Science degree while working part-time at a local gym. She blocks out her work shifts as unavailable times, uses the auto-generator to create multiple timetable options, and exports her chosen schedule to Google Calendar to coordinate with her manager.
+
+### 🎓 **Final-Year Student - Marcus** 
+Marcus is completing his Engineering degree while working full-time as a consulting engineer. His workload varies between busy client days and quiet office time, so he uses Unit Search to find all available tutorial times and drops into sessions when work is lighter.
+
+### 📖 **Course Planning - Alex**
+Alex is a second-year Business student choosing electives for next semester. He reads unit reviews from other students, compares difficulty and usefulness ratings, tests different timetable combinations, and makes informed enrollment decisions based on both reviews and schedule fit.
 
 ---
 
@@ -101,7 +95,6 @@ This app was heavily assisted by AI-powered coding tools, primarily **v0** by Ve
 
 ---
 
-
 ## Changelog
 
 ### v1.1
@@ -141,9 +134,9 @@ This app was heavily assisted by AI-powered coding tools, primarily **v0** by Ve
 - Improved warnings for missing classes in auto-generated timetables
 - Fixed issue where selected classes weren't being added to search history
 - Optimized display of 1-hour classes to fit more information
-
-*repo is currently on v1.4, v1.5 hasn't been uploaded yet.
+- Fixed API compatibility for new QUT timetable system in Semester 2, 2025
 
 ---
 
 Thanks for checking out QUT Classmate! Built by a student, for students. 🚀
+\`\`\`
