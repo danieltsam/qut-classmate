@@ -5,6 +5,7 @@ import { createPortal } from "react-dom"
 import { Input } from "@/components/ui/input"
 import { Check } from "lucide-react"
 import { filterUnitCodes } from "@/lib/unit-codes"
+import { useState } from "react"
 
 interface UnitCodeAutocompleteProps {
   value: string
@@ -24,6 +25,8 @@ export function UnitCodeAutocomplete({
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [position, setPosition] = React.useState({ top: 0, left: 0, width: 0 })
   const [isMounted, setIsMounted] = React.useState(false)
+  const [selectedUnit, setSelectedUnit] = useState<string | null>(null)
+  const [isClosing, setIsClosing] = useState(false)
 
   // Set mounted state after component mounts
   React.useEffect(() => {
@@ -33,13 +36,29 @@ export function UnitCodeAutocomplete({
 
   // Update position when input changes or when dropdown opens
   React.useEffect(() => {
-    if (inputRef.current && open) {
-      const rect = inputRef.current.getBoundingClientRect()
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width,
-      })
+    // Function to update dropdown position
+    const updatePosition = () => {
+      if (inputRef.current && open) {
+        const rect = inputRef.current.getBoundingClientRect()
+        setPosition({
+          top: rect.bottom,
+          left: rect.left,
+          width: rect.width,
+        })
+      }
+    }
+
+    // Initial position update
+    updatePosition()
+
+    // Add event listeners for scroll and resize
+    window.addEventListener("scroll", updatePosition, true) // true for capture phase
+    window.addEventListener("resize", updatePosition)
+
+    // Clean up event listeners
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true)
+      window.removeEventListener("resize", updatePosition)
     }
   }, [open, value])
 
@@ -63,9 +82,21 @@ export function UnitCodeAutocomplete({
 
   // Handle direct click on a suggestion
   const handleSuggestionClick = (code: string) => {
+    // Immediately update the input value
     onChange(code)
-    setOpen(false) // This should close the dropdown immediately
-    setSuggestions([]) // Also clear suggestions to ensure dropdown disappears
+    setSelectedUnit(code)
+    setIsClosing(true)
+
+    // Force blur on the input to ensure the dropdown closes properly
+    inputRef.current?.blur()
+
+    // Wait a short time before closing the dropdown
+    setTimeout(() => {
+      setOpen(false)
+      setSuggestions([])
+      setSelectedUnit(null)
+      setIsClosing(false)
+    }, 100) // Reduced from 1000ms to 100ms for better responsiveness
   }
 
   // Create dropdown portal
@@ -74,11 +105,15 @@ export function UnitCodeAutocomplete({
 
     return createPortal(
       <div
-        className="fixed z-[9999] bg-white dark:bg-gray-800 rounded-md border shadow-md"
+        className={`fixed z-[9999] bg-white dark:bg-gray-800 rounded-md border shadow-md transition-opacity duration-300 ${
+          isClosing ? "opacity-0" : "opacity-100"
+        }`}
         style={{
           top: `${position.top}px`,
           left: `${position.left}px`,
           width: `${position.width}px`,
+          position: "fixed", // Use fixed positioning to stay in place during scroll
+          zIndex: 9999, // Ensure high z-index
         }}
       >
         {suggestions.map((code, index) => (
@@ -86,14 +121,25 @@ export function UnitCodeAutocomplete({
             key={code}
             className={`px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center text-sm text-gray-700 dark:text-gray-300 ${
               index === suggestions.length - 1 ? "rounded-b-md mb-1" : ""
-            }`}
+            } ${code === selectedUnit ? "bg-blue-50 dark:bg-blue-900/20" : ""}`}
             onMouseDown={(e) => {
               // Prevent the input's onBlur from firing before the click
               e.preventDefault()
+              e.stopPropagation() // Stop event from bubbling up to modal
             }}
-            onClick={() => handleSuggestionClick(code)}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation() // Stop event from bubbling up to modal
+              handleSuggestionClick(code)
+            }}
           >
-            <Check className="mr-2 h-4 w-4 flex-shrink-0" style={{ opacity: value === code ? 1 : 0 }} />
+            <Check
+              className="mr-2 h-4 w-4 flex-shrink-0 transition-opacity duration-200"
+              style={{
+                opacity: code === value || code === selectedUnit ? 1 : 0,
+                color: code === selectedUnit ? "#003A6E" : "currentColor",
+              }}
+            />
             <span>{code}</span>
           </div>
         ))}

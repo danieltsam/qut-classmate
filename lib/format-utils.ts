@@ -2,16 +2,31 @@
 export const activityTypeMap: Record<string, string> = {
   STU: "Studio",
   TUT: "Tutorial",
+  TU1: "Tutorial 1",
+  TU2: "Tutorial 2",
   LEC: "Lecture",
+  LC1: "Lecture 1",
+  LC2: "Lecture 2",
   PRC: "Practical",
+  PR1: "Practical 1",
+  PR2: "Practical 2",
+  PR3: "Practical 3",
   AS1: "Assessment 1",
   AS2: "Assessment 2",
   WOR: "Workshop",
   PRA: "Practical",
-  PR1: "Practical 1",
-  PR2: "Practical 2",
   LAB: "Laboratory",
   CON: "Consultation",
+  ASS: "Assessment",
+  CLN: "Clinical",
+  COA: "Community Activity",
+  FTR: "Field Trip / Field Training",
+  GSL: "Guided Self Learning",
+  HCL: "Hospital Clinical Learning",
+  PFC: "Portfolio Class",
+  SIM: "Simulation",
+  VIRTUAL: "Virtual",
+  RoomsPlus: "RoomsPlus Booking",
 }
 
 // Day name mapping
@@ -93,38 +108,71 @@ export function timeToMinutes(timeStr: string): number {
   return hour * 60 + minute
 }
 
-// Update the extractWeeksInfo function to be more robust
-// Replace the current extractWeeksInfo function with this improved version:
-
-// Extract weeks information from class description
+// Update the extractWeeksInfo function to properly handle ranges like "Weeks 1-13"
 export function extractWeeksInfo(classInfo: string): string {
-  // Try to match week in parentheses pattern (e.g., "(Week 9)")
-  const parenthesesMatch = classInfo.match(/$$Week\s+(\d+)$$/i)
-  if (parenthesesMatch && parenthesesMatch.length >= 2) {
-    return `Week ${parenthesesMatch[1]}`
-  }
+  if (!classInfo) return "Weeks 1-13"
 
-  // Try to extract specific week patterns
+  // Try to match week range pattern (e.g., "Weeks 1-13" or "Week 1-12")
   const weekRangeMatch = classInfo.match(/Week[s]?\s+(\d+)[-–](\d+)/i)
   if (weekRangeMatch && weekRangeMatch.length >= 3) {
     return `Weeks ${weekRangeMatch[1]}-${weekRangeMatch[2]}`
   }
 
-  // Try to match single week pattern (e.g., "Week 9")
-  const singleWeekMatch = classInfo.match(/Week\s+(\d+)(?!\s*[-–])/i)
-  if (singleWeekMatch && singleWeekMatch.length >= 2) {
-    return `Week ${singleWeekMatch[1]}`
+  // Try to match parentheses pattern with commas (e.g., "(Week 3, 7)")
+  const parenthesesMatch = classInfo.match(/$$Week[s]?\s+(\d+(?:,\s*\d+)*)(?:\s*&\s*\d+)*$$/i)
+  if (parenthesesMatch && parenthesesMatch.length >= 2) {
+    console.log("Parentheses match found:", parenthesesMatch[1])
+    // Format with commas and & for the final week
+    return formatWeekNumbers(parenthesesMatch[1])
+  }
+
+  // Try to match simple "Week X, Y" pattern without parentheses
+  const simpleMatch = classInfo.match(/Week[s]?\s+(\d+(?:,\s*\d+)*(?:\s*&\s*\d+)*)/i)
+  if (simpleMatch && simpleMatch.length >= 2) {
+    console.log("Simple match found:", simpleMatch[1])
+    // Format with commas and & for the final week
+    return formatWeekNumbers(simpleMatch[1])
   }
 
   // Try to match multiple individual weeks (e.g., "Weeks 1, 3, 5")
-  const multipleWeeksMatch = classInfo.match(/Weeks\s+(\d+(?:,\s*\d+)+)/i)
+  const multipleWeeksMatch = classInfo.match(/Weeks\s+(\d+(?:,\s*\d+)+)(?:\s*&\s*\d+)*/i)
   if (multipleWeeksMatch && multipleWeeksMatch.length >= 2) {
-    return `Weeks ${multipleWeeksMatch[1]}`
+    // Format with commas and & for the final week
+    return `Weeks ${formatWeekNumbers(multipleWeeksMatch[1])}`
+  }
+
+  // Try to match single week pattern (e.g., "Week 9")
+  const singleWeekMatch = classInfo.match(/Week\s+(\d+)(?!\s*[-–]|\s*,)/i)
+  if (singleWeekMatch && singleWeekMatch.length >= 2) {
+    return `Week ${singleWeekMatch[1]}`
   }
 
   // Default to "Weeks 1-13" if no specific pattern is found
   return "Weeks 1-13"
 }
+
+// Helper function to format week numbers with commas and & for the final week
+function formatWeekNumbers(weekStr: string): string {
+  // Extract all numbers from the string
+  const numbers = weekStr
+    .split(/[,&\s]+/)
+    .filter((n) => /^\d+$/.test(n))
+    .map(Number)
+
+  if (numbers.length === 0) return weekStr
+  if (numbers.length === 1) return `Week ${numbers[0]}`
+
+  // Sort the numbers
+  numbers.sort((a, b) => a - b)
+
+  // Format with commas and & for the final week
+  const formattedWeeks =
+    numbers.length > 1 ? numbers.slice(0, -1).join(", ") + " & " + numbers[numbers.length - 1] : numbers[0].toString()
+
+  return `Week${numbers.length > 1 ? "s" : ""} ${formattedWeeks}`
+}
+
+// Update the parseWeeks function to handle the new format
 
 // Parse weeks into an array of week numbers
 export function parseWeeks(weeksInfo: string): number[] {
@@ -148,10 +196,11 @@ export function parseWeeks(weeksInfo: string): number[] {
     return weeks
   }
 
-  // Handle comma-separated weeks "Weeks X, Y, Z"
-  const commaMatch = weeksInfo.match(/Weeks\s+([\d,\s]+)/i)
+  // Handle comma-separated or ampersand-separated weeks "Weeks X, Y, Z" or "Weeks X, Y & Z"
+  const commaMatch = weeksInfo.match(/Weeks\s+([\d,\s&]+)/i)
   if (commaMatch) {
-    const weekNumbers = commaMatch[1].split(",").map((w) => Number.parseInt(w.trim(), 10))
+    // Split by both commas and ampersands
+    const weekNumbers = commaMatch[1].split(/[,&]/).map((w) => Number.parseInt(w.trim(), 10))
     return weekNumbers.filter((w) => !isNaN(w))
   }
 
@@ -255,4 +304,59 @@ export function generateClassId(classEntry: {
   const weekInfo = extractWeeksInfo(classEntry.class)
 
   return `${classEntry.unitCode || ""}-${classEntry.activityType}-${classEntry.dayFormatted}-${classEntry.startTime}-${classEntry.endTime}-${weekInfo}`
+}
+
+// Helper function to combine week information
+const combineWeekInfo = (week1: string, week2: string): string => {
+  // Extract just the week numbers from strings like "Week 9" or "Weeks 1-13" or "Weeks 3 & 7"
+  const extractNumbers = (weekStr: string): number[] => {
+    const numbers: number[] = []
+
+    // Handle ranges like "Weeks 1-13"
+    const rangeMatch = weekStr.match(/Weeks\s+(\d+)-(\d+)/i)
+    if (rangeMatch) {
+      const start = Number.parseInt(rangeMatch[1])
+      const end = Number.parseInt(rangeMatch[2])
+      for (let i = start; i <= end; i++) {
+        numbers.push(i)
+      }
+      return numbers
+    }
+
+    // Handle single weeks like "Week 9"
+    const singleMatch = weekStr.match(/Week\s+(\d+)/i)
+    if (singleMatch) {
+      numbers.push(Number.parseInt(singleMatch[1]))
+      return numbers
+    }
+
+    // Handle comma-separated or ampersand-separated weeks like "Weeks 1, 3, 5" or "Weeks 3 & 7"
+    const commaMatch = weekStr.match(/Weeks\s+([\d,\s&]+)/i)
+    if (commaMatch) {
+      // Split by both commas and ampersands
+      const weekNumbers = commaMatch[1].split(/[,&]/).map((w) => Number.parseInt(w.trim()))
+      return weekNumbers.filter((w) => !isNaN(w))
+    }
+
+    return numbers
+  }
+
+  // Extract week numbers from both strings
+  const numbers1 = extractNumbers(week1)
+  const numbers2 = extractNumbers(week2)
+
+  // Combine and sort all week numbers
+  const allNumbers = [...new Set([...numbers1, ...numbers2])].sort((a, b) => a - b)
+
+  // If we have no numbers, return the original
+  if (allNumbers.length === 0) return week1
+
+  // Format the combined week information
+  if (allNumbers.length === 1) {
+    return `Week ${allNumbers[0]}`
+  } else {
+    // Format with commas and & for the final week
+    const formattedWeeks = allNumbers.slice(0, -1).join(", ") + " & " + allNumbers[allNumbers.length - 1]
+    return `Weeks ${formattedWeeks}`
+  }
 }

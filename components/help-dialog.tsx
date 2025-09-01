@@ -49,9 +49,9 @@ export function HelpDialog() {
           <span className="sr-only">Help</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px] max-h-[80vh] dark:bg-gray-900 dark:text-white rounded-xl shadow-lg overflow-hidden overflow-y-auto">
+      <DialogContent className="sm:max-w-[625px] max-h-[90vh] overflow-y-auto dark:bg-gray-900 transition-colors duration-300 rounded-xl mx-2 sm:mx-auto p-3 sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-[#003A6E] dark:text-blue-300 text-xl text-center animate-in fade-in-50 duration-300">
+          <DialogTitle className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300 text-center">
             Need a hand?
           </DialogTitle>
           <DialogDescription
@@ -188,7 +188,26 @@ export function HelpDialog() {
                 <li>Remove classes by clicking on them in the timetable.</li>
                 <li>Export your final timetable to a calendar file or Google Calendar.</li>
                 <li>Hover over class types to preview all matching classes.</li>
+                <li>
+                  Use the Auto Generate Timetable feature to automatically create an optimal timetable based on your
+                  preferences.
+                </li>
+                <li>Choose between spreading classes across multiple days or compacting them into fewer days.</li>
               </ol>
+
+              <h3 className="font-semibold text-[#003A6E] dark:text-blue-300 mt-4 text-center">
+                Auto Timetable Generator:
+              </h3>
+              <p className="mt-2">The Auto Timetable Generator helps you create an optimal timetable automatically:</p>
+              <ol className="list-decimal pl-5 space-y-2 mt-2">
+                <li>Click the "Auto Generate Timetable" button at the top of the timetable view.</li>
+                <li>Add your units in the first step.</li>
+                <li>Choose your preferred day distribution: spread out, balanced, or compact.</li>
+                <li>Mark your unavailable times in the second step by clicking and dragging on the grid.</li>
+                <li>Click "Generate Timetable" to create an optimal schedule that avoids your unavailable times.</li>
+                <li>Review the generated timetable and click "Apply to Timetable" to add it to your schedule.</li>
+              </ol>
+
               <p className="italic text-sm text-gray-600 dark:text-gray-400 mt-2 text-center">
                 The app will warn you about time conflicts between classes that occur in the same weeks, but you can
                 still add them anyway if you really want to.
@@ -199,6 +218,20 @@ export function HelpDialog() {
             <div className="animate-in fade-in-50 duration-300">
               <h3 className="font-semibold text-[#003A6E] dark:text-blue-300 text-center">Changelog</h3>
               <div className="mt-4 space-y-6 text-sm">
+                <div>
+                  <h4 className="font-semibold text-[#003A6E] dark:text-blue-300">v1.5</h4>
+                  <ul className="list-disc pl-5 space-y-1 mt-2">
+                    <li>Added Auto Timetable Generator to automatically create optimal schedules</li>
+                    <li>Improved mobile experience with sticky day headers in the timetable view</li>
+                    <li>Enhanced touch support for selecting unavailable times on mobile</li>
+                    <li>Added automatic unit selection when clicking from dropdown in Auto Timetable Generator</li>
+                    <li>Improved warnings for missing classes in auto-generated timetables</li>
+                    <li>Fixed issue where selected classes weren't being added to search history</li>
+                    <li>Added Redis caching for improved performance and reduced API calls</li>
+                    <li>Improved mobile responsiveness for modals and dialogs</li>
+                    <li>Optimized display of 1-hour classes to fit more information</li>
+                  </ul>
+                </div>
                 <div>
                   <h4 className="font-semibold text-[#003A6E] dark:text-blue-300">v1.4</h4>
                   <ul className="list-disc pl-5 space-y-1 mt-2">

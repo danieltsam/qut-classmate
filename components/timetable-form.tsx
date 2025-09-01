@@ -16,7 +16,7 @@ interface TimetableFormProps {
 
 export function TimetableForm({ onSubmit, isLoading }: TimetableFormProps) {
   const [unitCode, setUnitCode] = useState("")
-  const [teachingPeriodId, setTeachingPeriodId] = useState("621050") // Default to Semester 1 2025
+  const [teachingPeriodId, setTeachingPeriodId] = useState("621052") // Default to Semester 2 2025
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,13 +50,13 @@ export function TimetableForm({ onSubmit, isLoading }: TimetableFormProps) {
               <Label htmlFor="teachingPeriodId">Teaching Period ID</Label>
               <Input
                 id="teachingPeriodId"
-                placeholder="e.g. 621050"
+                placeholder="e.g. 621052"
                 value={teachingPeriodId}
                 onChange={(e) => setTeachingPeriodId(e.target.value)}
                 required
                 disabled={isLoading}
               />
-              <p className="text-xs text-gray-500">Default: 621050 (Semester 1 2025)</p>
+              <p className="text-xs text-gray-500">Default: 621052 (Semester 2 2025)</p>
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>

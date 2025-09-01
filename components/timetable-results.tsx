@@ -7,19 +7,21 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { getTeachingPeriodWithCampus } from "@/lib/teaching-periods"
-import { Download } from "lucide-react"
+import { Download, MessageSquare } from "lucide-react"
 import { exportToICS } from "@/lib/export-utils"
 import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 interface TimetableResultsProps {
   entries: TimetableEntry[]
   unitName?: string
-  onViewInTimetableMaker?: (entry: TimetableEntry) => void
+  onViewReviews?: (unitCode: string) => void
 }
 
-export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: TimetableResultsProps) {
+export function TimetableResults({ entries, unitName, onViewReviews }: TimetableResultsProps) {
   const { toast } = useToast()
   const [selectedActivityType, setSelectedActivityType] = useState<string | null>(null)
+  const router = useRouter()
 
   // Group entries by activity type
   const groupedByActivityType = entries.reduce<Record<string, TimetableEntry[]>>((acc, entry) => {
@@ -50,9 +52,31 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
     }
   }
 
+  // Handle view reviews button click
+  const handleViewReviews = () => {
+    if (entries[0]?.unitCode) {
+      const unitCode = entries[0].unitCode
+
+      // Store the unit name in localStorage
+      if (unitName) {
+        localStorage.setItem("lastReviewedUnitName", unitName)
+      }
+
+      // Navigate to the reviews tab
+      router.push(`/?tab=reviews&unitCode=${unitCode}`)
+
+      toast({
+        title: "Viewing Reviews",
+        description: `Showing reviews for ${unitCode}${unitName ? ` - ${unitName}` : ""}`,
+        duration: 3000,
+        className: "bg-[#003A6E] text-white dark:bg-blue-800 border-none shadow-lg",
+      })
+    }
+  }
+
   return (
     <div className="space-y-4 animate-in fade-in-50 duration-300">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <div>
           <div className="flex items-center">
             <h2 className="text-xl font-semibold text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
@@ -70,12 +94,21 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
           </p>
         </div>
 
-        <div className="flex space-x-2 animate-in slide-in-from-right-5 duration-300">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto animate-in slide-in-from-right-5 duration-300">
+          <Button
+            onClick={handleViewReviews}
+            variant="outline"
+            size="sm"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow flex-1 sm:flex-auto"
+          >
+            <MessageSquare className="mr-2 h-4 w-4" />
+            View Reviews
+          </Button>
           <Button
             onClick={handleExport}
             variant="outline"
             size="sm"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow flex-1 sm:flex-auto"
           >
             <Download className="mr-2 h-4 w-4" />
             Export (.ics)
@@ -126,8 +159,10 @@ export function TimetableResults({ entries, unitName, onViewInTimetableMaker }: 
         </div>
       )}
 
-      <div className="animate-in fade-in-50 slide-in-from-bottom-5 duration-700">
-        <TimetableTable entries={filteredEntries} onViewInTimetableMaker={onViewInTimetableMaker} />
+      <div className="animate-in fade-in-50 slide-in-from-bottom-5 duration-700 w-full">
+        <div className="w-full overflow-x-auto">
+          <TimetableTable entries={filteredEntries} />
+        </div>
       </div>
     </div>
   )

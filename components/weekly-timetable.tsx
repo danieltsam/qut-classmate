@@ -5,11 +5,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { formatActivityType, extractWeeksInfo, doClassesOverlap } from "@/lib/format-utils"
+import { useMediaQuery } from "@/hooks/use-mobile"
+import React, { useState } from "react"
 
 interface WeeklyTimetableProps {
   selectedClasses: SelectedClass[]
   hoveredClass: TimetableEntry | null
-  onClassToggle: (classEntry: TimetableEntry | SelectedClass) => void
+  onClassToggle: (classEntry: TimetableEntry | SelectedClass, isRemoval?: boolean) => void
   previewClasses?: TimetableEntry[]
 }
 
@@ -25,6 +27,20 @@ export function WeeklyTimetable({
   onClassToggle,
   previewClasses = [],
 }: WeeklyTimetableProps) {
+  const isMobile = useMediaQuery("(max-width: 768px)")
+  const [showScrollMessage, setShowScrollMessage] = useState(true)
+
+  // Hide scroll message after 30 seconds
+  React.useEffect(() => {
+    if (isMobile) {
+      const timer = setTimeout(() => {
+        setShowScrollMessage(false)
+      }, 30000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isMobile])
+
   // Function to convert time string to hour number (e.g., "10:00am" -> 10)
   const timeToHour = (timeStr: string): number => {
     const isPM = timeStr.toLowerCase().includes("pm")
@@ -236,7 +252,7 @@ export function WeeklyTimetable({
 
   // Helper function to combine week information
   const combineWeekInfo = (week1: string, week2: string): string => {
-    // Extract just the week numbers from strings like "Week 9" or "Weeks 1-13"
+    // Extract just the week numbers from strings like "Week 9" or "Weeks 1-13" or "Weeks 3 & 7"
     const extractNumbers = (weekStr: string): number[] => {
       const numbers: number[] = []
 
@@ -258,10 +274,11 @@ export function WeeklyTimetable({
         return numbers
       }
 
-      // Handle comma-separated weeks like "Weeks 1, 3, 5"
-      const commaMatch = weekStr.match(/Weeks\s+([\d,\s]+)/i)
+      // Handle comma-separated or ampersand-separated weeks like "Weeks 1, 3, 5" or "Weeks 3 & 7"
+      const commaMatch = weekStr.match(/Weeks\s+([\d,\s&]+)/i)
       if (commaMatch) {
-        const weekNumbers = commaMatch[1].split(",").map((w) => Number.parseInt(w.trim()))
+        // Split by both commas and ampersands
+        const weekNumbers = commaMatch[1].split(/[,&]/).map((w) => Number.parseInt(w.trim()))
         return weekNumbers.filter((w) => !isNaN(w))
       }
 
@@ -282,26 +299,31 @@ export function WeeklyTimetable({
     if (allNumbers.length === 1) {
       return `Week ${allNumbers[0]}`
     } else {
-      return `Weeks ${allNumbers.join(", ")}`
+      return `Weeks ${allNumbers.join(" & ")}`
     }
   }
 
   return (
-    <Card className="h-full border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg sticky top-4">
-      <CardContent className="p-4 dark:bg-gray-900 transition-colors duration-300">
-        <div className="overflow-x-auto">
-          <div className="min-w-[800px]">
-            {/* Header row with days */}
-            <div className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 mb-1">
-              <div className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-2 text-center font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md">
+    <Card className="h-full border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg sticky top-4 z-10 w-full max-h-[85vh] overflow-hidden">
+      <CardContent className="p-2 sm:p-3 dark:bg-gray-900 transition-colors duration-300 overflow-y-auto h-full max-h-[calc(85vh-2rem)]">
+        <div className={`pb-2 max-w-full h-full ${isMobile ? "overflow-x-auto" : "overflow-x-hidden"}`}>
+          {isMobile && showScrollMessage && (
+            <div className="text-xs text-center text-gray-500 dark:text-gray-400 mb-2 animate-pulse bg-gray-100 dark:bg-gray-800 p-2 rounded-md mx-auto">
+              ← Scroll horizontally to see all days →
+            </div>
+          )}
+          <div className={isMobile ? "min-w-[700px] max-w-[700px]" : "w-full"}>
+            {/* Header row with days - sticky on mobile */}
+            <div className="sticky top-0 z-20 grid grid-cols-[80px_repeat(5,1fr)] gap-1 mb-1 bg-white dark:bg-gray-900 pt-1">
+              <div className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-1 text-center font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md text-sm select-none">
                 Time
               </div>
               {days.map((day) => (
                 <div
                   key={day}
-                  className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-2 text-center font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md"
+                  className="bg-[#003A6E]/10 dark:bg-blue-900/30 p-1 text-center font-medium text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md text-sm select-none"
                 >
-                  {day}
+                  {isMobile ? day.substring(0, 3) : day}
                 </div>
               ))}
             </div>
@@ -309,206 +331,247 @@ export function WeeklyTimetable({
             {/* Time slots */}
             {timeSlots.map((hour) => (
               <div key={hour} className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 mb-1">
-                <div className="bg-[#003A6E]/5 dark:bg-blue-900/20 p-2 text-center text-sm text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md">
+                <div className="bg-[#003A6E]/5 dark:bg-blue-900/20 p-1 text-center text-xs text-[#003A6E] dark:text-blue-300 transition-colors duration-300 rounded-md">
                   {hour % 12 || 12}
                   {hour >= 12 ? "pm" : "am"}
                 </div>
 
-                {days.map((day) => {
-                  // Filter classes for this day and hour
-                  const mergedSelectedClasses = mergeClassesByWeek(selectedClasses)
-                  const classesForSlot = mergedSelectedClasses.filter(
-                    (cls) =>
-                      cls.dayFormatted === day && timeToHour(cls.startTime) <= hour && timeToHour(cls.endTime) > hour,
-                  )
+                {days.map((day) => (
+                  <div
+                    key={`${day}-${hour}`}
+                    className="relative min-h-[50px] bg-gray-50 dark:bg-gray-800 transition-colors duration-300 rounded-md"
+                  >
+                    {/* Render selected classes */}
+                    {mergeClassesByWeek(selectedClasses).map((cls) => {
+                      // Only render at the starting hour
+                      if (cls.dayFormatted === day && timeToHour(cls.startTime) === hour) {
+                        const position = calculateClassPosition(cls)
+                        const colors = getUnitColor(cls.unitCode)
+                        const classMode = getClassMode(cls)
+                        const weeksInfo = extractWeeksInfo(cls.class)
+                        const activityTypeFull = formatActivityType(cls.activityType)
 
-                  // Filter preview classes for this day and hour
-                  const previewClassesForSlot = previewClasses.filter(
-                    (cls) =>
-                      cls.dayFormatted === day && timeToHour(cls.startTime) <= hour && timeToHour(cls.endTime) > hour,
-                  )
+                        // Find overlapping classes
+                        const overlappingGroups = getOverlappingClasses(day, hour, mergeClassesByWeek(selectedClasses))
+                        const isOverlapping = overlappingGroups.some((group) =>
+                          group.some((overlapCls) => overlapCls.id === cls.id),
+                        )
 
-                  // Check if hovered class is for this day and hour
-                  const isHoveredHere =
-                    hoveredClass &&
-                    hoveredClass.dayFormatted === day &&
-                    timeToHour(hoveredClass.startTime) <= hour &&
-                    timeToHour(hoveredClass.endTime) > hour
+                        // Find which group this class belongs to
+                        const overlapGroupIndex = overlappingGroups.findIndex((group) =>
+                          group.some((overlapCls) => overlapCls.id === cls.id),
+                        )
 
-                  return (
-                    <div
-                      key={`${day}-${hour}`}
-                      className="relative min-h-[60px] bg-gray-50 dark:bg-gray-800 transition-colors duration-300 rounded-md"
-                    >
-                      {/* Render selected classes */}
-                      {classesForSlot.map((cls) => {
-                        // Only render at the starting hour
-                        if (timeToHour(cls.startTime) === hour) {
-                          const position = calculateClassPosition(cls)
-                          const colors = getUnitColor(cls.unitCode)
-                          const classMode = getClassMode(cls)
-                          const weeksInfo = extractWeeksInfo(cls.class)
-                          const activityTypeFull = formatActivityType(cls.activityType)
+                        // Find position in the group
+                        const positionInGroup =
+                          overlapGroupIndex >= 0
+                            ? overlappingGroups[overlapGroupIndex].findIndex((overlapCls) => overlapCls.id === cls.id)
+                            : 0
 
-                          // Find overlapping classes
-                          const overlappingGroups = getOverlappingClasses(day, hour, mergedSelectedClasses)
-                          const isOverlapping = overlappingGroups.some((group) =>
-                            group.some((overlapCls) => overlapCls.id === cls.id),
-                          )
+                        // Calculate width and left offset for overlapping classes
+                        const totalInGroup = overlapGroupIndex >= 0 ? overlappingGroups[overlapGroupIndex].length : 1
+                        const widthPercentage = isOverlapping ? 100 / totalInGroup : 100
+                        const leftOffset = isOverlapping ? positionInGroup * widthPercentage : 0
 
-                          // Find which group this class belongs to
-                          const overlapGroupIndex = overlappingGroups.findIndex((group) =>
-                            group.some((overlapCls) => overlapCls.id === cls.id),
-                          )
+                        return (
+                          <TooltipProvider key={cls.id}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <div
+                                  className={`absolute rounded-md border ${colors.bg} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs cursor-pointer transition-all duration-200 hover:shadow-md animate-in fade-in-50 shadow-sm ${isOverlapping ? "border-dashed" : ""}`}
+                                  style={{
+                                    top: position.top,
+                                    height: position.height,
+                                    width: isOverlapping ? `calc(${widthPercentage}% - 4px)` : "calc(100% - 4px)",
+                                    left: isOverlapping ? `${leftOffset}%` : "2px",
+                                    zIndex: 10,
+                                  }}
+                                  onClick={() => {
+                                    // Make sure we're passing the exact class object with the correct ID
+                                    onClassToggle(cls, true)
+                                  }}
+                                >
+                                  <div className="flex flex-col h-full">
+                                    {(() => {
+                                      const startHour = timeToHour(cls.startTime)
+                                      const endHour = timeToHour(cls.endTime)
+                                      const duration = endHour - startHour
+                                      const isShortClass = duration <= 1
 
-                          // Find position in the group
-                          const positionInGroup =
-                            overlapGroupIndex >= 0
-                              ? overlappingGroups[overlapGroupIndex].findIndex((overlapCls) => overlapCls.id === cls.id)
-                              : 0
-
-                          // Calculate width and left offset for overlapping classes
-                          const totalInGroup = overlapGroupIndex >= 0 ? overlappingGroups[overlapGroupIndex].length : 1
-                          const widthPercentage = isOverlapping ? 100 / totalInGroup : 100
-                          const leftOffset = isOverlapping ? positionInGroup * widthPercentage : 0
-
-                          return (
-                            <TooltipProvider key={cls.id}>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <div
-                                    className={`absolute rounded-md border ${colors.bg} ${colors.border} ${colors.text} p-1 overflow-hidden text-xs cursor-pointer transition-all duration-200 hover:shadow-md animate-in fade-in-50 shadow-sm ${isOverlapping ? "border-dashed" : ""}`}
-                                    style={{
-                                      top: position.top,
-                                      height: position.height,
-                                      width: isOverlapping ? `calc(${widthPercentage}% - 4px)` : "calc(100% - 4px)",
-                                      left: isOverlapping ? `${leftOffset}%` : "2px",
-                                      zIndex: 10,
-                                    }}
-                                    onClick={() => onClassToggle(cls)}
-                                  >
-                                    <div className="flex flex-col h-full">
-                                      <div className={`font-medium ${isOverlapping ? "" : "truncate"}`}>
-                                        {cls.unitCode} {activityTypeFull}
-                                      </div>
-                                      <div
-                                        className={`text-xs whitespace-normal ${isOverlapping ? "break-words" : "truncate"}`}
+                                      return (
+                                        <>
+                                          <div
+                                            className={`font-medium ${isOverlapping || isMobile || isShortClass ? "text-[9px]" : "truncate"} ${isShortClass ? "mb-0.5 leading-snug" : ""}`}
+                                          >
+                                            {cls.unitCode} {activityTypeFull}
+                                          </div>
+                                          <div
+                                            className={`${isOverlapping || isMobile || isShortClass ? "text-[8px]" : "text-xs"} whitespace-normal ${isShortClass ? "mb-0.5 leading-snug" : ""}`}
+                                          >
+                                            {cls.startTime} - {cls.endTime}
+                                          </div>
+                                          {!isShortClass || duration > 1.5 ? (
+                                            <>
+                                              <div
+                                                className={`${isOverlapping || isMobile || isShortClass ? "text-[8px]" : "text-xs"} ${isOverlapping ? "break-words" : "truncate"}`}
+                                              >
+                                                {cls.location}
+                                              </div>
+                                              <div
+                                                className={`${isOverlapping || isMobile || isShortClass ? "text-[8px]" : "text-xs"} ${isOverlapping ? "break-words" : "truncate"}`}
+                                              >
+                                                {weeksInfo}
+                                              </div>
+                                            </>
+                                          ) : (
+                                            <div className={`text-[7px] truncate leading-relaxed`}>
+                                              {cls.location.split(" - ")[0]}
+                                            </div>
+                                          )}
+                                        </>
+                                      )
+                                    })()}
+                                  </div>
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-md dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-lg">
+                                <div className="space-y-1">
+                                  <p className="font-bold">
+                                    {cls.unitCode} - {activityTypeFull}
+                                  </p>
+                                  <p>{cls.class}</p>
+                                  <p className="text-[#003A6E] dark:text-blue-300">
+                                    {cls.dayFormatted} {cls.startTime} - {cls.endTime}
+                                  </p>
+                                  <p>
+                                    <span className="font-semibold">Location:</span>{" "}
+                                    {cls.locationBuilding
+                                      ? `${cls.locationBuilding} - ${cls.locationRoom}`
+                                      : cls.location}
+                                  </p>
+                                  <p>
+                                    <span className="font-semibold">Weeks:</span> {extractWeeksInfo(cls.class)}
+                                  </p>
+                                  {cls.teachingStaff && <p>Staff: {cls.teachingStaff}</p>}
+                                  <div className="flex gap-2 mt-2">
+                                    <Badge variant="outline" className="text-xs">
+                                      {weeksInfo}
+                                    </Badge>
+                                    {classMode && (
+                                      <Badge variant="outline" className="text-xs">
+                                        {classMode}
+                                      </Badge>
+                                    )}
+                                    {isOverlapping && (
+                                      <Badge
+                                        variant="outline"
+                                        className="text-xs bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700"
                                       >
-                                        {cls.startTime} - {cls.endTime}
-                                      </div>
-                                      <div className={`text-xs ${isOverlapping ? "break-words" : "truncate"}`}>
+                                        Overlapping
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    Click to remove from timetable
+                                  </p>
+                                </div>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )
+                      }
+                      return null
+                    })}
+
+                    {/* Render preview classes */}
+                    {previewClasses.map((cls, idx) => {
+                      // Only render at the starting hour and if not already selected
+                      if (
+                        cls.dayFormatted === day &&
+                        timeToHour(cls.startTime) === hour &&
+                        !selectedClasses.some(
+                          (selected) =>
+                            selected.unitCode === cls.unitCode &&
+                            selected.activityType === cls.activityType &&
+                            selected.dayFormatted === cls.dayFormatted &&
+                            selected.startTime === cls.startTime &&
+                            selected.location === cls.location,
+                        )
+                      ) {
+                        const position = calculateClassPosition(cls)
+                        const colors = getUnitColor(cls.unitCode)
+                        const activityTypeFull = formatActivityType(cls.activityType)
+                        const weeksInfo = extractWeeksInfo(cls.class)
+
+                        // Check for overlaps with selected classes
+                        const overlappingWithSelected = selectedClasses.some((selected) =>
+                          doClassesOverlap(selected, cls, true),
+                        )
+
+                        return (
+                          <div
+                            key={`preview-${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.location}-${idx}`}
+                            className={`absolute rounded-md border-dashed border ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-90 transition-all duration-200`}
+                            style={{
+                              top: position.top,
+                              height: position.height,
+                              width: "calc(100% - 4px)",
+                              left: "2px",
+                              zIndex: 5,
+                              backgroundColor: "rgba(0, 58, 110, 0.15)",
+                              borderColor: overlappingWithSelected ? "rgba(234, 179, 8, 0.8)" : undefined,
+                              borderWidth: "1.5px",
+                            }}
+                          >
+                            {(() => {
+                              const startHour = timeToHour(cls.startTime)
+                              const endHour = timeToHour(cls.endTime)
+                              const duration = endHour - startHour
+                              const isShortClass = duration <= 1
+
+                              return (
+                                <>
+                                  <div
+                                    className={`font-medium break-words ${isMobile || isShortClass ? "text-[9px]" : ""} ${isShortClass ? "mb-0.5 leading-snug" : ""}`}
+                                  >
+                                    {cls.unitCode} {activityTypeFull}
+                                  </div>
+                                  <div
+                                    className={`whitespace-normal break-words ${isMobile || isShortClass ? "text-[8px]" : "text-xs"} ${isShortClass ? "mb-0.5 leading-snug" : ""}`}
+                                  >
+                                    {cls.startTime} - {cls.endTime}
+                                  </div>
+                                  {!isShortClass || duration > 1.5 ? (
+                                    <>
+                                      <div
+                                        className={`break-words ${isMobile || isShortClass ? "text-[8px]" : "text-xs"}`}
+                                      >
                                         {cls.location}
                                       </div>
-                                      <div className={`text-xs ${isOverlapping ? "break-words" : "truncate"}`}>
+                                      <div
+                                        className={`break-words ${isMobile || isShortClass ? "text-[8px]" : "text-xs"}`}
+                                      >
                                         {weeksInfo}
                                       </div>
+                                    </>
+                                  ) : (
+                                    <div className={`text-[7px] truncate leading-relaxed`}>
+                                      {cls.location.split(" - ")[0]}
                                     </div>
-                                  </div>
-                                </TooltipTrigger>
-                                <TooltipContent className="max-w-md dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-lg">
-                                  <div className="space-y-1">
-                                    <p className="font-bold">
-                                      {cls.unitCode} - {activityTypeFull}
-                                    </p>
-                                    <p>{cls.class}</p>
-                                    <p className="text-[#003A6E] dark:text-blue-300">
-                                      {cls.dayFormatted} {cls.startTime} - {cls.endTime}
-                                    </p>
-                                    <p>
-                                      <span className="font-semibold">Location:</span>{" "}
-                                      {cls.locationBuilding
-                                        ? `${cls.locationBuilding} - ${cls.locationRoom}`
-                                        : cls.location}
-                                    </p>
-                                    <p>
-                                      <span className="font-semibold">Weeks:</span> {extractWeeksInfo(cls.class)}
-                                    </p>
-                                    {cls.teachingStaff && <p>Staff: {cls.teachingStaff}</p>}
-                                    <div className="flex gap-2 mt-2">
-                                      <Badge variant="outline" className="text-xs">
-                                        {weeksInfo}
-                                      </Badge>
-                                      {classMode && (
-                                        <Badge variant="outline" className="text-xs">
-                                          {classMode}
-                                        </Badge>
-                                      )}
-                                      {isOverlapping && (
-                                        <Badge
-                                          variant="outline"
-                                          className="text-xs bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700"
-                                        >
-                                          Overlapping
-                                        </Badge>
-                                      )}
-                                    </div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                      Click to remove from timetable
-                                    </p>
-                                  </div>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          )
-                        }
-                        return null
-                      })}
+                                  )}
+                                </>
+                              )
+                            })()}
+                          </div>
+                        )
+                      }
+                      return null
+                    })}
 
-                      {/* Render preview classes */}
-                      {previewClassesForSlot.map((cls, idx) => {
-                        // Only render at the starting hour and if not already selected
-                        if (
-                          timeToHour(cls.startTime) === hour &&
-                          !selectedClasses.some(
-                            (selected) =>
-                              selected.unitCode === cls.unitCode &&
-                              selected.activityType === cls.activityType &&
-                              selected.dayFormatted === cls.dayFormatted &&
-                              selected.startTime === cls.startTime &&
-                              selected.location === cls.location,
-                          )
-                        ) {
-                          const position = calculateClassPosition(cls)
-                          const colors = getUnitColor(cls.unitCode)
-                          const activityTypeFull = formatActivityType(cls.activityType)
-                          const weeksInfo = extractWeeksInfo(cls.class)
-
-                          // Check for overlaps with selected classes
-                          const overlappingWithSelected = selectedClasses.some((selected) =>
-                            doClassesOverlap(selected, cls, true),
-                          )
-
-                          return (
-                            <div
-                              key={`preview-${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.location}-${idx}`}
-                              className={`absolute rounded-md border-dashed border ${colors.border} ${colors.text} p-1 overflow-hidden text-xs opacity-90 transition-all duration-200`}
-                              style={{
-                                top: position.top,
-                                height: position.height,
-                                width: "calc(100% - 4px)",
-                                left: "2px",
-                                zIndex: 5,
-                                backgroundColor: "rgba(0, 58, 110, 0.15)",
-                                borderColor: overlappingWithSelected ? "rgba(234, 179, 8, 0.8)" : undefined,
-                                borderWidth: "1.5px",
-                              }}
-                            >
-                              <div className="font-medium break-words">
-                                {cls.unitCode} {activityTypeFull}
-                              </div>
-                              <div className="text-xs whitespace-normal break-words">
-                                {cls.startTime} - {cls.endTime}
-                              </div>
-                              <div className="text-xs break-words">{cls.location}</div>
-                              <div className="text-xs break-words">{weeksInfo}</div>
-                            </div>
-                          )
-                        }
-                        return null
-                      })}
-
-                      {/* Render hovered class preview */}
-                      {isHoveredHere && hoveredClass && timeToHour(hoveredClass.startTime) === hour && (
+                    {/* Render hovered class preview */}
+                    {hoveredClass &&
+                      hoveredClass.dayFormatted === day &&
+                      timeToHour(hoveredClass.startTime) === hour && (
                         <div
                           className="absolute inset-x-0 rounded-md border border-dashed p-1 overflow-hidden text-xs transition-all duration-200 animate-in fade-in-50"
                           style={{
@@ -524,19 +587,49 @@ export function WeeklyTimetable({
                             borderWidth: "1.5px",
                           }}
                         >
-                          <div className="font-medium break-words">
-                            {hoveredClass.unitCode} {formatActivityType(hoveredClass.activityType)}
-                          </div>
-                          <div className="text-xs whitespace-normal break-words">
-                            {hoveredClass.startTime} - {hoveredClass.endTime}
-                          </div>
-                          <div className="text-xs break-words">{hoveredClass.location}</div>
-                          <div className="text-xs break-words">{extractWeeksInfo(hoveredClass.class)}</div>
+                          {(() => {
+                            const startHour = timeToHour(hoveredClass.startTime)
+                            const endHour = timeToHour(hoveredClass.endTime)
+                            const duration = endHour - startHour
+                            const isShortClass = duration <= 1
+
+                            return (
+                              <>
+                                <div
+                                  className={`font-medium break-words ${isMobile || isShortClass ? "text-[9px]" : ""} ${isShortClass ? "mb-0.5 leading-snug" : ""}`}
+                                >
+                                  {hoveredClass.unitCode} {formatActivityType(hoveredClass.activityType)}
+                                </div>
+                                <div
+                                  className={`whitespace-normal break-words ${isMobile || isShortClass ? "text-[8px]" : "text-xs"} ${isShortClass ? "mb-0.5 leading-snug" : ""}`}
+                                >
+                                  {hoveredClass.startTime} - {hoveredClass.endTime}
+                                </div>
+                                {!isShortClass || duration > 1.5 ? (
+                                  <>
+                                    <div
+                                      className={`break-words ${isMobile || isShortClass ? "text-[8px]" : "text-xs"}`}
+                                    >
+                                      {hoveredClass.location}
+                                    </div>
+                                    <div
+                                      className={`break-words ${isMobile || isShortClass ? "text-[8px]" : "text-xs"}`}
+                                    >
+                                      {extractWeeksInfo(hoveredClass.class)}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className={`text-[7px] truncate leading-relaxed`}>
+                                    {hoveredClass.location.split(" - ")[0]}
+                                  </div>
+                                )}
+                              </>
+                            )
+                          })()}
                         </div>
                       )}
-                    </div>
-                  )
-                })}
+                  </div>
+                ))}
               </div>
             ))}
           </div>

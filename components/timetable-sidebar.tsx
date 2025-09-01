@@ -19,6 +19,18 @@ import { useToast } from "@/components/ui/use-toast"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+
+// Add this function at the top of the file, after the imports but before the component definition
+// This function determines the priority of activity types for sorting
+function getActivityTypePriority(activityType: string): number {
+  const type = activityType.toLowerCase()
+  if (type.includes("lec")) return 1 // Lectures first
+  if (type.includes("tut")) return 2 // Tutorials second
+  if (type.includes("pra") || type.includes("prc")) return 3 // Practicals third
+  if (type.includes("wor")) return 4 // Workshops fourth
+  return 5 // Everything else
+}
 
 interface TimetableSidebarProps {
   onClassHover: (classEntry: TimetableEntry | null) => void
@@ -46,7 +58,7 @@ export function TimetableSidebar({
   const [activeTab, setActiveTab] = useState<"search" | "selected">("search")
   const [unitCode, setUnitCode] = useState("")
   const [unitName, setUnitName] = useState("")
-  const [teachingPeriodId, setTeachingPeriodId] = useState("621050") // Default to Semester 1 2025
+  const [teachingPeriodId, setTeachingPeriodId] = useState("621052") // Default to Semester 2 2025
   const [searchResults, setSearchResults] = useState<TimetableEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -158,9 +170,11 @@ export function TimetableSidebar({
         [key]: cachedData,
       }))
 
-      // Notify parent component
+      // Notify parent component about the searched unit but NOT to add the classes to the timetable
       onAddSearchedUnit(formattedUnitCode, teachingPeriodId)
-      onAddClasses(cachedData)
+
+      // Remove this line to prevent auto-adding classes
+      // onAddClasses(cachedData)
 
       return
     }
@@ -187,7 +201,12 @@ export function TimetableSidebar({
       const result = await response.json()
 
       if (result.error) {
-        setError(result.message)
+        // Format the error message to be more user-friendly
+        if (result.message.includes("No timetable found")) {
+          setError(`Sorry, we couldn't find that unit 😢. This unit may not be offered in the selected semester.`)
+        } else {
+          setError(result.message)
+        }
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
@@ -225,7 +244,6 @@ export function TimetableSidebar({
 
         // Notify parent component
         onAddSearchedUnit(formattedUnitCode, teachingPeriodId)
-        onAddClasses(result.data)
 
         // Show remaining requests toast when getting low
         if (result.remainingRequests <= 3) {
@@ -272,7 +290,7 @@ export function TimetableSidebar({
       return
     }
 
-    // Check cache before making a request (using cache doesn't count against limit)
+    // Check cache before making a request
     const cachedData = checkCache(unitCode, teachingPeriodId)
     if (cachedData) {
       setSearchResults(cachedData)
@@ -285,8 +303,8 @@ export function TimetableSidebar({
         [key]: cachedData,
       }))
 
-      // Notify parent component
-      onAddClasses(cachedData)
+      // Remove this line to prevent auto-adding classes
+      // onAddClasses(cachedData)
 
       return
     }
@@ -320,7 +338,12 @@ export function TimetableSidebar({
       const result = await response.json()
 
       if (result.error) {
-        setError(result.message)
+        // Format the error message to be more user-friendly
+        if (result.message.includes("No timetable found")) {
+          setError(`Sorry, we couldn't find that unit 😢. This unit may not be offered in the selected semester.`)
+        } else {
+          setError(result.message)
+        }
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
@@ -349,7 +372,7 @@ export function TimetableSidebar({
         }))
 
         // Notify parent component
-        onAddClasses(result.data)
+        // Do not add classes to the timetable automatically
 
         // Show remaining requests toast when getting low
         if (result.remainingRequests <= 3) {
@@ -469,7 +492,10 @@ export function TimetableSidebar({
           <TabsContent value="search" className="p-4 pt-2">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="unitCode" className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+                <Label
+                  htmlFor="unitCode"
+                  className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300 text-center sm:text-left block"
+                >
                   Unit Code
                 </Label>
                 <UnitCodeAutocomplete
@@ -480,12 +506,14 @@ export function TimetableSidebar({
                   }}
                   disabled={isLoading || isPendingRequest}
                 />
-                {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
+                {validationError && (
+                  <p className="text-red-500 text-xs mt-1 text-center sm:text-left">{validationError}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label
                   htmlFor="teachingPeriod"
-                  className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300"
+                  className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300 text-center sm:text-left block"
                 >
                   Teaching Period
                 </Label>
@@ -551,22 +579,19 @@ export function TimetableSidebar({
                   </>
                 )}
               </Button>
-              {remainingRequests !== null && (
-                <div
-                  className={`text-xs text-center ${
-                    isRateLimited
-                      ? "text-red-500 font-semibold"
-                      : remainingRequests <= 3
-                        ? "text-amber-500"
-                        : "text-gray-500 dark:text-gray-400"
-                  } mt-2`}
-                >
-                  {remainingRequests}/15 searches remaining today
-                </div>
-              )}
+
             </form>
 
-            {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+            {error && (
+              <Alert
+                variant="destructive"
+                className="rounded-lg shadow-md dark:bg-red-900/20 dark:border-red-800 dark:text-red-400 animate-in fade-in-50 duration-300 mt-4"
+              >
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
 
             {/* Previously searched units */}
             {searchedUnits.length > 0 && (
@@ -575,9 +600,12 @@ export function TimetableSidebar({
                   Recent Searches
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {searchedUnits.map((unit) => (
+                  {/* Create a Set to track unique unit+period combinations */}
+                  {Array.from(
+                    new Map(searchedUnits.map((unit) => [`${unit.unitCode}-${unit.teachingPeriodId}`, unit])).values(),
+                  ).map((unit, index) => (
                     <Badge
-                      key={`${unit.unitCode}-${unit.teachingPeriodId}`}
+                      key={`${unit.unitCode}-${unit.teachingPeriodId}-search-${index}`}
                       variant="outline"
                       className="cursor-pointer hover:bg-[#003A6E]/10 dark:hover:bg-blue-900/20 transition-all duration-200"
                       onClick={() => loadSearchedUnit(unit.unitCode, unit.teachingPeriodId)}
@@ -686,6 +714,11 @@ export function TimetableSidebar({
                 {Object.entries(selectedByUnit).map(([unitCode, classes]) => {
                   const unitColor = getUnitColor(unitCode)
 
+                  // Sort classes by activity type priority
+                  const sortedClasses = [...classes].sort((a, b) => {
+                    return getActivityTypePriority(a.activityType) - getActivityTypePriority(b.activityType)
+                  })
+
                   return (
                     <div
                       key={unitCode}
@@ -693,7 +726,7 @@ export function TimetableSidebar({
                     >
                       <div className={`${unitColor} px-3 py-2 font-medium`}>{unitCode}</div>
                       <div className="p-2 space-y-2 dark:bg-gray-800 transition-colors duration-300">
-                        {classes.map((cls) => {
+                        {sortedClasses.map((cls) => {
                           const fullActivityType = formatActivityType(cls.activityType)
                           const weekInfo = extractWeeksInfo(cls.class)
 

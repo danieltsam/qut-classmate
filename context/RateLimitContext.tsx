@@ -1,94 +1,97 @@
 "use client"
 
-import type React from "react"
-import { createContext, useState, useEffect, useContext } from "react"
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 
 interface RateLimitContextType {
-  remainingRequests: number | null
-  setRemainingRequests: (value: number | null) => void
+  remainingRequests: number
+  setRemainingRequests: (count: number) => void
   isRateLimited: boolean
-  checkRateLimit: () => Promise<void>
+  setIsRateLimited: (limited: boolean) => void
   isPendingRequest: boolean
-  setIsPendingRequest: (value: boolean) => void
+  setIsPendingRequest: (pending: boolean) => void
+  checkRateLimit: () => Promise<void>
 }
 
-// Create the context with default values
-export const RateLimitContext = createContext<RateLimitContextType>({
-  remainingRequests: null,
-  setRemainingRequests: () => {},
-  isRateLimited: false,
-  checkRateLimit: async () => {},
-  isPendingRequest: false,
-  setIsPendingRequest: () => {},
-})
+const RateLimitContext = createContext<RateLimitContextType | undefined>(undefined)
 
-// Custom hook to use the context
-export const useRateLimit = () => useContext(RateLimitContext)
+export function useRateLimit() {
+  const context = useContext(RateLimitContext)
+  if (context === undefined) {
+    throw new Error("useRateLimit must be used within a RateLimitProvider")
+  }
+  return context
+}
 
-// Provider component
-export function RateLimitProvider({ children }: { children: React.ReactNode }) {
-  const [remainingRequests, setRemainingRequests] = useState<number | null>(null)
+interface RateLimitProviderProps {
+  children: ReactNode
+}
+
+export function RateLimitProvider({ children }: RateLimitProviderProps) {
+  const [remainingRequests, setRemainingRequests] = useState(15)
+  const [isRateLimited, setIsRateLimited] = useState(false)
   const [isPendingRequest, setIsPendingRequest] = useState(false)
-  const isRateLimited = remainingRequests !== null && remainingRequests <= 0
 
-  // Check rate limit on initial load
-  useEffect(() => {
-    checkRateLimit()
-
-    // Also set up an interval to periodically check the rate limit
-    const interval = setInterval(checkRateLimit, 60000) // Check every minute
-    return () => clearInterval(interval)
-  }, [])
-
-  // Function to check rate limit from server
   const checkRateLimit = async () => {
     try {
-      const response = await fetch("/api/check-rate-limit", {
-        method: "GET",
-        // Add cache busting to prevent caching
-        headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
-      })
-      const data = await response.json()
-
-      if (data && typeof data.remainingRequests === "number") {
-        setRemainingRequests(data.remainingRequests)
-
-        // Store in localStorage as a backup
-        localStorage.setItem("rate-limit-remaining", String(data.remainingRequests))
-        localStorage.setItem("rate-limit-timestamp", String(Date.now()))
+      const response = await fetch("/api/check-rate-limit")
+      if (response.ok) {
+        const data = await response.json()
+        setRemainingRequests(data.remaining)
+        setIsRateLimited(data.remaining <= 0)
       }
     } catch (error) {
-      console.error("Error checking rate limit:", error)
-
-      // Try to fall back to localStorage if available
-      const storedRemaining = localStorage.getItem("rate-limit-remaining")
-      const storedTimestamp = localStorage.getItem("rate-limit-timestamp")
-
-      if (storedRemaining && storedTimestamp) {
-        // Only use stored value if it's from today
-        const timestamp = Number.parseInt(storedTimestamp, 10)
-        const now = Date.now()
-        const isToday = new Date(timestamp).toDateString() === new Date(now).toDateString()
-
-        if (isToday) {
-          setRemainingRequests(Number.parseInt(storedRemaining, 10))
-        }
-      }
+      console.error("Failed to check rate limit:", error)
+      // Don't update state on error to avoid breaking the UI
     }
   }
 
-  return (
-    <RateLimitContext.Provider
-      value={{
-        remainingRequests,
-        setRemainingRequests,
-        isRateLimited,
-        checkRateLimit,
-        isPendingRequest,
-        setIsPendingRequest,
-      }}
-    >
-      {children}
-    </RateLimitContext.Provider>
-  )
+  // Check rate limit on mount
+  useEffect(() => {
+    checkRateLimit()
+  }, [])
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("rateLimitData")
+      if (stored) {
+        const data = JSON.parse(stored)
+        if (data.remainingRequests !== undefined) {
+          setRemainingRequests(data.remainingRequests)
+        }
+        if (data.isRateLimited !== undefined) {
+          setIsRateLimited(data.isRateLimited)
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load rate limit data from localStorage:", error)
+    }
+  }, [])
+
+  // Save to localStorage when state changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "rateLimitData",
+        JSON.stringify({
+          remainingRequests,
+          isRateLimited,
+        }),
+      )
+    } catch (error) {
+      console.error("Failed to save rate limit data to localStorage:", error)
+    }
+  }, [remainingRequests, isRateLimited])
+
+  const value: RateLimitContextType = {
+    remainingRequests,
+    setRemainingRequests,
+    isRateLimited,
+    setIsRateLimited,
+    isPendingRequest,
+    setIsPendingRequest,
+    checkRateLimit,
+  }
+
+  return <RateLimitContext.Provider value={value}>{children}</RateLimitContext.Provider>
 }

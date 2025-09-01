@@ -1,21 +1,20 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-// Rate limiting constants
-const DAILY_RATE_LIMIT = 15
+export async function GET(request: NextRequest) {
+  try {
+    // Get rate limit headers from middleware
+    const limit = request.headers.get("X-RateLimit-Limit") || "15"
+    const remaining = request.headers.get("X-RateLimit-Remaining") || "15"
+    const reset = request.headers.get("X-RateLimit-Reset") || "0"
 
-export async function GET(req: NextRequest) {
-  // Get rate limit info from headers (set by middleware)
-  const rateLimit = req.headers.get("X-RateLimit-Limit") || DAILY_RATE_LIMIT.toString()
-  const remaining = req.headers.get("X-RateLimit-Remaining") || "0"
-  const reset = req.headers.get("X-RateLimit-Reset") || "0"
-
-  const remainingRequests = Number.parseInt(remaining, 10)
-  const rateLimitExceeded = remainingRequests <= 0
-
-  return NextResponse.json({
-    remainingRequests,
-    rateLimitExceeded,
-    resetTime: Number.parseInt(reset, 10),
-    limit: Number.parseInt(rateLimit, 10),
-  })
+    return NextResponse.json({
+      limit: Number.parseInt(limit),
+      remaining: Number.parseInt(remaining),
+      reset: Number.parseInt(reset),
+      resetTime: new Date(Number.parseInt(reset) * 1000).toISOString(),
+    })
+  } catch (error) {
+    console.error("Rate limit check error:", error)
+    return NextResponse.json({ error: "Failed to check rate limit" }, { status: 500 })
+  }
 }

@@ -18,12 +18,15 @@ export function Footer() {
 
   return (
     <footer
-      className={`py-6 border-t border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-700 ${isVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
+      className={`py-8 border-t border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-700 ${isVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
     >
       <div className="container mx-auto flex flex-col items-center justify-center">
-        <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">Built by Daniel Sam</p>
-        <p className="text-gray-600 dark:text-gray-400 mb-4 text-center text-xs">(coded with vibes 😉)</p>
-        <div className="flex space-x-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-4 text-center text-xs border-b border-gray-200 dark:border-gray-700 pb-3 w-full max-w-md">
+          Not affiliated with QUT. Always check the official timetable.
+        </p>
+        <p className="text-gray-600 dark:text-gray-400 mb-2 text-center">Built by Daniel Sam</p>
+        <p className="text-gray-600 dark:text-gray-400 mb-4 text-center text-xs">(with a lot of help from v0 😉)</p>
+        <div className="flex flex-wrap justify-center gap-2">
           <Button
             variant="outline"
             size="sm"
