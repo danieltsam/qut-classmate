@@ -31,7 +31,7 @@ QUT Classmate was built to help students more easily search for units, view clas
 - Grouped results by class type with clear week info and online/internal tags
 
 ### 🗓️ Timetable Creator
-- Drag and drop classes into your weekly view with conflict highlighting
+- Drag and drop classes into your weekly view with conflict highlightinga
 - Clean rounded design with sticky layout and export to `.ics` or Google Calendar
 
 ### ⚡ Auto Timetable Generator
@@ -141,6 +141,3 @@ This app was heavily assisted by AI-powered coding tools, primarily **v0** by Ve
 - Fixed API compatibility for new QUT timetable system in Semester 2, 2025
 
 ---
-
-Thanks for checking out QUT Classmate! Built by a student, for students. 🚀
-\`\`\`
