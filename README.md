@@ -1,5 +1,7 @@
 # <div align="center"> QUT Classmate App </div>
 
+QUT have chosen to authenticate the timetable API endpoint meaning that this project is no longer live 🥲
+
 **QUT Classmate** is a scheduling and unit planning app built specifically for students at the Queensland University of Technology (QUT). It's designed to solve the frustrations of using Allocate+ and streamline the process of planning your semester. 
 
 
