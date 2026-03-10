@@ -1,22 +1,12 @@
 # <div align="center"> QUT Classmate App </div>
 
-QUT have chosen to authenticate the timetable API endpoint meaning that this project is no longer live 🥲
+QUT have chosen to authenticate the timetable API endpoint meaning that this project is no longer live. 🥲
 
 **QUT Classmate** is a scheduling and unit planning app built specifically for students at the Queensland University of Technology (QUT). It's designed to solve the frustrations of using Allocate+ and streamline the process of planning your semester. 
 
 
 https://github.com/user-attachments/assets/eb6b6a82-7f3d-4f40-9c06-48631e5bf17a
 
-
----
-
-### Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Usage](#usage)
-- [Technical Overview](#technical-overview)
-- [Environment Variables](#environment-variables)
-- [Changelog](#changelog)
 
 ---
 
@@ -28,7 +18,7 @@ QUT Classmate was built to help students more easily search for units, view clas
 
 ## Features
 
-### ✅ Unit Search
+### Unit Search
 - Fast, accurate search by unit code with sortable results table
 - Grouped results by class type with clear week info and online/internal tags
 
@@ -36,7 +26,7 @@ QUT Classmate was built to help students more easily search for units, view clas
 - Drag and drop classes into your weekly view with conflict highlightinga
 - Clean rounded design with sticky layout and export to `.ics` or Google Calendar
 
-### ⚡ Auto Timetable Generator
+### Auto Timetable Generator
 - Instantly generates thousands of optimized timetable combinations using Monte Carlo simulations
 - Smart preferences for unavailability blocks, day distribution, and gap minimization
 
@@ -47,58 +37,6 @@ QUT Classmate was built to help students more easily search for units, view clas
 ### ☁️ Export / Import
 - Export your final timetable as a `.ics` file or sync it with Google Calendar
 - Clean UX with animations for smooth transitions
-
----
-
-## Usage
-
-### 📚 **First-Year Student - Sarah**
-Sarah is starting her Exercise Science degree while working part-time at a local gym. She blocks out her work shifts as unavailable times, uses the auto-generator to create multiple timetable options, and exports her chosen schedule to Google Calendar to coordinate with her manager.
-
-### 🎓 **Final-Year Student - Marcus** 
-Marcus is completing his Engineering degree while working full-time as a consulting engineer. His workload varies between busy client days and quiet office time, so he uses Unit Search to find all available tutorial times and drops into sessions when work is lighter.
-
-### 📖 **Course Planning - Alex**
-Alex is a second-year Business student choosing electives for next semester. He reads unit reviews from other students, compares difficulty and usefulness ratings, tests different timetable combinations, and makes informed enrollment decisions based on both reviews and schedule fit.
-
----
-
-## Technical Overview
-
-### 🧱 Architecture
-- Built on **Next.js 14** with **React Server Components**
-- Hybrid architecture of Server and Client Components for performance
-- Deployed on **Vercel** with automatic deploys on push to main
-
-### 💾 Caching Strategy
-- **Level 1**: Redis (Upstash) for server-side caching (30-day TTL)
-- **Level 2**: `localStorage` for instant access to previously viewed units
-- Reduces requests to QUT APIs and optimizes response speed
-
-### 📊 Rate Limiting
-- **Server-side**: IP/session based, 15 requests per day
-- **Client-side**: Throttling requests (2s delay between searches)
-- Headers follow standard `X-RateLimit-*` format
-
-### 🛠️ Backend Services
-- **Redis** (Upstash) for caching
-- **Supabase** for user reviews and storage
-- **Vercel KV** and **Edge Functions** for ultra-fast access
-
-### 🔍 Auto Timetable Engine
-- Monte Carlo simulation engine with scoring system
-- Factors in class completeness, conflicts, unavailability, distribution, and gaps
-- See implementation: `components/auto-timetable-generator.tsx`
-
-### 📦 Supabase Integration
-- Stores user reviews and ratings with moderation capabilities
-
----
-
-## How It Was Developed
-
-This app was heavily assisted by AI-powered coding tools, primarily **v0** by Vercel, which helped generate and iterate on core functionality quickly. I worked a fair bit on parsing QUT's public timetable data but AI agents receiving instructions in natural language were used for the rest of the project (manual debugging and fixing stupid code was unfortunately still required). It was an experiment in blending AI speed with human feedback to solve a real student problem that resulted in a working solution within a week which I think is insane!
-
 ---
 
 ## Changelog
