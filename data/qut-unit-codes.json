@@ -1,0 +1,1248 @@
+{
+  "scrapedAt": "2026-06-13T15:06:06.044Z",
+  "codes": [
+    "ABB232",
+    "ABB246",
+    "ABB312",
+    "ABH401",
+    "ABH402",
+    "ABN513",
+    "ABN514",
+    "AMB163",
+    "AMB201",
+    "AMB205",
+    "AMB373",
+    "AYB321",
+    "BSN450",
+    "BVB103",
+    "CAB210",
+    "CAB330",
+    "CAB403",
+    "CAB444",
+    "CCB106",
+    "CCB202",
+    "CLB100",
+    "CSB036",
+    "CSB037",
+    "CSB090",
+    "CSB363",
+    "CSB421",
+    "CSB465",
+    "CSB530",
+    "CSH484",
+    "CSH488",
+    "CSN021",
+    "CSN024",
+    "CSN029",
+    "CYB113",
+    "CYD113",
+    "DNB211",
+    "DNB212",
+    "DNB313",
+    "DVB305",
+    "DXB210",
+    "DXB310",
+    "DYB222",
+    "DYN907",
+    "EFB346",
+    "EFB350",
+    "EGB211",
+    "EGB214",
+    "EGB432",
+    "EGH413",
+    "EGH419",
+    "EGH456",
+    "ENN435",
+    "ENN510",
+    "ENN519",
+    "ENN535",
+    "ENN584",
+    "ERB220",
+    "ERB221",
+    "ERB223",
+    "ERB330",
+    "EUB004",
+    "EUB011",
+    "EUB142",
+    "EUB150",
+    "EUB173",
+    "EUB205",
+    "EUB245",
+    "EUB305",
+    "EUB345",
+    "EUB347",
+    "EUB372",
+    "EUB403",
+    "EUB405",
+    "EUB452",
+    "EUN113",
+    "EUN115",
+    "EUN203",
+    "EUN204",
+    "EUN643",
+    "EUN646",
+    "EUN650",
+    "EUN690",
+    "EUN697",
+    "EUQ667",
+    "GSN404",
+    "GSN410",
+    "GSN412",
+    "GSN490",
+    "GSQ008",
+    "GSZ412",
+    "GSZ543",
+    "HLN451",
+    "HLQ707",
+    "IAB230",
+    "IAB320",
+    "IAB330",
+    "IAB353",
+    "IAZ330",
+    "IFB102",
+    "IFB103",
+    "IFB398",
+    "IFN581",
+    "IFN584",
+    "IFN623",
+    "IFN631",
+    "IFN649",
+    "IFN655",
+    "IFN657",
+    "IFN667",
+    "IFN737",
+    "IFN738",
+    "IFQ555",
+    "IFQ556",
+    "IFQ581",
+    "IFQ584",
+    "IFQ657",
+    "IFQ711",
+    "IFZ398",
+    "IGB101",
+    "IGB283",
+    "IGB301",
+    "IGB388",
+    "ITD102",
+    "JSB173",
+    "JSB235",
+    "JSB238",
+    "JSB269",
+    "JSB279",
+    "JSB382",
+    "JSQ210",
+    "KAB120",
+    "KAB130",
+    "KAB140",
+    "KNB100",
+    "KNB105",
+    "KNB110",
+    "KNB115",
+    "KNB205",
+    "KSB115",
+    "KTB112",
+    "KWB212",
+    "KZB120",
+    "KZB340",
+    "LLB252",
+    "LLB342",
+    "LLB461",
+    "LLH479",
+    "LPP110",
+    "LQB181",
+    "LQB280",
+    "LQB503",
+    "LQB684",
+    "LWQ635",
+    "MGB130",
+    "MGB132",
+    "MGB133",
+    "MGB237",
+    "MGN537",
+    "MGN585",
+    "MXB100",
+    "MXB107",
+    "MXB242",
+    "MXB301",
+    "MXB332",
+    "MXB341",
+    "MXN423",
+    "MXN424",
+    "MXN431",
+    "MXN500",
+    "MXQ500",
+    "MZB105",
+    "MZB125",
+    "PCB272",
+    "PCB593",
+    "PMN505",
+    "PMQ505",
+    "PUB215",
+    "PUB332",
+    "PUB336",
+    "PUN107",
+    "PUN108",
+    "PUP116",
+    "PVB205",
+    "PVB303",
+    "PYB110",
+    "PYB260",
+    "PYB307",
+    "PYB309",
+    "PYB359",
+    "PYB360",
+    "QCF301",
+    "QUT001",
+    "QUT006",
+    "STB410",
+    "STB411",
+    "SWB108",
+    "SWN002",
+    "SWN018",
+    "SWN024",
+    "SWN025",
+    "XNB167",
+    "XNB345",
+    "XNB363",
+    "XNB468",
+    "XNB469",
+    "XNH269"
+  ],
+  "units": [
+    {
+      "code": "ABB232",
+      "title": "Interior Design: Interiority",
+      "legacy": false
+    },
+    {
+      "code": "ABB246",
+      "title": "Landscape Ecologies",
+      "legacy": false
+    },
+    {
+      "code": "ABB312",
+      "title": "Architecture Design 6",
+      "legacy": false
+    },
+    {
+      "code": "ABH401",
+      "title": "Project - Part A",
+      "legacy": false
+    },
+    {
+      "code": "ABH402",
+      "title": "Project - Part B",
+      "legacy": false
+    },
+    {
+      "code": "ABN513",
+      "title": "Contemporary Architectural Theory",
+      "legacy": false
+    },
+    {
+      "code": "ABN514",
+      "title": "Complex Building Systems",
+      "legacy": false
+    },
+    {
+      "code": "AMB163",
+      "title": "Introduction to Public Relations",
+      "legacy": false
+    },
+    {
+      "code": "AMB201",
+      "title": "Marketing Analytics",
+      "legacy": false
+    },
+    {
+      "code": "AMB205",
+      "title": "Retail Planning and Sales Management",
+      "legacy": false
+    },
+    {
+      "code": "AMB373",
+      "title": "Issues and Crisis Communication",
+      "legacy": false
+    },
+    {
+      "code": "AYB321",
+      "title": "Strategic Management Accounting",
+      "legacy": false
+    },
+    {
+      "code": "BSN450",
+      "title": "Business Intelligence",
+      "legacy": false
+    },
+    {
+      "code": "BVB103",
+      "title": "Evolution and the Diversity of Life",
+      "legacy": false
+    },
+    {
+      "code": "CAB210",
+      "title": "User Experience Fundamentals",
+      "legacy": false
+    },
+    {
+      "code": "CAB330",
+      "title": "Data and Web Analytics",
+      "legacy": false
+    },
+    {
+      "code": "CAB403",
+      "title": "Systems Programming",
+      "legacy": false
+    },
+    {
+      "code": "CAB444",
+      "title": "Secure Network Architectures",
+      "legacy": false
+    },
+    {
+      "code": "CCB106",
+      "title": "Popular Culture",
+      "legacy": false
+    },
+    {
+      "code": "CCB202",
+      "title": "Social Media, Self and Society",
+      "legacy": false
+    },
+    {
+      "code": "CLB100",
+      "title": "Global Change",
+      "legacy": false
+    },
+    {
+      "code": "CSB036",
+      "title": "Medical Imaging Methods",
+      "legacy": false
+    },
+    {
+      "code": "CSB037",
+      "title": "Medical Imaging Applications in Radiation Therapy",
+      "legacy": false
+    },
+    {
+      "code": "CSB090",
+      "title": "Radiation Therapy Planning 1",
+      "legacy": false
+    },
+    {
+      "code": "CSB363",
+      "title": "Paramedic Practice - Skills and Application",
+      "legacy": false
+    },
+    {
+      "code": "CSB421",
+      "title": "Chemistry for Medicines",
+      "legacy": false
+    },
+    {
+      "code": "CSB465",
+      "title": "Person-centred care: Mental Health",
+      "legacy": false
+    },
+    {
+      "code": "CSB530",
+      "title": "Pharmacotherapeutics for Podiatrists",
+      "legacy": false
+    },
+    {
+      "code": "CSH484",
+      "title": "Applying Research in Practice 2",
+      "legacy": false
+    },
+    {
+      "code": "CSH488",
+      "title": "Evidence-based Healthcare: Practice informing research 2",
+      "legacy": false
+    },
+    {
+      "code": "CSN021",
+      "title": "Cardiac Ultrasound 1",
+      "legacy": false
+    },
+    {
+      "code": "CSN024",
+      "title": "Cardiac Ultrasound 4",
+      "legacy": false
+    },
+    {
+      "code": "CSN029",
+      "title": "Advanced Ultrasound Topics B",
+      "legacy": false
+    },
+    {
+      "code": "CYB113",
+      "title": "Living in a Media World",
+      "legacy": false
+    },
+    {
+      "code": "CYD113",
+      "title": "Living in a Media World",
+      "legacy": false
+    },
+    {
+      "code": "DNB211",
+      "title": "ID Studio 4: Manufacturing Technology",
+      "legacy": false
+    },
+    {
+      "code": "DNB212",
+      "title": "ID Studio 5: Applied Technology",
+      "legacy": false
+    },
+    {
+      "code": "DNB313",
+      "title": "Advanced Computer-Aided Design",
+      "legacy": false
+    },
+    {
+      "code": "DVB305",
+      "title": "Design for Health Innovation",
+      "legacy": false
+    },
+    {
+      "code": "DXB210",
+      "title": "Critical Experience Design",
+      "legacy": false
+    },
+    {
+      "code": "DXB310",
+      "title": "Augmented Interactions",
+      "legacy": false
+    },
+    {
+      "code": "DYB222",
+      "title": "Design Study Tour",
+      "legacy": false
+    },
+    {
+      "code": "DYN907",
+      "title": "Design Discovery and Review",
+      "legacy": false
+    },
+    {
+      "code": "EFB346",
+      "title": "Market Structure and Regulation",
+      "legacy": false
+    },
+    {
+      "code": "EFB350",
+      "title": "Data Capture and Research Design",
+      "legacy": false
+    },
+    {
+      "code": "EGB211",
+      "title": "Dynamics",
+      "legacy": false
+    },
+    {
+      "code": "EGB214",
+      "title": "Materials and Manufacturing",
+      "legacy": false
+    },
+    {
+      "code": "EGB432",
+      "title": "Asset Management and Maintenance",
+      "legacy": false
+    },
+    {
+      "code": "EGH413",
+      "title": "Advanced Dynamics",
+      "legacy": false
+    },
+    {
+      "code": "EGH419",
+      "title": "Advanced Design and Entrepreneurship",
+      "legacy": false
+    },
+    {
+      "code": "EGH456",
+      "title": "Embedded Systems",
+      "legacy": false
+    },
+    {
+      "code": "ENN435",
+      "title": "Advanced Manufacturing",
+      "legacy": false
+    },
+    {
+      "code": "ENN510",
+      "title": "Engineering Knowledge Management",
+      "legacy": false
+    },
+    {
+      "code": "ENN519",
+      "title": "Entrepreneurship and Applications",
+      "legacy": false
+    },
+    {
+      "code": "ENN535",
+      "title": "Robotic Manufacturing",
+      "legacy": false
+    },
+    {
+      "code": "ENN584",
+      "title": "Robot Systems",
+      "legacy": false
+    },
+    {
+      "code": "ERB220",
+      "title": "Minerals in Society",
+      "legacy": false
+    },
+    {
+      "code": "ERB221",
+      "title": "Sedimentary Geology and Stratigraphy",
+      "legacy": false
+    },
+    {
+      "code": "ERB223",
+      "title": "Structural Geology",
+      "legacy": false
+    },
+    {
+      "code": "ERB330",
+      "title": "Mountain Building",
+      "legacy": false
+    },
+    {
+      "code": "EUB004",
+      "title": "Including Students with Learning Difficulties",
+      "legacy": false
+    },
+    {
+      "code": "EUB011",
+      "title": "Community Engagement in International, Rural and Remote",
+      "legacy": false
+    },
+    {
+      "code": "EUB142",
+      "title": "Promoting Young Children's Rights & Protection",
+      "legacy": false
+    },
+    {
+      "code": "EUB150",
+      "title": "World Regions",
+      "legacy": false
+    },
+    {
+      "code": "EUB173",
+      "title": "Professional Experience: The First 1000 Days",
+      "legacy": false
+    },
+    {
+      "code": "EUB205",
+      "title": "Child Health, Wellbeing, Safety and Movement",
+      "legacy": false
+    },
+    {
+      "code": "EUB245",
+      "title": "Digital and Scientific Discovery with Young Children",
+      "legacy": false
+    },
+    {
+      "code": "EUB305",
+      "title": "HASS: Geography and Civics Education",
+      "legacy": false
+    },
+    {
+      "code": "EUB345",
+      "title": "Continuity of Learning: Effective Transitions in Early Childhood",
+      "legacy": false
+    },
+    {
+      "code": "EUB347",
+      "title": "Early Childhood Education for Sustainability",
+      "legacy": false
+    },
+    {
+      "code": "EUB372",
+      "title": "Professional Experience: Evidence-Informed Professional Practice (Kindy)",
+      "legacy": false
+    },
+    {
+      "code": "EUB403",
+      "title": "HASS: History and Civics Education",
+      "legacy": false
+    },
+    {
+      "code": "EUB405",
+      "title": "Teaching EAL/D Learners",
+      "legacy": false
+    },
+    {
+      "code": "EUB452",
+      "title": "Integrated STEM Investigation Project",
+      "legacy": false
+    },
+    {
+      "code": "EUN113",
+      "title": "Inclusive Teaching for Diverse Learners",
+      "legacy": false
+    },
+    {
+      "code": "EUN115",
+      "title": "Community Engagement in International, Rural and Remote",
+      "legacy": false
+    },
+    {
+      "code": "EUN203",
+      "title": "Well-being, Health and Physical Education",
+      "legacy": false
+    },
+    {
+      "code": "EUN204",
+      "title": "Humanities and Social Sciences Education",
+      "legacy": false
+    },
+    {
+      "code": "EUN643",
+      "title": "Second Language Teaching Methodology",
+      "legacy": false
+    },
+    {
+      "code": "EUN646",
+      "title": "Second Language Assessment",
+      "legacy": false
+    },
+    {
+      "code": "EUN650",
+      "title": "Leading Indigenous Australian Education",
+      "legacy": false
+    },
+    {
+      "code": "EUN690",
+      "title": "Country as Teacher in Indigenous Australian Education",
+      "legacy": false
+    },
+    {
+      "code": "EUN697",
+      "title": "2 - Education Research Thesis",
+      "legacy": false
+    },
+    {
+      "code": "EUQ667",
+      "title": "Attrib of Autism: Hist Perspectives, Co-Occurring Cond & Cognitive Theories",
+      "legacy": false
+    },
+    {
+      "code": "GSN404",
+      "title": "Accounting for Decision Making",
+      "legacy": false
+    },
+    {
+      "code": "GSN410",
+      "title": "Entrepreneurship",
+      "legacy": false
+    },
+    {
+      "code": "GSN412",
+      "title": "Business Law",
+      "legacy": false
+    },
+    {
+      "code": "GSN490",
+      "title": "Managing Technological Innovation",
+      "legacy": false
+    },
+    {
+      "code": "GSQ008",
+      "title": "Entrepreneurship & Innovation",
+      "legacy": false
+    },
+    {
+      "code": "GSZ412",
+      "title": "Business Law",
+      "legacy": false
+    },
+    {
+      "code": "GSZ543",
+      "title": "MIT Immersion Program (Entrepreneurship & Digital Transformation)",
+      "legacy": false
+    },
+    {
+      "code": "HLN451",
+      "title": "Quality Use of Medicines and Safe Prescribing for Health Professionals",
+      "legacy": false
+    },
+    {
+      "code": "HLQ707",
+      "title": "Research Methods in Health",
+      "legacy": false
+    },
+    {
+      "code": "IAB230",
+      "title": "Design of Enterprise IoT",
+      "legacy": false
+    },
+    {
+      "code": "IAB320",
+      "title": "Process Improvement",
+      "legacy": false
+    },
+    {
+      "code": "IAB330",
+      "title": "Applied Internet of Things",
+      "legacy": false
+    },
+    {
+      "code": "IAB353",
+      "title": "Data Analytics for Enterprise Systems",
+      "legacy": false
+    },
+    {
+      "code": "IAZ330",
+      "title": "Applied Internet of Things",
+      "legacy": false
+    },
+    {
+      "code": "IFB102",
+      "title": "Introduction to Computer Systems",
+      "legacy": false
+    },
+    {
+      "code": "IFB103",
+      "title": "IT Systems Design",
+      "legacy": false
+    },
+    {
+      "code": "IFB398",
+      "title": "IT Capstone Project (Phase 1)",
+      "legacy": false
+    },
+    {
+      "code": "IFN581",
+      "title": "Programming Fundamentals",
+      "legacy": false
+    },
+    {
+      "code": "IFN584",
+      "title": "Object-Oriented Design and Development",
+      "legacy": false
+    },
+    {
+      "code": "IFN623",
+      "title": "Human Information Interaction",
+      "legacy": false
+    },
+    {
+      "code": "IFN631",
+      "title": "IT Governance",
+      "legacy": false
+    },
+    {
+      "code": "IFN649",
+      "title": "Internet of Things",
+      "legacy": false
+    },
+    {
+      "code": "IFN655",
+      "title": "Advanced Business Intelligence Concepts for Enterprise Systems",
+      "legacy": false
+    },
+    {
+      "code": "IFN657",
+      "title": "Software Security",
+      "legacy": false
+    },
+    {
+      "code": "IFN667",
+      "title": "Enterprise IoT Systems",
+      "legacy": false
+    },
+    {
+      "code": "IFN737",
+      "title": "Industry Research Project (Phase 1)",
+      "legacy": false
+    },
+    {
+      "code": "IFN738",
+      "title": "Industry Research Project (Phase 2)",
+      "legacy": false
+    },
+    {
+      "code": "IFQ555",
+      "title": "Introduction to Programming",
+      "legacy": false
+    },
+    {
+      "code": "IFQ556",
+      "title": "Object Oriented Programming",
+      "legacy": false
+    },
+    {
+      "code": "IFQ581",
+      "title": "Programming Fundamentals",
+      "legacy": false
+    },
+    {
+      "code": "IFQ584",
+      "title": "Object-Oriented Design and Development",
+      "legacy": false
+    },
+    {
+      "code": "IFQ657",
+      "title": "Software Security",
+      "legacy": false
+    },
+    {
+      "code": "IFQ711",
+      "title": "2 - IT Industry Project 2",
+      "legacy": false
+    },
+    {
+      "code": "IFZ398",
+      "title": "IT Capstone Project (Phase 1)",
+      "legacy": false
+    },
+    {
+      "code": "IGB101",
+      "title": "Interactive Media For Games",
+      "legacy": false
+    },
+    {
+      "code": "IGB283",
+      "title": "Game Engine Theory and Application",
+      "legacy": false
+    },
+    {
+      "code": "IGB301",
+      "title": "Capstone Project (Game Development)",
+      "legacy": false
+    },
+    {
+      "code": "IGB388",
+      "title": "Design and Development of Immersive Environments",
+      "legacy": false
+    },
+    {
+      "code": "ITD102",
+      "title": "Introduction to Computer Systems",
+      "legacy": false
+    },
+    {
+      "code": "JSB173",
+      "title": "Understanding Criminal Justice System",
+      "legacy": false
+    },
+    {
+      "code": "JSB235",
+      "title": "Investigations Uncovered",
+      "legacy": false
+    },
+    {
+      "code": "JSB238",
+      "title": "Explaining and Preventing Crime",
+      "legacy": false
+    },
+    {
+      "code": "JSB269",
+      "title": "Effective Policy Making for Social Justice",
+      "legacy": false
+    },
+    {
+      "code": "JSB279",
+      "title": "Criminal Network Analysis",
+      "legacy": false
+    },
+    {
+      "code": "JSB382",
+      "title": "Reform and the Justice System",
+      "legacy": false
+    },
+    {
+      "code": "JSQ210",
+      "title": "Managing Complex and Sensitive Investigations",
+      "legacy": false
+    },
+    {
+      "code": "KAB120",
+      "title": "Open Studio: Image",
+      "legacy": false
+    },
+    {
+      "code": "KAB130",
+      "title": "Open Studio: Object/Space",
+      "legacy": false
+    },
+    {
+      "code": "KAB140",
+      "title": "Open Studio: Time",
+      "legacy": false
+    },
+    {
+      "code": "KNB100",
+      "title": "Introduction to Animation Studies",
+      "legacy": false
+    },
+    {
+      "code": "KNB105",
+      "title": "Core Concepts in Animation Practice",
+      "legacy": false
+    },
+    {
+      "code": "KNB110",
+      "title": "Virtual Art Department: 3D Assets and Virtual Worlds",
+      "legacy": false
+    },
+    {
+      "code": "KNB115",
+      "title": "Crafting Motion in 3D",
+      "legacy": false
+    },
+    {
+      "code": "KNB205",
+      "title": "Digital Creatures and Characters",
+      "legacy": false
+    },
+    {
+      "code": "KSB115",
+      "title": "Acting Realism, Theories and Practices",
+      "legacy": false
+    },
+    {
+      "code": "KTB112",
+      "title": "Drama: Theory and Performance",
+      "legacy": false
+    },
+    {
+      "code": "KWB212",
+      "title": "Poetry and Poetics",
+      "legacy": false
+    },
+    {
+      "code": "KZB120",
+      "title": "Australian Voices",
+      "legacy": false
+    },
+    {
+      "code": "KZB340",
+      "title": "Performing in Immersive Environments",
+      "legacy": false
+    },
+    {
+      "code": "LLB252",
+      "title": "Legal Coding and Prompt Engineering",
+      "legacy": false
+    },
+    {
+      "code": "LLB342",
+      "title": "Immigration and Refugee Law",
+      "legacy": false
+    },
+    {
+      "code": "LLB461",
+      "title": "Competition Moots B",
+      "legacy": false
+    },
+    {
+      "code": "LLH479",
+      "title": "Research Thesis Extension",
+      "legacy": false
+    },
+    {
+      "code": "LPP110",
+      "title": "Lawyers Skills",
+      "legacy": false
+    },
+    {
+      "code": "LQB181",
+      "title": "Introduction to Medical Laboratory Science",
+      "legacy": false
+    },
+    {
+      "code": "LQB280",
+      "title": "Genes, Genomes and Genetics",
+      "legacy": false
+    },
+    {
+      "code": "LQB503",
+      "title": "Biomedical Work Integrated Learning B",
+      "legacy": false
+    },
+    {
+      "code": "LQB684",
+      "title": "Advances in Medical Biotechnology",
+      "legacy": false
+    },
+    {
+      "code": "LWQ635",
+      "title": "Aged Care Law, Ethics and Culturally Safe Practice",
+      "legacy": false
+    },
+    {
+      "code": "MGB130",
+      "title": "Managing Productivity and People",
+      "legacy": false
+    },
+    {
+      "code": "MGB132",
+      "title": "Workplace Relations and Compliance",
+      "legacy": false
+    },
+    {
+      "code": "MGB133",
+      "title": "Managing Strategy",
+      "legacy": false
+    },
+    {
+      "code": "MGB237",
+      "title": "Managing Projects for Success",
+      "legacy": false
+    },
+    {
+      "code": "MGN537",
+      "title": "Organising and Leading Projects",
+      "legacy": false
+    },
+    {
+      "code": "MGN585",
+      "title": "Entrepreneurial Leadership",
+      "legacy": false
+    },
+    {
+      "code": "MXB100",
+      "title": "Introductory Calculus and Algebra",
+      "legacy": false
+    },
+    {
+      "code": "MXB107",
+      "title": "Probability and Statistics",
+      "legacy": false
+    },
+    {
+      "code": "MXB242",
+      "title": "Regression and Design",
+      "legacy": false
+    },
+    {
+      "code": "MXB301",
+      "title": "Advanced Mathematical Techniques in Artificial Intelligence",
+      "legacy": false
+    },
+    {
+      "code": "MXB332",
+      "title": "Optimisation Modelling",
+      "legacy": false
+    },
+    {
+      "code": "MXB341",
+      "title": "Statistical Inference",
+      "legacy": false
+    },
+    {
+      "code": "MXN423",
+      "title": "Advanced Mathematical Modelling",
+      "legacy": false
+    },
+    {
+      "code": "MXN424",
+      "title": "Advanced Applied Analysis",
+      "legacy": false
+    },
+    {
+      "code": "MXN431",
+      "title": "Advanced Operations Research",
+      "legacy": false
+    },
+    {
+      "code": "MXN500",
+      "title": "Introduction to Statistics for Data Science",
+      "legacy": false
+    },
+    {
+      "code": "MXQ500",
+      "title": "Introduction to Statistics for Data Science",
+      "legacy": false
+    },
+    {
+      "code": "MZB105",
+      "title": "Introduction to Calculus",
+      "legacy": false
+    },
+    {
+      "code": "MZB125",
+      "title": "Introductory Engineering Mathematics",
+      "legacy": false
+    },
+    {
+      "code": "PCB272",
+      "title": "Radiation Physics",
+      "legacy": false
+    },
+    {
+      "code": "PCB593",
+      "title": "Digital Image Processing",
+      "legacy": false
+    },
+    {
+      "code": "PMN505",
+      "title": "Project Procurement",
+      "legacy": false
+    },
+    {
+      "code": "PMQ505",
+      "title": "Project Procurement",
+      "legacy": false
+    },
+    {
+      "code": "PUB215",
+      "title": "Upstream! Creating a Just World Through Public Health Practice",
+      "legacy": false
+    },
+    {
+      "code": "PUB332",
+      "title": "Sustainable Environments for Health",
+      "legacy": false
+    },
+    {
+      "code": "PUB336",
+      "title": "Gender Equity and Human Health",
+      "legacy": false
+    },
+    {
+      "code": "PUN107",
+      "title": "Foundations of Digital Health",
+      "legacy": false
+    },
+    {
+      "code": "PUN108",
+      "title": "Clinical Informatics for Intelligent Healthcare",
+      "legacy": false
+    },
+    {
+      "code": "PUP116",
+      "title": "Human Factors and Ergonomics",
+      "legacy": false
+    },
+    {
+      "code": "PVB205",
+      "title": "Classical Mechanics",
+      "legacy": false
+    },
+    {
+      "code": "PVB303",
+      "title": "Atomic, Nuclear and Particle Physics",
+      "legacy": false
+    },
+    {
+      "code": "PYB110",
+      "title": "Psychological Research Methods",
+      "legacy": false
+    },
+    {
+      "code": "PYB260",
+      "title": "Psychopharm of Addictive Behaviour",
+      "legacy": false
+    },
+    {
+      "code": "PYB307",
+      "title": "Health Psychology",
+      "legacy": false
+    },
+    {
+      "code": "PYB309",
+      "title": "Individual Differences and Assessment",
+      "legacy": false
+    },
+    {
+      "code": "PYB359",
+      "title": "Working with Families and Groups",
+      "legacy": false
+    },
+    {
+      "code": "PYB360",
+      "title": "Interventions for Addictive Behaviours",
+      "legacy": false
+    },
+    {
+      "code": "QCF301",
+      "title": "Digital Studies",
+      "legacy": false
+    },
+    {
+      "code": "QUT001",
+      "title": "QUT You: Artificial Intelligence in the Real World",
+      "legacy": false
+    },
+    {
+      "code": "QUT006",
+      "title": "QUT You: The Art of Pitching",
+      "legacy": false
+    },
+    {
+      "code": "STB410",
+      "title": "Advanced Techniques in Earth, Environmental and Biological Research",
+      "legacy": false
+    },
+    {
+      "code": "STB411",
+      "title": "Advanced Topics in Earth, Environmental and Biological Research",
+      "legacy": false
+    },
+    {
+      "code": "SWB108",
+      "title": "Australian Society, Social Justice and Policy",
+      "legacy": false
+    },
+    {
+      "code": "SWN002",
+      "title": "Introduction to Social Work Practice and Contexts",
+      "legacy": false
+    },
+    {
+      "code": "SWN018",
+      "title": "Theories and Frameworks for Social Work Practice",
+      "legacy": false
+    },
+    {
+      "code": "SWN024",
+      "title": "Child, Youth and Family Practice",
+      "legacy": false
+    },
+    {
+      "code": "SWN025",
+      "title": "Critical and Ethical Practice in Organisations",
+      "legacy": false
+    },
+    {
+      "code": "XNB167",
+      "title": "Exercise and the Human Body 1",
+      "legacy": false
+    },
+    {
+      "code": "XNB345",
+      "title": "Advanced Food and Nutrition",
+      "legacy": false
+    },
+    {
+      "code": "XNB363",
+      "title": "Sports Physiology",
+      "legacy": false
+    },
+    {
+      "code": "XNB468",
+      "title": "Clinical Exercise Physiology Practicum B",
+      "legacy": false
+    },
+    {
+      "code": "XNB469",
+      "title": "Clinical Exercise Physiology Practicum C",
+      "legacy": false
+    },
+    {
+      "code": "XNH269",
+      "title": "Evidence Based Practice in Exercise Science",
+      "legacy": false
+    }
+  ],
+  "stats": {
+    "total": 206,
+    "modern": 206,
+    "legacy": 0
+  }
+}

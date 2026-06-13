@@ -54,7 +54,7 @@ export const API_ENDPOINTS = {
 
 // Default values
 export const DEFAULTS = {
-  teachingPeriodId: "621052", // Default to Semester 2 2025
+  teachingPeriodId: "4381474", // Default to Semester 2 2026
   maxSearchResults: 100,
   cacheTimeout: 3600,
 } as const

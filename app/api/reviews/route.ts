@@ -1,11 +1,23 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createClient } from "@supabase/supabase-js"
+import { createClient, type SupabaseClient } from "@supabase/supabase-js"
 
-// Server-side Supabase client with service role key
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+let supabaseAdmin: SupabaseClient | null = null
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+function getSupabaseAdmin(): SupabaseClient | null {
+  if (supabaseAdmin) {
+    return supabaseAdmin
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    return null
+  }
+
+  supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+  return supabaseAdmin
+}
 
 // Rate limiting constants
 const MAX_REVIEWS_PER_DAY_PER_IP = 20
@@ -34,6 +46,14 @@ function getClientIP(request: NextRequest): string {
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseAdmin()
+    if (!supabase) {
+      return NextResponse.json(
+        { error: "Reviews are temporarily unavailable. Supabase is not configured." },
+        { status: 503 },
+      )
+    }
+
     const body = await request.json()
     const { action, data, sessionId } = body
 

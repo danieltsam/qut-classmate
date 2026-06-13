@@ -168,7 +168,7 @@ export function AutoTimetableGenerator({
     try {
       // Collect all available classes for each unit
       const allClasses: Record<string, TimetableEntry[]> = {}
-      const teachingPeriodId = "621052" // Default to Semester 2 2025 (All Campuses)
+      const teachingPeriodId = "4381474" // Default to Semester 2 2026
 
       for (const unitCode of unitCodes) {
         try {
@@ -305,11 +305,15 @@ export function AutoTimetableGenerator({
       fallbackClasses.push({
         id: `fallback-${unitCode}-lecture`,
         unitCode,
-        activityType: "LEC",
+        activityType: "Lecture",
+        classTitle: "Lecture",
         dayFormatted: day,
         startTime,
         endTime,
         location: "TBD",
+        locationBuilding: "",
+        locationRoom: "",
+        teachingStaff: "TBA",
         class: "Placeholder",
       })
     })
@@ -326,13 +330,13 @@ export function AutoTimetableGenerator({
     // Do this BEFORE adding classes to ensure the sidebar is updated
     unitCodes.forEach((unitCode) => {
       // Create a unique key for this unit + teaching period combination
-      const unitKey = `${unitCode}-621050`
+      const unitKey = `${unitCode}-4381474`
 
       // Only process each unit once
       if (!processedUnits.has(unitKey) && onAddSearchedUnit) {
         processedUnits.add(unitKey)
         // Make sure to call this with the correct parameters
-        onAddSearchedUnit(unitCode, "621052") // Default to Semester 2 2025
+        onAddSearchedUnit(unitCode, "4381474") // Default to Semester 2 2026
       }
     })
 

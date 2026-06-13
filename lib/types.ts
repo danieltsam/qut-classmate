@@ -33,4 +33,5 @@ export interface TeachingPeriod {
   id: string
   name: string
   campus?: string
+  dateRange?: string
 }

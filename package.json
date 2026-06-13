@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
+    "scrape:units": "npx tsx scripts/scrape-qut-units.ts",
     "start": "next start"
   },
   "dependencies": {
@@ -53,7 +54,7 @@
     "geist": "^1.3.1",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
-    "next": "14.2.16",
+    "next": "^14.2.16",
     "next-themes": "latest",
     "react": "^18",
     "react-day-picker": "9.8.0",

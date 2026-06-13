@@ -31,7 +31,7 @@ export function TimetableMaker() {
       // Add to searched units if not already there
       setSearchedUnits((prev) => {
         if (!prev.some((unit) => unit.unitCode === unitCode)) {
-          return [...prev, { unitCode, teachingPeriodId: "621050" }] // Default to Semester 1 2025
+          return [...prev, { unitCode, teachingPeriodId: "4381474" }] // Default to Semester 2 2026
         }
         return prev
       })
@@ -239,7 +239,7 @@ export function TimetableMaker() {
     // Add units to search history
     uniqueUnitCodes.forEach((unitCode) => {
       if (unitCode) {
-        handleAddSearchedUnit(unitCode, "621050") // Default to Semester 1 2025
+        handleAddSearchedUnit(unitCode, "4381474") // Default to Semester 2 2026
       }
     })
 

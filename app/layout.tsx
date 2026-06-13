@@ -72,7 +72,6 @@ export default function RootLayout({
           }}
         />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="canonical" href="https://qut.vercel.app/" />
         <meta name="google-site-verification" content="RWVD2qcByloMLqvEwbrWD4iJ7XkWenFjb_9MlGf-SnM" />
       </head>
       <body

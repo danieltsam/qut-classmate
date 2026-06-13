@@ -16,7 +16,7 @@ interface TimetableFormProps {
 
 export function TimetableForm({ onSubmit, isLoading }: TimetableFormProps) {
   const [unitCode, setUnitCode] = useState("")
-  const [teachingPeriodId, setTeachingPeriodId] = useState("621052") // Default to Semester 2 2025
+  const [teachingPeriodId, setTeachingPeriodId] = useState("4381474") // Default to Semester 2 2026
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

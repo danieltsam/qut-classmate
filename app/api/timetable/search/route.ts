@@ -3,7 +3,8 @@ import * as cheerio from "cheerio"
 import { formatDayName, formatLocation, formatTeachingStaff } from "@/lib/format-utils"
 import type { TimetableEntry } from "@/lib/types"
 import { getTimetableFromCache, storeTimetableInCache } from "@/lib/kv-cache"
-import { shouldUseNewAPI } from "@/lib/teaching-periods"
+import { shouldUseNewAPI, shouldUseVirtual4API } from "@/lib/teaching-periods"
+import { fetchUnitClassesFromVirtual4 } from "@/lib/qutvirtual4-client"
 
 // Rate limiting constants
 const DAILY_RATE_LIMIT = 15
@@ -503,7 +504,19 @@ export async function POST(req: NextRequest) {
 
     // Determine which API to use based on teaching period
     let result
-    if (shouldUseNewAPI(teachingPeriodId)) {
+    if (shouldUseVirtual4API(teachingPeriodId)) {
+      result = await fetchUnitClassesFromVirtual4(unitCode, teachingPeriodId)
+      if (!result.error) {
+        result = {
+          ...result,
+          cached: false,
+          remainingRequests,
+          data: sortTimetableEntries(result.data ?? []),
+        }
+      } else {
+        result = { ...result, remainingRequests }
+      }
+    } else if (shouldUseNewAPI(teachingPeriodId)) {
       result = await fetchFromNewAPI(unitCode, remainingRequests)
     } else {
       result = await fetchFromOldAPI(unitCode, teachingPeriodId, remainingRequests)

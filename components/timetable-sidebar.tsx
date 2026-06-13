@@ -58,7 +58,7 @@ export function TimetableSidebar({
   const [activeTab, setActiveTab] = useState<"search" | "selected">("search")
   const [unitCode, setUnitCode] = useState("")
   const [unitName, setUnitName] = useState("")
-  const [teachingPeriodId, setTeachingPeriodId] = useState("621052") // Default to Semester 2 2025
+  const [teachingPeriodId, setTeachingPeriodId] = useState("4381474") // Default to Semester 2 2026
   const [searchResults, setSearchResults] = useState<TimetableEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -201,12 +201,7 @@ export function TimetableSidebar({
       const result = await response.json()
 
       if (result.error) {
-        // Format the error message to be more user-friendly
-        if (result.message.includes("No timetable found")) {
-          setError(`Sorry, we couldn't find that unit 😢. This unit may not be offered in the selected semester.`)
-        } else {
-          setError(result.message)
-        }
+        setError(result.message)
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
@@ -338,12 +333,7 @@ export function TimetableSidebar({
       const result = await response.json()
 
       if (result.error) {
-        // Format the error message to be more user-friendly
-        if (result.message.includes("No timetable found")) {
-          setError(`Sorry, we couldn't find that unit 😢. This unit may not be offered in the selected semester.`)
-        } else {
-          setError(result.message)
-        }
+        setError(result.message)
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {

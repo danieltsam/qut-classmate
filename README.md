@@ -1,6 +1,6 @@
 # <div align="center"> QUT Classmate App </div>
 
-*QUT have chosen to authenticate the timetable API endpoint meaning that this project is no longer live. 🥲*
+*QUT have chosen to authenticate the legacy timetable API endpoints. This project now uses the public QUT Virtual 4 SolrQuest endpoint (`getUnitClasses`) with a guest session + CSRF token.*
 
 **QUT Classmate** is a scheduling and unit planning app built specifically for students at the Queensland University of Technology (QUT). It's designed to solve the frustrations of using Allocate+ and streamline the process of planning your semester. 
 
@@ -73,11 +73,9 @@ QUT Classmate was built to help students more easily search for units, view clas
 - Improved conflict detection and display to only warn about overlaps in the same weeks
 - Added unit code autocomplete by scraping 4000 QUT Units and using in a search dropdown
 
-### v1.5
-- Added Auto Timetable Generator to automatically create optimal schedules
-- Improved warnings for missing classes in auto-generated timetables
-- Fixed issue where selected classes weren't being added to search history
-- Optimized display of 1-hour classes to fit more information
-- Fixed API compatibility for new QUT timetable system in Semester 2, 2025
+### v1.6
+- Revived timetable search via QUT Virtual 4 SolrQuest API (`getUnitClasses`)
+- Added unit catalog scraper: `npm run scrape:units` (3-letter prefix search + optional legacy wildcard)
+- Autocomplete now loads from `data/qut-unit-codes.json` scraped from QUT Virtual
 
 ---

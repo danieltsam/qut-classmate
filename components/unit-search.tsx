@@ -22,7 +22,7 @@ export function UnitSearch() {
   const { toast } = useToast()
   const router = useRouter()
   const [unitCode, setUnitCode] = useState("")
-  const [teachingPeriodId, setTeachingPeriodId] = useState("621052") // Default to Semester 2 2025
+  const [teachingPeriodId, setTeachingPeriodId] = useState("4381474") // Default to Semester 2 2026
   const [timetableData, setTimetableData] = useState<TimetableEntry[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -133,13 +133,9 @@ export function UnitSearch() {
 
       const result = await response.json()
 
+
       if (result.error) {
-        // Format the error message to be more user-friendly
-        if (result.message.includes("No timetable found")) {
-          setError(`Sorry, we couldn't find that unit 😢. This unit may not be offered in the selected semester.`)
-        } else {
-          setError(result.message)
-        }
+        setError(result.message)
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
