@@ -4,6 +4,18 @@ Use this file when rebuilding or extending QUT Classmate. The current repo is a 
 
 ---
 
+## Git branches
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Frozen v1 app (pre-revival). Do not add new features here. |
+| `archive/v1-legacy` | Same commit as `main` — named archive of the original codebase. |
+| `v2/rebuild` | Active rebuild branch. Revival work + this file live here. |
+
+**Workflow:** develop on `v2/rebuild`. Strip cruft incrementally or scaffold fresh pages alongside old code, then delete legacy files when replaced. Push both branches when ready: `git push -u origin archive/v1-legacy v2/rebuild`.
+
+---
+
 ## Product
 
 **QUT Classmate** is a student timetable planner for Queensland University of Technology (QUT). It replaces the painful parts of Allocate+ / QUT Virtual for:
