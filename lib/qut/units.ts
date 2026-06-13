@@ -3,7 +3,7 @@ import {
   buildUnitSearchUrl,
   fetchVirtual4SearchPage,
   QUT_VIRTUAL4_BASE,
-} from "@/lib/qutvirtual4-session"
+} from "./session"
 
 export interface ParsedUnit {
   code: string

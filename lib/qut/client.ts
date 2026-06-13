@@ -1,12 +1,12 @@
 import * as cheerio from "cheerio"
-import { formatDayName } from "@/lib/format-utils"
-import type { TimetableEntry } from "@/lib/types"
+import { formatDayName } from "./format"
+import type { TimetableEntry } from "./types"
 import {
   buildUnitSearchUrl,
   fetchVirtual4SearchPage,
   QUT_VIRTUAL4_BASE,
   QUT_VIRTUAL4_BROWSER_HEADERS,
-} from "@/lib/qutvirtual4-session"
+} from "./session"
 
 const UNIT_CLASSES_PATH =
   "/web/qut/search?p_p_id=SolrQuest_WAR_solrquest&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=getUnitClasses&p_p_cacheability=cacheLevelPage"
