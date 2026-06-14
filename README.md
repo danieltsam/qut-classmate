@@ -79,3 +79,6 @@ QUT Classmate was built to help students more easily search for units, view clas
 - Autocomplete now loads from `data/qut-unit-codes.json` scraped from QUT Virtual
 
 ---
+
+*Vercel deployment trigger.*
+
