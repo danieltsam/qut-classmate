@@ -8,6 +8,9 @@ import { UnitReviews } from "@/components/unit-reviews"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { HelpDialog } from "@/components/help-dialog"
 import { useSearchParams } from "next/navigation"
+import Link from "next/link"
+import { Sparkles } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 
 export function HomePage() {
   const searchParams = useSearchParams()
@@ -51,6 +54,13 @@ export function HomePage() {
       <div
         className={`flex justify-end space-x-4 mb-4 items-center transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       >
+        <Link
+          href="/visualizer"
+          className={`${buttonVariants({ variant: "outline", size: "sm" })} text-[#003A6E] dark:text-blue-300 border-[#003A6E]/20 dark:border-blue-900/30 hover:bg-[#003A6E]/10 flex items-center gap-1.5 font-medium rounded-lg shadow-sm transition-all duration-300 hover:scale-105`}
+        >
+          <Sparkles className="w-4 h-4 text-amber-500 animate-pulse animate-duration-1000" />
+          Course Visualizer
+        </Link>
         <HelpDialog />
         <ThemeToggle />
       </div>

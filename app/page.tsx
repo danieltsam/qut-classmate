@@ -6,7 +6,7 @@ export default function Page() {
     <Suspense
       fallback={
         <main className="container mx-auto py-10 px-4">
-          <div className="text-center text-gray-500">Loading QUT Classmate...</div>
+          <div className="text-center text-gray-500 text-sm">Loading QUT Classmate...</div>
         </main>
       }
     >

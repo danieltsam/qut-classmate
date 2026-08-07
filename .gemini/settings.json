@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rezi": {
+      "url": "https://api.rezi.ai/mcp",
+      "type": "http"
+    }
+  }
+}
