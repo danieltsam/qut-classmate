@@ -283,7 +283,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               key={s.id}
               onClick={(e) => {
                 e.stopPropagation()
-                handleShortcutClick(s.id)
+                setSelectedShortcut(s.id)
                 openWindow(s.id) // Single click selects and immediately opens window
               }}
               className={cn(

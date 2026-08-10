@@ -375,17 +375,84 @@
   border-bottom: 1.5px solid #fff !important;
 }
 
-/* Force standard shadcn Cards to look like flat XP Explorer panes */
+/* Force flat classic beige background for all panels, cards, headers, grids, list items, etc. */
 .xp-window .bg-card,
-.xp-window [class*="bg-background"] {
+.xp-window [class*="bg-background"],
+.xp-window .bg-slate-50,
+.xp-window .bg-zinc-50,
+.xp-window .bg-zinc-100,
+.xp-window .bg-slate-100,
+.xp-window .bg-muted,
+.xp-window .bg-neutral-50,
+.xp-window .bg-neutral-100,
+.xp-window [class*="bg-slate-"],
+.xp-window [class*="bg-zinc-"],
+.xp-window [class*="bg-neutral-"],
+.xp-window .bg-\[\#003A6E\],
+.xp-window .bg-\[\#003a6e\],
+.xp-window .bg-\[\#0053e2\] {
   background-color: #ece9d8 !important;
-  border: 1px solid #d8d2bd !important;
-  border-radius: 0px !important;
-  box-shadow: none !important;
+  background-image: none !important;
+  color: black !important;
+  border-color: #d8d2bd !important;
+}
+
+/* Ensure text colors inside windows are always pure black/dark grey, overriding SaaS blue/zinc styles */
+.xp-window *,
+.xp-window .text-primary,
+.xp-window .text-zinc-400,
+.xp-window .text-zinc-500,
+.xp-window .text-zinc-600,
+.xp-window .text-zinc-700,
+.xp-window .text-zinc-800,
+.xp-window .text-zinc-900,
+.xp-window [class*="text-zinc-"],
+.xp-window [class*="text-slate-"],
+.xp-window [class*="text-neutral-"] {
+  color: black !important;
+}
+
+/* Override links and highlight blue colors to XP classic dark-blue font */
+.xp-window a,
+.xp-window .text-blue-600,
+.xp-window .text-blue-750,
+.xp-window .text-\[\#003A6E\],
+.xp-window .text-\[\#003a6e\],
+.xp-window .text-\[\#0053e2\],
+.xp-window [class*="text-blue-"] {
+  color: #0053e2 !important;
+  text-decoration: underline !important;
+}
+
+.xp-window a:hover,
+.xp-window [class*="text-blue-"]:hover {
+  color: #0b3fa8 !important;
+}
+
+/* Add visual separator styling to headers */
+.xp-window h1,
+.xp-window h2,
+.xp-window h3,
+.xp-window h4,
+.xp-window h5 {
+  font-family: 'Tahoma', sans-serif !important;
+  font-weight: bold !important;
+  color: black !important;
+  text-decoration: none !important;
+}
+
+/* Inputs and editable text containers must stay white */
+.xp-window input,
+.xp-window select,
+.xp-window textarea,
+.xp-window .bg-white,
+.xp-window td {
+  background-color: white !important;
   color: black !important;
 }
 
 /* Remove all rounded corners from layout grids, badges, etc. */
+.xp-window,
 .xp-window * {
   border-radius: 0px !important;
 }
@@ -417,6 +484,7 @@ div[data-role="dialog"],
   padding: 5px 8px !important;
   text-align: left !important;
   box-shadow: inset 1px 1px 0 #fff !important;
+  text-decoration: none !important;
 }
 
 .xp-window td {
@@ -435,10 +503,31 @@ div[data-role="dialog"],
   border-color: #d8d2bd !important;
 }
 
+/* Style weekly timetable event cards as active taskbar buttons */
+.xp-window [class*="event-card"],
+.xp-window div[class*="bg-blue-"],
+.xp-window div[class*="bg-emerald-"],
+.xp-window div[class*="bg-red-"] {
+  border: 1.5px solid #0053e2 !important;
+  background: linear-gradient(to bottom, #edf4ff 0%, #cbdcff 100%) !important;
+  color: #09246a !important;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.15) !important;
+  border-radius: 2px !important;
+}
+
+.xp-window [class*="event-card"] *,
+.xp-window div[class*="bg-blue-"] *,
+.xp-window div[class*="bg-emerald-"] *,
+.xp-window div[class*="bg-red-"] * {
+  color: #09246a !important;
+  text-decoration: none !important;
+}
+
 /* Highlight active entries in the scheduler */
 .xp-window .bg-primary\/10 {
   background-color: #d3e5fa !important;
   border-left: 3px solid #0053e2 !important;
 }
+
 
 
