@@ -114,7 +114,8 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
 
   // Window manager helpers
   const openWindow = (win: string) => {
-    if (win === "reviews") return // Drop reviews
+    const validWindows = ["readme", "search", "timetable", "visualizer", "explorer"]
+    if (!validWindows.includes(win)) return
     setOpenWindows(prev => ({ ...prev, [win]: true }))
     setMinimizedWindows(prev => ({ ...prev, [win]: false }))
     setActiveWindow(win)
@@ -147,8 +148,8 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
 
     setDraggedWindow(win)
     setDragOffset({
-      x: e.clientX - positions[win].x,
-      y: e.clientY - positions[win].y
+      x: e.clientX - (positions[win]?.x ?? 50),
+      y: e.clientY - (positions[win]?.y ?? 50)
     })
   }
 
@@ -296,8 +297,8 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               }
             : {
                 position: "absolute" as const,
-                left: `${positions[win].x}px`,
-                top: `${positions[win].y}px`,
+                left: `${positions[win]?.x ?? 50}px`,
+                top: `${positions[win]?.y ?? 50}px`,
                 width: win === "visualizer" || win === "timetable" || win === "explorer" ? "950px" : "650px",
                 maxWidth: "92vw",
                 zIndex: isActive ? 40 : 10,

@@ -444,8 +444,8 @@
 /* Inputs and editable text containers must stay white */
 .xp-window input,
 .xp-window select,
+.xp-window select option,
 .xp-window textarea,
-.xp-window .bg-white,
 .xp-window td {
   background-color: white !important;
   color: black !important;

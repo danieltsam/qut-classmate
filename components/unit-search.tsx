@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { TimetableResults } from "./timetable-results"
-import { Loader2, Search, Info } from "lucide-react"
+import { Loader2, Search, Info, Clock } from "lucide-react"
 import { teachingPeriods } from "@/lib/teaching-periods"
 import { useToast } from "@/components/ui/use-toast"
 import { checkCache, safelyStoreInCache } from "@/lib/storage-utils"
