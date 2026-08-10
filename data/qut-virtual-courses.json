@@ -1,0 +1,5078 @@
+{
+  "scrapedAt": "2026-06-14T01:16:35.996Z",
+  "count": 634,
+  "courses": [
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design (Landscape Architecture)/Bachelor of Urban Development (Honours) (Urban and Regional Planning)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2025,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IT10",
+      "title": "Diploma in Information Technology/Bachelor of Information Technology",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Science, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IX22",
+      "title": "Bachelor of Business/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX23",
+      "title": "Bachelor of Science/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX30",
+      "title": "Bachelor of Business/Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX35",
+      "title": "Bachelor of Business/Bachelor of Fine Arts",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX35",
+      "title": "Bachelor of Business/Bachelor of Fine Arts (Visual Arts)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX35",
+      "title": "Bachelor of Business/Bachelor of Fine Arts (Film, Screen and New Media) (until 2024)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX35",
+      "title": "Bachelor of Business/Bachelor of Fine Arts (Animation)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX35",
+      "title": "Bachelor of Business/Bachelor of Fine Arts (Drama) (until 2024)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX35",
+      "title": "Bachelor of Business/Bachelor of Fine Arts (Creative Writing)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX51",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX59",
+      "title": "Bachelor of Engineering (Honours)/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX77",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IX78",
+      "title": "Bachelor of Human Services/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IX80",
+      "title": "Bachelor of Science/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX81",
+      "title": "Bachelor of Business/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX82",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX85",
+      "title": "Bachelor of Fine Arts/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX85",
+      "title": "Bachelor of Fine Arts (Creative Writing)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX85",
+      "title": "Bachelor of Fine Arts (Film, Screen and New Media)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX85",
+      "title": "Bachelor of Fine Arts (Creative and Professional Writing)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IX87",
+      "title": "Bachelor of Information Technology/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX88",
+      "title": "Bachelor of Biomedical Science/Bachelor of Laws (Honours) (until 2023)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX89",
+      "title": "Bachelor of Business/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX92",
+      "title": "Bachelor of Biomedical Science/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IX93",
+      "title": "Bachelor of Business/Bachelor of Games and Interactive Environments",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "JQ23",
+      "title": "Graduate Certificate in Policy and Governance",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "JQ25",
+      "title": "Graduate Certificate in Prevention and Responses to Sexual Violence",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "JQ35",
+      "title": "Graduate Diploma in Prevention and Responses to Gendered Violence",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "JQ45",
+      "title": "Master of Justice",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "JS34",
+      "title": "Bachelor of Justice",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "JS34",
+      "title": "Bachelor of Justice (Policy, Politics and Social Reform)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "JS34",
+      "title": "Bachelor of Justice (Investigations and Intelligence)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "JS34",
+      "title": "Bachelor of Justice (Criminology and Violence Prevention)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Community and Public Relations)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Screen Industries)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Promotional Communication)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Digital Advertising)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Media and Communication Industries)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Journalism)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Advertising and Public Relations)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Entertainment Industries)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Professional Communication)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC40",
+      "title": "Bachelor of Communication (Digital Media)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC86",
+      "title": "Graduate Certificate in Digital Communication",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC87",
+      "title": "Graduate Diploma in Digital Communication",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KC88",
+      "title": "Master of Digital Communication",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Creative and Professional Writing)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Film, Screen and New Media)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Visual Arts)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Music)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Animation)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Drama)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Dance)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Creative Writing)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Dance Performance)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Technical Production)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "KK34",
+      "title": "Bachelor of Fine Arts (Acting)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "KK43",
+      "title": "Bachelor of Creative Industries",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "LP41",
+      "title": "Graduate Diploma in Legal Practice",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LS40",
+      "title": "Bachelor of Biomedical Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LS47",
+      "title": "Bachelor of Medical Laboratory Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LS60",
+      "title": "Graduate Certificate in Diagnostic Genomics",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "LS72",
+      "title": "Graduate Diploma in Diagnostic Genomics",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "LS81",
+      "title": "Master of Diagnostic Genomics",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "LV41",
+      "title": "Bachelor of Biomedical Science/Master of Data Science",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Science, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LW36",
+      "title": "Bachelor of Laws (Honours) (until 2023)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LW37",
+      "title": "Bachelor of Laws (Honours) - Graduate Entry (until 2023)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LW38",
+      "title": "Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LW39",
+      "title": "Bachelor of Laws (Honours) (Graduate Entry)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "LW45",
+      "title": "Bachelor of Justice/Bachelor of Laws (Honours) (until 2023)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "MS01",
+      "title": "Bachelor of Mathematics (Statistics)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "MS01",
+      "title": "Bachelor of Mathematics (Applied and Computational Mathematics)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "MS01",
+      "title": "Bachelor of Mathematics (Operations Research)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "MS01",
+      "title": "Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "MS10",
+      "title": "Bachelor of Mathematics (Honours)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "MV01",
+      "title": "Bachelor of Mathematics/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "MV06",
+      "title": "Bachelor of Mathematics/Master of Data Science",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "NS32",
+      "title": "Graduate Certificate in Nursing",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "NS42",
+      "title": "Bachelor of Nursing - Enrolled Nurse Entry",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "NS42",
+      "title": "Bachelor of Nursing",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "NS80",
+      "title": "Master of Advanced Practice Nursing",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "NS89",
+      "title": "Master of Nursing - Entry to Practice",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "NS90",
+      "title": "Master of Nurse Practitioner",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "NS95",
+      "title": "Master of Nursing",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "OP45",
+      "title": "Bachelor of Vision Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "OP85",
+      "title": "Master of Optometry",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PH71",
+      "title": "Graduate Diploma in Applied Science (Medical Physics)",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "PH80",
+      "title": "Master of Applied Science (Medical Physics)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "PM15",
+      "title": "Graduate Certificate in Project Management",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "PM20",
+      "title": "Master of Project Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "PQ15",
+      "title": "Graduate Certificate in Project Management",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "PQ20",
+      "title": "Master of Project Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "PQ30",
+      "title": "Graduate Certificate in Emergency and Disaster Management",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "PQ31",
+      "title": "Graduate Certificate in Health Management and Leadership",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "PU51",
+      "title": "Bachelor of Health Information Management",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU52",
+      "title": "Bachelor of Public Health",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU60",
+      "title": "Graduate Diploma in Public Health",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU65",
+      "title": "Graduate Diploma in Occupational Health and Safety",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU67",
+      "title": "Graduate Diploma in Environmental Health",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU70",
+      "title": "Graduate Certificate in Digital Health Leadership and Management",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "PU77",
+      "title": "Graduate Diploma in Health Management and Leadership",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU80",
+      "title": "Master of Health, Safety and Environment",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU84",
+      "title": "Master of Health Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU86",
+      "title": "Master of Public Health",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PU87",
+      "title": "Master of Health Management and Leadership",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PY09",
+      "title": "Bachelor of Behavioural Science (Honours Psychology)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IF06",
+      "title": "Diploma in Creative Industries/Bachelor of Design - International",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "QUT College, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IF49",
+      "title": "Doctor of Philosophy",
+      "studyLevels": "Doctoral",
+      "faculties": "Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IF80",
+      "title": "Master of Philosophy",
+      "studyLevels": "Masters Degree (Research)",
+      "faculties": "Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "External, Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Computer Science)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Information Systems) (last intake 2025)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Artificial Intelligence)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Business Analysis and IT Management)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Cyber Security)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Enterprise Computing)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Process Analytics and Automation)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN01",
+      "title": "Bachelor of Information Technology (Software Development)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN05",
+      "title": "Bachelor of Games and Interactive Environments (Software Technologies)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN05",
+      "title": "Bachelor of Games and Interactive Environments",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN05",
+      "title": "Bachelor of Games and Interactive Environments (Game Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN05",
+      "title": "Bachelor of Games and Interactive Environments (Animation)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN10",
+      "title": "Bachelor of Information Technology (Honours)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN14",
+      "title": "Graduate Certificate in Business Analysis",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN16",
+      "title": "Graduate Certificate in Cyber Security and Networks",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN17",
+      "title": "Graduate Certificate in Communication for Information Technology",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science, QUT College",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "IN18",
+      "title": "Graduate Certificate in Information Technology",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN19",
+      "title": "Graduate Diploma in Information Technology",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN20",
+      "title": "Master of Information Technology",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN23",
+      "title": "Master of Business Process Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN25",
+      "title": "Graduate Certificate in Business Process Management",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN26",
+      "title": "Graduate Certificate in Data Analytics",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN27",
+      "title": "Master of Data Analytics",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN28",
+      "title": "Master of Artificial Intelligence",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN29",
+      "title": "Master of Cyber Security",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN30",
+      "title": "Graduate Certificate in Data Science",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IN31",
+      "title": "Master of Data Science",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IQ14",
+      "title": "Graduate Certificate in Business Analysis",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IT10",
+      "title": "Diploma in Information Technology",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Science, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IQ15",
+      "title": "Graduate Certificate in Computer Science",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ16",
+      "title": "Graduate Certificate in Cyber Security and Networks",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ18",
+      "title": "Graduate Certificate in Information Technology",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IV05",
+      "title": "Bachelor of Information Technology/Master of Data Science",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "IQ19",
+      "title": "Graduate Diploma in Information Technology (Business Analysis)",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ19",
+      "title": "Graduate Diploma in Information Technology (Cyber Security and Networks)",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ19",
+      "title": "Graduate Diploma in Information Technology (Computer Science)",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ20",
+      "title": "Master of Information Technology",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ70",
+      "title": "Graduate Certificate in Information Technology Practice (Data Analytics)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ70",
+      "title": "Graduate Certificate in Information Technology Practice (Cyber Security and Resilience)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IQ70",
+      "title": "Graduate Certificate in Information Technology Practice (Web Development)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "IT10",
+      "title": "Diploma in Information Technology/Bachelor of Games and Interactive Environments",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Science, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Landscape Architecture)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DE77",
+      "title": "Graduate Certificate in Strategic Design",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE88",
+      "title": "Graduate Diploma in Strategic Design",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE99",
+      "title": "Master of Design (Strategic Design)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DS01",
+      "title": "Bachelor of Data Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DS01",
+      "title": "Bachelor of Data Science (all students who commenced course prior to 2026)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DS01",
+      "title": "Bachelor of Data Science (Artificial Intelligence and Machine Learning)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DS01",
+      "title": "Bachelor of Data Science (Business Data Science)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DS01",
+      "title": "Bachelor of Data Science (Data and Decision Analytics)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EB01",
+      "title": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Urban and Regional Planning)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EB02",
+      "title": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Construction Management and Quantity Surveying)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EB03",
+      "title": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Interior Design)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EB04",
+      "title": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Landscape Architecture)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EB05",
+      "title": "Bachelor of Architectural Design/Bachelor of Engineering (Honours) (Civil) (until 2025)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EB07",
+      "title": "Bachelor of Architectural Design/Bachelor of Engineering (Honours) (Civil)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ED11",
+      "title": "Doctor of Education",
+      "studyLevels": "Doctoral",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ED34",
+      "title": "Bachelor of Early Childhood Education (Birth to Five)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ED34",
+      "title": "Bachelor of Early Childhood Education (Birth to Five) - Diploma Entry",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "ED39",
+      "title": "Bachelor of Education (Early Childhood)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ED39",
+      "title": "Bachelor of Education (Early Childhood) - Diploma Entry",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "ED49",
+      "title": "Bachelor of Education (Primary)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ED59",
+      "title": "Bachelor of Education (Secondary)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EE18",
+      "title": "Diploma in Entrepreneurship/Bachelor of Communication",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "EE18",
+      "title": "Diploma in Entrepreneurship/Bachelor of Creative Industries",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "ES21",
+      "title": "Diploma in Esports/Bachelor of Games and Interactive Environments",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ES21",
+      "title": "Diploma in Esports/Bachelor of Information Technology",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ES21",
+      "title": "Diploma in Esports/Bachelor of Creative Industries",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "EE18",
+      "title": "Diploma in Entrepreneurship",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "EE18",
+      "title": "Diploma in Entrepreneurship/Bachelor of Business",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "EE18",
+      "title": "Diploma in Entrepreneurship/Bachelor of Information Technology",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "EM04",
+      "title": "Microcredential in Trauma-Aware Education",
+      "studyLevels": "Microcredential",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Electrical and Aerospace)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Computer and Software Systems)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Mechatronics)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Electrical and Renewable Power)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Mechanical)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Electrical)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Chemical and Sustainable Process)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Medical)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours) (Civil)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours)/Master of Engineering Management",
+      "studyLevels": "Bachelor Degree, Honours, Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN02",
+      "title": "Diploma in Engineering",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Engineering, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EN02",
+      "title": "Diploma in Engineering/Bachelor of Engineering (Honours)",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Engineering, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "EN50",
+      "title": "Master of Engineering",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN51",
+      "title": "Master of Sustainable Infrastructure",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN52",
+      "title": "Master of Robotics and Artificial Intelligence",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN53",
+      "title": "Master of Renewable Energy",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN54",
+      "title": "Master of Advanced Manufacturing",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Mechanical with Management)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Electrical)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Mechanical)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Electrical with Management)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Civil)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Civil and Construction)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN55",
+      "title": "Master of Professional Engineering (Civil with Management)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN56",
+      "title": "Master of Engineering Technology",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN57",
+      "title": "Master of Biomedical Systems and Technology",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN60",
+      "title": "Graduate Certificate in Communication for Engineering",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "EN61",
+      "title": "Graduate Certificate in Smart Transport and Mobility",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN62",
+      "title": "Graduate Certificate in Robotics",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN63",
+      "title": "Graduate Certificate in Renewable Power",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN64",
+      "title": "Graduate Certificate in Digital and Robotic Manufacturing",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN65",
+      "title": "Graduate Certificate in Water Modelling",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN66",
+      "title": "Graduate Certificate in Bioprocess Engineering",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN67",
+      "title": "Graduate Certificate in Renewable Energy Systems",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "EN71",
+      "title": "Master of Sustainable Infrastructure with Project Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN72",
+      "title": "Master of Advanced Robotics and Artificial Intelligence",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN73",
+      "title": "Master of Renewable Energy with Project Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN74",
+      "title": "Master of Advanced Manufacturing with Project Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN75",
+      "title": "Master of Sustainable Infrastructure with Data Analytics",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN76",
+      "title": "Master of Renewable Energy with Data Analytics",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN77",
+      "title": "Master of Advanced Manufacturing with Data Analytics",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EN80",
+      "title": "Master of Engineering Management/Master of Engineering Technology",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EQ60",
+      "title": "Graduate Certificate in Education (Career Development and Counselling)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "EQ60",
+      "title": "Graduate Certificate in Education (Autism)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "EQ60",
+      "title": "Graduate Certificate in Education (Innovative Learning Design)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "EQ60",
+      "title": "Graduate Certificate in Education (Indigenous Education)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "EQ71",
+      "title": "Master of Education",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "EQ74",
+      "title": "Master of Education",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "AB01",
+      "title": "Bachelor of Built Environment (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "AB01",
+      "title": "Bachelor of Built Environment (Honours) (Interior Design)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "AB01",
+      "title": "Bachelor of Built Environment (Honours) (Urban and Regional Planning)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "AB01",
+      "title": "Bachelor of Built Environment (Honours) (Construction Management and Quantity Surveying)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "AB01",
+      "title": "Bachelor of Built Environment (Honours) (Landscape Architecture)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "AB02",
+      "title": "Diploma in Architectural Studies/Bachelor of Built Environment (Honours)",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Engineering, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "AB02",
+      "title": "Diploma in Architectural Studies",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "AB02",
+      "title": "Diploma in Architectural Studies/Bachelor of Architectural Design",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Engineering, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "AB05",
+      "title": "Bachelor of Architectural Design",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "AB05",
+      "title": "Bachelor of Architectural Design/Master of Architecture",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "AV01",
+      "title": "Bachelor of Built Environment (Honours)/Master of Project Management",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BN87",
+      "title": "Master of Engineering Management",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Economics)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Finance)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Entrepreneurship and Innovation)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Behavioural Economics) (last intake 2025)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Accounting)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Public Relations) (last intake 2025)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Marketing)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Financial Planning) (last intake 2025)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (International Business)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Advertising) (last intake 2025)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Management)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Human Resource Management)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS05",
+      "title": "Bachelor of Business (Strategic Advertising and Public Relations)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS06",
+      "title": "Bachelor of Business (Dean's Scholars)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS08",
+      "title": "Bachelor of Business - International",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (International Business)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Professional Accounting)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Applied Finance)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Marketing)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Public Relations)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Philanthropy and Nonprofit Studies)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Integrated Marketing Communication)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point, Online"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Management)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Human Resource Management)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS11",
+      "title": "Master of Business (Customised)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS37",
+      "title": "Graduate Certificate in Business and Communication",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Applied Finance)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Human Resource Management)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Marketing)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Management)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (International Business)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Professional Accounting)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Integrated Marketing Communication)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point, Online"
+    },
+    {
+      "code": "BS39",
+      "title": "Graduate Certificate in Business (Customised)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS40",
+      "title": "Diploma in Business/Bachelor of Business",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Business and Law, QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE83",
+      "title": "Master of Architecture",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS40",
+      "title": "Diploma in Business",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Business and Law, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (International Business)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Financial Planning)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Behavioural Economics)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Finance)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Marketing)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Accounting)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Public Relations)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Management)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Human Resource Management)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Advertising)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Economics)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Entrepreneurship and Innovation)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS63",
+      "title": "Bachelor of Business (Honours) (Strategic Advertising and Public Relations)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BS79",
+      "title": "Graduate Diploma in Business (Financial Planning)",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BV06",
+      "title": "Bachelor of Business/Master of Data Analytics",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "BV07",
+      "title": "Bachelor of Business/Master of Data Science",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "CM01",
+      "title": "Microcredential in Ultrasound Principles and Practice",
+      "studyLevels": "Microcredential",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "BS79",
+      "title": "Graduate Diploma in Business",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "BV99",
+      "title": "Bachelor of Business/Master of Design (Strategic Design)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts (Drama)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts (Film and Screen)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts (Music)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts (Visual Arts)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts (Animation)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA01",
+      "title": "Bachelor of Creative Arts (Creative Writing)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CA02",
+      "title": "Bachelor of Creative Arts (Acting)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CS30",
+      "title": "Graduate Certificate in Podiatric Therapeutics",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "CS43",
+      "title": "Bachelor of Paramedic Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "CS43",
+      "title": "Bachelor of Paramedic Science - Graduate Entry",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "CS44",
+      "title": "Bachelor of Podiatry",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "CS44",
+      "title": "Bachelor of Podiatry - Graduate Entry",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "CS46",
+      "title": "Bachelor of Podiatry (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "CS47",
+      "title": "Bachelor of Pharmacy (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "CS48",
+      "title": "Bachelor of Medical Imaging (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "CS49",
+      "title": "Bachelor of Radiation Therapy",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "CS50",
+      "title": "Bachelor of Radiation Therapy (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "CS60",
+      "title": "Graduate Diploma in Medical Ultrasound",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "CS61",
+      "title": "Graduate Diploma in Cardiac Ultrasound",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Fashion Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Industrial Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Interaction Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Gardens Point"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Architecture)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Landscape Architecture)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Fashion)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Interior Architecture)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID10",
+      "title": "Bachelor of Communication/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID10",
+      "title": "Bachelor of Communication (Community and Public Relations)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID10",
+      "title": "Bachelor of Communication (Digital Advertising)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID10",
+      "title": "Bachelor of Communication (Journalism)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID10",
+      "title": "Bachelor of Communication (Media and Communication Industries)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID10",
+      "title": "Bachelor of Communication (Digital Media)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID11",
+      "title": "Bachelor of Communication (Community and Public Relations)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID11",
+      "title": "Bachelor of Communication/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication (Journalism)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication (Professional Communication)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication (Digital Media)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID11",
+      "title": "Bachelor of Communication (Digital Advertising)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID11",
+      "title": "Bachelor of Communication (Media and Communication Industries)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID11",
+      "title": "Bachelor of Communication (Journalism)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID11",
+      "title": "Bachelor of Communication (Professional Communication)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Fashion Design)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Industrial Design)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IF06",
+      "title": "Diploma in Creative Industries/Bachelor of Communication",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Visual Communication)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "IF06",
+      "title": "Diploma in Creative Industries/Bachelor of Design",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IF06",
+      "title": "Diploma in Creative Industries",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "IF06",
+      "title": "Diploma in Creative Industries/Bachelor of Creative Arts",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "IF06",
+      "title": "Diploma in Creative Industries/Bachelor of Creative Industries",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PY19",
+      "title": "Master of Psychology (Educational and Developmental)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Interaction Design)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Fashion)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Landscape Architecture)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID12",
+      "title": "Bachelor of Business/Bachelor of Design (Interior Architecture)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID13",
+      "title": "Bachelor of Design (Industrial Design)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID14",
+      "title": "Bachelor of Design (Interaction Design)/Bachelor of Engineering (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID14",
+      "title": "Bachelor of Design/Bachelor of Engineering (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID14",
+      "title": "Bachelor of Design (Industrial Design)/Bachelor of Engineering (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID14",
+      "title": "Bachelor of Design (Landscape Architecture)/Bachelor of Engineering (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID15",
+      "title": "Bachelor of Design/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID15",
+      "title": "Bachelor of Design (Interaction Design)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID16",
+      "title": "Bachelor of Design (Architecture)/Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID17",
+      "title": "Bachelor of Design (Interior Architecture)/Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID21",
+      "title": "Bachelor of Business/Bachelor of Design (Architecture)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID22",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts (Music)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts (Visual Arts)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts (Drama)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts (Creative Writing)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design (Interior Architecture)/Bachelor of Urban Development (Honours) (Construction Management)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design (Landscape Architecture)/Bachelor of Urban Development (Honours) (Urban and Regional Planning)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts (Dance)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID24",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Fine Arts (Film, Screen and New Media)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design (Architecture)/Bachelor of Urban Development (Honours) (Urban and Regional Planning)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID25",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design/Bachelor of Urban Development (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design (Architecture)/Bachelor of Urban Development (Honours) (Construction Management)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID18",
+      "title": "Bachelor of Design (Architecture)/Bachelor of Urban Development (Honours) (Quantity Surveying and Cost Engineering)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID19",
+      "title": "Bachelor of Design (Architecture)/Bachelor of Engineering (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID20",
+      "title": "Bachelor of Design (Landscape Architecture)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID35",
+      "title": "Bachelor of Architectural Design/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID36",
+      "title": "Bachelor of Built Environment (Honours) (Interior Design)/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID37",
+      "title": "Bachelor of Creative Industries/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication (Community and Public Relations)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication (Journalism)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication (Digital Advertising)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID26",
+      "title": "Bachelor of Property Economics/Bachelor of Business",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID27",
+      "title": "Bachelor of Property Economics/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID28",
+      "title": "Bachelor of Biomedical Science/Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID29",
+      "title": "Bachelor of Business/Bachelor of Data Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID32",
+      "title": "Bachelor of Creative Industries/Bachelor of Data Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID33",
+      "title": "Bachelor of Data Science/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication (Media and Communication Industries)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication (Promotional Communication)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID38",
+      "title": "Bachelor of Communication (Screen Industries)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID40",
+      "title": "Bachelor of Property Economics/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID42",
+      "title": "Bachelor of Science/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID43",
+      "title": "Bachelor of Business/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID44",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID45",
+      "title": "Bachelor of Fine Arts (Film, Screen and New Media)/Bachelor of Laws (Honours) (until 2024)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID45",
+      "title": "Bachelor of Fine Arts/Bachelor of Laws (Honours) (until 2024)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID45",
+      "title": "Bachelor of Fine Arts (Creative Writing)/Bachelor of Laws (Honours) (until 2024)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "PY12",
+      "title": "Master of Counselling",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "PY18",
+      "title": "Master of Clinical Psychology",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID46",
+      "title": "Bachelor of Information Technology/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Science",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID47",
+      "title": "Bachelor of Biomedical Science/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Health, Faculty of Business and Law, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID48",
+      "title": "Bachelor of Justice/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Law, Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Gardens Point, Kelvin Grove, Gardens Point"
+    },
+    {
+      "code": "ID49",
+      "title": "Bachelor of Creative Arts/Bachelor of Behavioural Science (Psychology)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID51",
+      "title": "Bachelor of Built Environment (Honours) (Landscape Architecture)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID52",
+      "title": "Bachelor of Built Environment (Honours) (Urban and Regional Planning)/Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID53",
+      "title": "Bachelor of Architectural Design/Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID55",
+      "title": "Bachelor of Built Environment (Honours) (Urban and Regional Planning)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID56",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Design (Visual Communication)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID57",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Creative Arts",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID58",
+      "title": "Bachelor of Creative Arts/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID59",
+      "title": "Bachelor of Business/Bachelor of Creative Arts",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID60",
+      "title": "Bachelor of Built Environment (Honours) (Interior Design)/Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ID61",
+      "title": "Bachelor of Built Environment (Honours) (Construction Management and Quantity Surveying)/Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ES21",
+      "title": "Diploma in Esports/Bachelor of Communication",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "ES21",
+      "title": "Diploma in Esports",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "ES21",
+      "title": "Diploma in Esports/Bachelor of Business",
+      "studyLevels": "Diploma, Combined Diploma Degree",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "EU30",
+      "title": "Master of Teaching (Early Childhood)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EU40",
+      "title": "Master of Teaching (Primary)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EU50",
+      "title": "Master of Teaching (Secondary)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Indigenous Australian Education for Teachers)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - Trauma-Aware Education Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Leading Early Childhood Education)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Inclusive Education)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Educational Leadership)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (First Nations Education Practice)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Early Childhood)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Teaching English to Speakers of Other Languages)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education - Choice of Units",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (STEM in Education)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU60",
+      "title": "Graduate Certificate in Education (Trauma-Aware Education)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - Early Childhood Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - TESOL Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - STEM in Education Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - Educational Leadership Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - Inclusive Education Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - Choice of Units",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU71",
+      "title": "Master of Education - First Nations Education Practice Specialisation",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU72",
+      "title": "Master of Education (Early Childhood Teaching)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "EU73",
+      "title": "Master of Education (School Guidance and Counselling) (until 2025)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Trauma-Aware Education)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Educational Leadership)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Indigenous Australian Education for Teachers)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Leading Early Childhood Education)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Pacific Studies)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (STEM in Education)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Teaching English to Speakers of Other Languages)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU74",
+      "title": "Master of Education (Inclusive Education)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Kelvin Grove, Kelvin Grove, Online"
+    },
+    {
+      "code": "EU75",
+      "title": "Master of Education (School Guidance and Counselling)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "EV01",
+      "title": "Bachelor of Engineering (Honours)/Master of Robotics and Artificial Intelligence",
+      "studyLevels": "Bachelor Degree, Honours, Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV02",
+      "title": "Bachelor of Engineering (Honours)/Master of Robotics and Artificial Intelligence",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV03",
+      "title": "Bachelor of Engineering (Honours)/Master of Renewable Energy",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV04",
+      "title": "Bachelor of Engineering (Honours)/Master of Advanced Manufacturing",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV07",
+      "title": "Bachelor of Engineering (Honours)/Master of Data Science",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV08",
+      "title": "Bachelor of Engineering (Honours)/Master of Data Analytics",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV09",
+      "title": "Bachelor of Engineering (Honours)/Master of Project Management",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV10",
+      "title": "Bachelor of Engineering (Honours)/Master of Biomedical Systems and Technology",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "EV11",
+      "title": "Bachelor of Engineering (Honours)/Master of Sustainable Infrastructure",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "GZ35",
+      "title": "Graduate Certificate in Business (Public Sector Management)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point, Kelvin Grove, Online"
+    },
+    {
+      "code": "GZ44",
+      "title": "Graduate Diploma in Business (Enterprise Leadership)",
+      "studyLevels": "Graduate Diploma",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "HC05",
+      "title": "Undergraduate Certificate in Educational Studies",
+      "studyLevels": "Undergraduate Certificate",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "HC10",
+      "title": "Undergraduate Certificate (Nursing)",
+      "studyLevels": "Undergraduate Certificate",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "HL10",
+      "title": "Diploma in Health Science",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Health, QUT College",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "HL10",
+      "title": "Diploma in Health Science (Nursing)",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Health, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "HL10",
+      "title": "Diploma in Health Science (Health Studies) (last intake 2025)",
+      "studyLevels": "Diploma",
+      "faculties": "Faculty of Health, QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "HL11",
+      "title": "Diploma in Health Science (Health Studies)",
+      "studyLevels": "Diploma",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "HL16",
+      "title": "Bachelor of Nursing/Bachelor of Public Health",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "GQ30",
+      "title": "Graduate Certificate in Business Administration",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "GQ51",
+      "title": "Master of Business Administration",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "GS50",
+      "title": "Executive Master of Business Administration (EMBA)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "GS73",
+      "title": "Master of Business Administration (Digital MBA)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Online"
+    },
+    {
+      "code": "GS75",
+      "title": "Master of Business Administration (MBA)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "GS87",
+      "title": "Graduate Certificate in Business Administration",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "GS89",
+      "title": "Executive Graduate Certificate in Business Administration",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Gardens Point"
+    },
+    {
+      "code": "GZ34",
+      "title": "Graduate Certificate in Business (Enterprise Leadership)",
+      "studyLevels": "Graduate Certificate",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online"
+    },
+    {
+      "code": "HL17",
+      "title": "Bachelor of Nursing/Bachelor of Behavioural Science (Psychology)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "HL18",
+      "title": "Bachelor of Nursing/Bachelor of Behavioural Science (Psychology)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "HL19",
+      "title": "Bachelor of Nursing/Bachelor of Paramedic Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "HL20",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Social Work",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EU73",
+      "title": "Master of Education (School Guidance and Counselling) (until 2025)",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2025,
+      "location": "Online, Kelvin Grove"
+    },
+    {
+      "code": "HL27",
+      "title": "Bachelor of Behavioural Science (Psychology)/Bachelor of Social Work (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "HL41",
+      "title": "Bachelor of Human Services/Bachelor of Public Health",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "HL53",
+      "title": "Bachelor of Biomedical Science (Honours)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID01",
+      "title": "Bachelor of Business/Bachelor of Creative Industries",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID02",
+      "title": "Bachelor of Creative Industries/Bachelor of Human Services",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID03",
+      "title": "Bachelor of Creative Industries/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID04",
+      "title": "Bachelor of Creative Industries/Bachelor of Laws (Honours) (until 2023)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Online, Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Community and Public Relations)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Media and Communication Industries)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Digital Advertising)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Journalism)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Screen Industries)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Promotional Communication)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Digital Media)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Professional Communication)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID05",
+      "title": "Bachelor of Business/Bachelor of Communication (Entertainment Industries)",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID08",
+      "title": "Bachelor of Communication/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID08",
+      "title": "Bachelor of Communication (Entertainment Industries)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID08",
+      "title": "Bachelor of Communication (Journalism)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID08",
+      "title": "Bachelor of Communication (Digital Media)/Bachelor of Laws (Honours)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Business and Law, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication (Community and Public Relations)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication (Digital Advertising)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "ID09",
+      "title": "Bachelor of Communication (Media and Communication Industries)/Bachelor of Justice",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "EN01",
+      "title": "Bachelor of Engineering (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "PY45",
+      "title": "Bachelor of Behavioural Science (Psychology)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "QC07",
+      "title": "Intensive Program",
+      "studyLevels": "Foundation programs",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QC08",
+      "title": "Standard Foundation Program",
+      "studyLevels": "Foundation programs",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QC15",
+      "title": "IELTS Advanced",
+      "studyLevels": "IELTS preparation",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "QC18",
+      "title": "University Preparation Program",
+      "studyLevels": "Enabling Course",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QC19",
+      "title": "QUT College Diploma Advantage Program",
+      "studyLevels": "High School Programs",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QC34",
+      "title": "English for Academic Purposes 1 Standard",
+      "studyLevels": "English for Academic Purposes",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE05",
+      "title": "General English Program (5 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE10",
+      "title": "General English Program (10 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE15",
+      "title": "General English Program (15 weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE20",
+      "title": "General English Program (20 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE25",
+      "title": "General English Program (25 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE30",
+      "title": "General English Program (30 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE35",
+      "title": "General English Program (35 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE40",
+      "title": "General English Program (40 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QC35",
+      "title": "English for Academic Purposes 1 Extended",
+      "studyLevels": "English for Academic Purposes",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QC36",
+      "title": "English for Academic Purposes 2 Standard",
+      "studyLevels": "English for Academic Purposes",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "QE45",
+      "title": "General English Program (45 Weeks)",
+      "studyLevels": "General English",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "SE05",
+      "title": "Bachelor of Urban Development (Honours) (Urban and Regional Planning)/Bachelor of Science (Environmental Science)",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "QC37",
+      "title": "English for Academic Purposes 2 Extended",
+      "studyLevels": "English for Academic Purposes",
+      "faculties": "QUT College",
+      "year": 2026,
+      "location": "Kelvin Grove"
+    },
+    {
+      "code": "SE07",
+      "title": "Bachelor of Science/Bachelor of Data Science",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE20",
+      "title": "Bachelor of Science/Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE30",
+      "title": "Bachelor of Information Technology/Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE40",
+      "title": "Bachelor of Engineering (Honours)/Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE50",
+      "title": "Bachelor of Science/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE60",
+      "title": "Bachelor of Engineering (Honours)/Bachelor of Information Technology",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE70",
+      "title": "Bachelor of Games and Interactive Environments/Bachelor of Mathematics",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE80",
+      "title": "Bachelor of Engineering (Honours)/Bachelor of Science",
+      "studyLevels": "Bachelor Degree (Double), Honours",
+      "faculties": "Faculty of Science, Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SE90",
+      "title": "Bachelor of Science/Bachelor of Games and Interactive Environments",
+      "studyLevels": "Bachelor Degree (Double)",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SQ02",
+      "title": "START QUT",
+      "studyLevels": "High School Programs",
+      "faculties": "Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Online, Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove, Online"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science (Physics)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science (Environmental Science)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science (Climate Science)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science (Earth Science)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science (Biological Sciences)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST01",
+      "title": "Bachelor of Science (Chemistry)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST10",
+      "title": "Bachelor of Science (Honours)",
+      "studyLevels": "Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST20",
+      "title": "Bachelor of Science Advanced (Honours) (Environmental Science)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "ST20",
+      "title": "Bachelor of Science Advanced (Honours) (Earth Science)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "ST20",
+      "title": "Bachelor of Science Advanced (Honours) (Physics)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "ST20",
+      "title": "Bachelor of Science Advanced (Honours) (Biological Sciences)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST20",
+      "title": "Bachelor of Science Advanced (Honours) (Chemistry)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "UD01",
+      "title": "Bachelor of Urban Development (Honours) (Construction Management)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "ST20",
+      "title": "Bachelor of Science Advanced (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "SV02",
+      "title": "Bachelor of Science (Chemistry)/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "SV02",
+      "title": "Bachelor of Science (Physics)/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "SV02",
+      "title": "Bachelor of Science/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "SV02",
+      "title": "Bachelor of Science (Earth Science)/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "SV02",
+      "title": "Bachelor of Science (Environmental Science)/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "SV02",
+      "title": "Bachelor of Science (Biological Sciences)/Master of Teaching (Secondary)",
+      "studyLevels": "Bachelor Degree, Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "SV04",
+      "title": "Bachelor of Science/Master of Data Science",
+      "studyLevels": "Vertical Double Degree",
+      "faculties": "Faculty of Science",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "SW03",
+      "title": "Bachelor of Human Services",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "SW04",
+      "title": "Bachelor of Social Work",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "SW05",
+      "title": "Bachelor of Social Work (Honours)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "SW81",
+      "title": "Master of Social Work - Qualifying",
+      "studyLevels": "Masters Degree (Coursework)",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "U082",
+      "title": "University Study Abroad Semester",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "UD01",
+      "title": "Bachelor of Urban Development (Honours) (Urban and Regional Planning)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "U083",
+      "title": "University Exchange Semester",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": "External"
+    },
+    {
+      "code": "U084",
+      "title": "International Transfer Semester",
+      "studyLevels": "Enabling Course",
+      "faculties": "Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "UD01",
+      "title": "Bachelor of Urban Development (Honours) (Quantity Surveying and Cost Engineering)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "UD01",
+      "title": "Bachelor of Urban Development (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "U094",
+      "title": "University Study Abroad Year",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": "External"
+    },
+    {
+      "code": "U095",
+      "title": "University Exchange Year",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "U096",
+      "title": "International Transfer Year",
+      "studyLevels": "",
+      "faculties": "Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "UD05",
+      "title": "Bachelor of Property Economics",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Business and Law",
+      "year": 2026,
+      "location": "Online, Gardens Point, Gardens Point"
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Criminology and Policing",
+      "studyLevels": "University wide second majors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Information Technology",
+      "studyLevels": "University wide second majors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Property Economics",
+      "studyLevels": "University wide second majors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Property Experience",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Design",
+      "studyLevels": "University wide second majors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: International Business",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Advertising, Integrated Marketing Communication, Marketing and Public Relations",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Behavioural Economics, Economics and Finance",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Entrepreneurship, Human Resource Management and Management",
+      "studyLevels": "",
+      "faculties": "",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Policy and Politics",
+      "studyLevels": "University wide second majors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Second Major: Creative Industries",
+      "studyLevels": "University wide second majors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Entrepreneurship, Human Resource Management and Management",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Engineering",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Architecture and Built Environment",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Health",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Accounting, Behavioural Economics, Economics, Forensics and Finance",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Mathematical Sciences",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Design",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Multimedia and Information Technology",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Society and Culture",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Law and Justice",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Communication",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: International Business and Tourism and Entertainment Marketing",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Science",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Advertising, Integrated Marketing Communication, Marketing and Public Relations",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Creative Industries",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Climate Science",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "Uniwide",
+      "title": "Minor: Data Science",
+      "studyLevels": "University wide minors",
+      "faculties": "University Wide, Faculty of Business and Law, Faculty of Science, Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice, Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "XN43",
+      "title": "Bachelor of Nutrition Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "XN45",
+      "title": "Bachelor of Nutrition and Dietetics (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "XN50",
+      "title": "Bachelor of Sport and Exercise Science",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "XN51",
+      "title": "Bachelor of Clinical Exercise Physiology",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "XN52",
+      "title": "Bachelor of Clinical Exercise Physiology (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "XN55",
+      "title": "Bachelor of Sport and Exercise Science (Honours)",
+      "studyLevels": "Bachelor Degree, Honours",
+      "faculties": "Faculty of Health",
+      "year": 2026,
+      "location": ""
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Industrial Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Architecture)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Fashion)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE43",
+      "title": "Bachelor of Design (Interior Architecture)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering",
+      "year": 2026,
+      "location": "Gardens Point, Gardens Point"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Visual Communication)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Interaction Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Kelvin Grove"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Gardens Point, Kelvin Grove, Gardens Point, Kelvin Grove"
+    },
+    {
+      "code": "DE45",
+      "title": "Bachelor of Design - International (Fashion Design)",
+      "studyLevels": "Bachelor Degree",
+      "faculties": "Faculty of Engineering, Faculty of Creative Industries, Education and Social Justice",
+      "year": 2026,
+      "location": "Kelvin Grove, Gardens Point, Kelvin Grove"
+    }
+  ]
+}
