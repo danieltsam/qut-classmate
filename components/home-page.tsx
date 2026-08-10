@@ -4,13 +4,11 @@ import { useState, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { UnitSearch } from "@/components/unit-search"
 import { TimetableMaker } from "@/components/timetable-maker"
-import { UnitReviews } from "@/components/unit-reviews"
 import VisualizerDashboard from "@/components/visualizer-dashboard"
 import { 
   Calendar, 
   Network, 
   Search, 
-  MessageSquare, 
   FileText, 
   Layers, 
   Clock, 
@@ -32,7 +30,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     readme: true,
     search: false,
     timetable: false,
-    reviews: false,
     visualizer: false,
     explorer: false,
   })
@@ -41,7 +38,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     readme: false,
     search: false,
     timetable: false,
-    reviews: false,
     visualizer: false,
     explorer: false,
   })
@@ -50,7 +46,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     readme: false,
     search: false,
     timetable: false,
-    reviews: false,
     visualizer: false,
     explorer: false,
   })
@@ -59,7 +54,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     readme: { x: 120, y: 120 },
     search: { x: 50, y: 50 },
     timetable: { x: 90, y: 80 },
-    reviews: { x: 150, y: 150 },
     visualizer: { x: 30, y: 30 },
     explorer: { x: 70, y: 100 },
   })
@@ -78,13 +72,9 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
   const [currentTime, setCurrentTime] = useState("")
 
   const [isMobile, setIsMobile] = useState(false)
-  const [unitCodeParam, setUnitCodeParam] = useState<string | null>(null)
-  const [unitNameParam, setUnitNameParam] = useState<string | null>(null)
 
   // Watch URL params to trigger window launch
   useEffect(() => {
-    const unitCode = searchParams.get("unitCode")
-    const unitName = searchParams.get("unitName")
     const win = searchParams.get("win")
     const tab = searchParams.get("tab")
 
@@ -92,15 +82,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       openWindow(win)
     } else if (tab) {
       openWindow(tab)
-    }
-
-    if (unitCode) {
-      setUnitCodeParam(unitCode)
-      openWindow("reviews")
-    }
-
-    if (unitName) {
-      setUnitNameParam(decodeURIComponent(unitName))
     }
   }, [searchParams])
 
@@ -133,6 +114,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
 
   // Window manager helpers
   const openWindow = (win: string) => {
+    if (win === "reviews") return // Drop reviews
     setOpenWindows(prev => ({ ...prev, [win]: true }))
     setMinimizedWindows(prev => ({ ...prev, [win]: false }))
     setActiveWindow(win)
@@ -204,7 +186,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       readme: true,
       search: false,
       timetable: false,
-      reviews: false,
       visualizer: false,
       explorer: false,
     })
@@ -212,7 +193,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       readme: false,
       search: false,
       timetable: false,
-      reviews: false,
       visualizer: false,
       explorer: false,
     })
@@ -220,7 +200,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       readme: false,
       search: false,
       timetable: false,
-      reviews: false,
       visualizer: false,
       explorer: false,
     })
@@ -228,7 +207,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       readme: { x: 120, y: 120 },
       search: { x: 50, y: 50 },
       timetable: { x: 90, y: 80 },
-      reviews: { x: 150, y: 150 },
       visualizer: { x: 30, y: 30 },
       explorer: { x: 70, y: 100 },
     })
@@ -243,7 +221,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     { id: "timetable", label: "Timetable Creator", icon: <Calendar className="w-8 h-8 text-red-200" /> },
     { id: "visualizer", label: "Course Visualizer", icon: <Network className="w-8 h-8 text-green-200" /> },
     { id: "explorer", label: "Campus Explorer", icon: <Compass className="w-8 h-8 text-cyan-250" /> },
-    { id: "reviews", label: "Unit Reviews", icon: <MessageSquare className="w-8 h-8 text-amber-200" /> },
     { id: "readme", label: "README.txt", icon: <FileText className="w-8 h-8 text-zinc-200" /> },
   ]
 
@@ -347,13 +324,11 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
                 <span className="flex items-center gap-1.5 text-xs font-bold font-sans">
                   {win === "search" && <Search className="w-3.5 h-3.5" />}
                   {win === "timetable" && <Calendar className="w-3.5 h-3.5" />}
-                  {win === "reviews" && <MessageSquare className="w-3.5 h-3.5" />}
                   {win === "visualizer" && <Network className="w-3.5 h-3.5" />}
                   {win === "explorer" && <Compass className="w-3.5 h-3.5" />}
                   {win === "readme" && <FileText className="w-3.5 h-3.5" />}
                   {win === "search" && "Unit Search"}
                   {win === "timetable" && "Timetable Creator"}
-                  {win === "reviews" && "Unit Reviews"}
                   {win === "visualizer" && "Course Visualizer"}
                   {win === "explorer" && "Campus Explorer"}
                   {win === "readme" && "README.txt - Notepad"}
@@ -403,14 +378,13 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               <div className="flex-grow overflow-auto bg-[#ece9d8] p-4 font-sans text-black select-text max-h-[calc(100vh-100px)]">
                 {win === "search" && <UnitSearch />}
                 {win === "timetable" && <TimetableMaker />}
-                {win === "reviews" && <UnitReviews initialUnitCode={unitCodeParam} initialUnitName={unitNameParam} />}
                 {win === "visualizer" && <VisualizerDashboard allCoursesData={allCoursesData} assessmentsData={assessmentsData} forcedViewMode="graph" />}
                 {win === "explorer" && <VisualizerDashboard allCoursesData={allCoursesData} assessmentsData={assessmentsData} forcedViewMode="explorer" />}
                 {win === "readme" && (
                   <textarea
                     readOnly
                     className="w-full h-full min-h-[300px] p-2 font-mono text-xs border-0 focus:ring-0 resize-none bg-white text-black focus:outline-none"
-                    value={`QUT Classmate v2.0\n------------------\nWelcome to QUT Classmate, the retro-themed student timetable planner.\n\nHow to use:\n1. Click any desktop shortcut to open the application window.\n2. Build your weekly schedules in "Timetable Creator".\n3. Map out your degree prerequisite flow in "Course Visualizer".\n4. Discover classes on campus right now in "Campus Explorer".\n5. Read student feedback or submit ratings in "Unit Reviews".\n\nSystem Requirements:\n- A browser made in the last 20 years.\n- A strong coffee to survive allocating classes at 9am.\n\n(C) 2001-2026 QUT Classmate Project. All rights reserved.`}
+                    value={`QUT Classmate v2.0\n------------------\nWelcome to QUT Classmate, the retro-themed student timetable planner.\n\nHow to use:\n1. Click any desktop shortcut to open the application window.\n2. Build your weekly schedules in "Timetable Creator".\n3. Map out your degree prerequisite flow in "Course Visualizer".\n4. Discover classes on campus right now in "Campus Explorer".\n\nSystem Requirements:\n- A browser made in the last 20 years.\n- A strong coffee to survive allocating classes at 9am.\n\n(C) 2001-2026 QUT Classmate Project. All rights reserved.`}
                   />
                 )}
               </div>
@@ -441,7 +415,6 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               const isActive = activeWindow === win && !minimizedWindows[win]
               const label = win === "search" ? "Unit Search" : 
                             win === "timetable" ? "Timetable Creator" : 
-                            win === "reviews" ? "Unit Reviews" : 
                             win === "visualizer" ? "Course Visualizer" : 
                             win === "explorer" ? "Campus Explorer" : "README.txt"
 
