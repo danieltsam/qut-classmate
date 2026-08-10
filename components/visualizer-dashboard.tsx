@@ -678,7 +678,7 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
       if (!timeRange) return false;
       
       const isOngoing = timeRange.start <= chosenTimeMinutes && timeRange.end > chosenTimeMinutes;
-      const isUpcoming = timeRange.start > chosenTimeMinutes && timeRange.start <= (chosenTimeMinutes + 3 * 60);
+      const isUpcoming = timeRange.start > chosenTimeMinutes && timeRange.start < (chosenTimeMinutes + 60);
       
       if (!isOngoing && !isUpcoming) return false;
       
