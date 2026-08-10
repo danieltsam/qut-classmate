@@ -405,7 +405,7 @@ export function TimetableMaker() {
               <Sliders className="w-3.5 h-3.5 text-white" /> Class Finder & Streams
             </span>
           </div>
-          <div className="p-4 bg-white">
+          <div className="p-4 bg-[#ece9d8]">
             <TimetableSidebar
               onClassHover={handleClassHover}
               onClassToggle={handleClassToggle}
