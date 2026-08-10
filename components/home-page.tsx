@@ -21,7 +21,8 @@ import {
   Sparkles,
   HelpCircle,
   FolderSearch,
-  BookOpen
+  BookOpen,
+  Compass
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -33,6 +34,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     timetable: false,
     reviews: false,
     visualizer: false,
+    explorer: false,
   })
   
   const [minimizedWindows, setMinimizedWindows] = useState<Record<string, boolean>>({
@@ -41,6 +43,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     timetable: false,
     reviews: false,
     visualizer: false,
+    explorer: false,
   })
 
   const [maximizedWindows, setMaximizedWindows] = useState<Record<string, boolean>>({
@@ -49,6 +52,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     timetable: false,
     reviews: false,
     visualizer: false,
+    explorer: false,
   })
 
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({
@@ -57,6 +61,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     timetable: { x: 90, y: 80 },
     reviews: { x: 150, y: 150 },
     visualizer: { x: 30, y: 30 },
+    explorer: { x: 70, y: 100 },
   })
 
   const [activeWindow, setActiveWindow] = useState<string>("readme")
@@ -201,6 +206,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       timetable: false,
       reviews: false,
       visualizer: false,
+      explorer: false,
     })
     setMinimizedWindows({
       readme: false,
@@ -208,6 +214,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       timetable: false,
       reviews: false,
       visualizer: false,
+      explorer: false,
     })
     setMaximizedWindows({
       readme: false,
@@ -215,6 +222,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       timetable: false,
       reviews: false,
       visualizer: false,
+      explorer: false,
     })
     setPositions({
       readme: { x: 120, y: 120 },
@@ -222,6 +230,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
       timetable: { x: 90, y: 80 },
       reviews: { x: 150, y: 150 },
       visualizer: { x: 30, y: 30 },
+      explorer: { x: 70, y: 100 },
     })
     setActiveWindow("readme")
     setStartMenuOpen(false)
@@ -233,6 +242,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
     { id: "search", label: "Unit Search", icon: <Search className="w-8 h-8 text-blue-100" /> },
     { id: "timetable", label: "Timetable Creator", icon: <Calendar className="w-8 h-8 text-red-200" /> },
     { id: "visualizer", label: "Course Visualizer", icon: <Network className="w-8 h-8 text-green-200" /> },
+    { id: "explorer", label: "Campus Explorer", icon: <Compass className="w-8 h-8 text-cyan-250" /> },
     { id: "reviews", label: "Unit Reviews", icon: <MessageSquare className="w-8 h-8 text-amber-200" /> },
     { id: "readme", label: "README.txt", icon: <FileText className="w-8 h-8 text-zinc-200" /> },
   ]
@@ -274,11 +284,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               onClick={(e) => {
                 e.stopPropagation()
                 handleShortcutClick(s.id)
-                if (isMobile) openWindow(s.id) // Mobile is single-click to open
-              }}
-              onDoubleClick={(e) => {
-                e.stopPropagation()
-                handleShortcutDoubleClick(s.id)
+                openWindow(s.id) // Single click selects and immediately opens window
               }}
               className={cn(
                 "flex flex-col items-center justify-center p-2 rounded w-20 text-center cursor-pointer border border-transparent select-none",
@@ -315,7 +321,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
                 position: "absolute" as const,
                 left: `${positions[win].x}px`,
                 top: `${positions[win].y}px`,
-                width: win === "visualizer" || win === "timetable" ? "950px" : "650px",
+                width: win === "visualizer" || win === "timetable" || win === "explorer" ? "950px" : "650px",
                 maxWidth: "92vw",
                 zIndex: isActive ? 40 : 10,
               }
@@ -343,11 +349,13 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
                   {win === "timetable" && <Calendar className="w-3.5 h-3.5" />}
                   {win === "reviews" && <MessageSquare className="w-3.5 h-3.5" />}
                   {win === "visualizer" && <Network className="w-3.5 h-3.5" />}
+                  {win === "explorer" && <Compass className="w-3.5 h-3.5" />}
                   {win === "readme" && <FileText className="w-3.5 h-3.5" />}
                   {win === "search" && "Unit Search"}
                   {win === "timetable" && "Timetable Creator"}
                   {win === "reviews" && "Unit Reviews"}
                   {win === "visualizer" && "Course Visualizer"}
+                  {win === "explorer" && "Campus Explorer"}
                   {win === "readme" && "README.txt - Notepad"}
                 </span>
                 
@@ -392,16 +400,17 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               </div>
 
               {/* Window Main Component Content Area */}
-              <div className="flex-grow overflow-auto bg-white p-4 font-sans text-black select-text max-h-[calc(100vh-100px)]">
+              <div className="flex-grow overflow-auto bg-[#ece9d8] p-4 font-sans text-black select-text max-h-[calc(100vh-100px)]">
                 {win === "search" && <UnitSearch />}
                 {win === "timetable" && <TimetableMaker />}
                 {win === "reviews" && <UnitReviews initialUnitCode={unitCodeParam} initialUnitName={unitNameParam} />}
-                {win === "visualizer" && <VisualizerDashboard allCoursesData={allCoursesData} assessmentsData={assessmentsData} />}
+                {win === "visualizer" && <VisualizerDashboard allCoursesData={allCoursesData} assessmentsData={assessmentsData} forcedViewMode="graph" />}
+                {win === "explorer" && <VisualizerDashboard allCoursesData={allCoursesData} assessmentsData={assessmentsData} forcedViewMode="explorer" />}
                 {win === "readme" && (
                   <textarea
                     readOnly
                     className="w-full h-full min-h-[300px] p-2 font-mono text-xs border-0 focus:ring-0 resize-none bg-white text-black focus:outline-none"
-                    value={`QUT Classmate v2.0\n------------------\nWelcome to QUT Classmate, the retro-themed student timetable planner.\n\nHow to use:\n1. Click or double-click any desktop shortcut to open the application window.\n2. Build your weekly schedules in "Timetable Creator".\n3. Map out your degree prerequisite flow in "Course Visualizer".\n4. Read student feedback or submit ratings in "Unit Reviews".\n\nSystem Requirements:\n- A browser made in the last 20 years.\n- A strong coffee to survive allocating classes at 9am.\n\n(C) 2001-2026 QUT Classmate Project. All rights reserved.`}
+                    value={`QUT Classmate v2.0\n------------------\nWelcome to QUT Classmate, the retro-themed student timetable planner.\n\nHow to use:\n1. Click any desktop shortcut to open the application window.\n2. Build your weekly schedules in "Timetable Creator".\n3. Map out your degree prerequisite flow in "Course Visualizer".\n4. Discover classes on campus right now in "Campus Explorer".\n5. Read student feedback or submit ratings in "Unit Reviews".\n\nSystem Requirements:\n- A browser made in the last 20 years.\n- A strong coffee to survive allocating classes at 9am.\n\n(C) 2001-2026 QUT Classmate Project. All rights reserved.`}
                   />
                 )}
               </div>
@@ -433,7 +442,8 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
               const label = win === "search" ? "Unit Search" : 
                             win === "timetable" ? "Timetable Creator" : 
                             win === "reviews" ? "Unit Reviews" : 
-                            win === "visualizer" ? "Course Visualizer" : "README.txt"
+                            win === "visualizer" ? "Course Visualizer" : 
+                            win === "explorer" ? "Campus Explorer" : "README.txt"
 
               return (
                 <button
@@ -552,7 +562,7 @@ export function HomePage({ allCoursesData = [], assessmentsData = {} }: { allCou
                 onClick={() => setShowShutdownDialog(true)}
                 className="xp-button py-1 px-2.5 flex items-center gap-1.5 text-xs text-red-950 font-bold"
               >
-                <Power className="w-3.5 h-3.5 text-red-600 animate-pulse" />
+                <Power className="w-3.5 h-3.5 text-red-600" />
                 <span>Turn Off Computer</span>
               </button>
             </div>
