@@ -985,47 +985,9 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
   };
 
   return (
-    <div className="xp-desktop p-4 md:p-6 select-none flex flex-col items-center justify-start min-h-screen w-full">
-      
-      {/* Master XP Application Window */}
-      <div className="xp-window w-full max-w-7xl flex flex-col min-h-[90vh]">
-        {/* XP Titlebar */}
-        <div className="xp-titlebar">
-          <span className="flex items-center gap-2 text-xs font-bold">
-            <Layers className="w-4 h-4 text-white" />
-            QUT Classmate - Course Visualizer [{selectedCourseCode}]
-          </span>
-          <div className="flex gap-1">
-            <button className="xp-btn-action text-[8px] font-bold">_</button>
-            <button className="xp-btn-action text-[9px] font-bold">□</button>
-            <Link href="/" className="xp-btn-close">X</Link>
-          </div>
-        </div>
-
-        {/* XP Menu Bar */}
-        <div className="xp-menubar">
-          <span className="xp-menu-item font-semibold" onClick={() => window.location.href = '/'}>File</span>
-          <span className="xp-menu-item font-semibold" onClick={() => !forcedViewMode && setViewMode(activeView === 'graph' ? 'explorer' : 'graph')}>View</span>
-          <span className="xp-menu-item font-semibold" onClick={() => handleExploreUnit('IFB104')}>Help</span>
-        </div>
-
-        {/* XP Address Bar / Toolbar */}
-        <div className="xp-addressbar">
-          <Link
-            href="/"
-            className="xp-button py-0.5 px-2 flex items-center gap-1 font-sans text-[11px]"
-          >
-            ← Back
-          </Link>
-          <span className="text-[11px] font-bold text-zinc-500 font-sans ml-2">Address:</span>
-          <div className="xp-address-box font-mono text-[11px] bg-white border px-2 py-0.5 flex items-center justify-between">
-            <span>C:\Program Files\QUT\classmate\visualizer.exe</span>
-            <span className="text-[9px] text-zinc-400 select-none">Go</span>
-          </div>
-        </div>
-
-        {/* Main Application Body (inside the XP Panel) */}
-        <div className="xp-panel p-5 space-y-6 flex-grow flex flex-col justify-between">
+    <div className="flex flex-col flex-grow w-full h-full min-h-0">
+      {/* Main Application Body (inside the XP Panel) */}
+      <div className="xp-panel p-5 space-y-6 flex-grow flex flex-col justify-between">
 
           {/* XP Top Control Bar (mimicking standard XP options panel) */}
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white border-t-2 border-l-2 border-r-2 border-b-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white p-4">
@@ -1138,17 +1100,13 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow">
               
               {/* Left Column: Explorer task sidebar */}
-              <div className="xp-window lg:col-span-1 flex flex-col h-fit">
-                <div className="xp-titlebar">
-                  <span className="flex items-center gap-1.5 text-xs font-bold">
+              <div className="lg:col-span-1 flex flex-col h-fit bg-[#ece9d8] border border-[#d8d2bd]">
+                <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+                  <span className="flex items-center gap-1.5">
                     <Sliders className="w-3.5 h-3.5" /> Filter Options
                   </span>
-                  <div className="flex gap-0.5">
-                    <button className="xp-btn-action text-[8px] font-bold">_</button>
-                    <button className="xp-btn-close">X</button>
-                  </div>
                 </div>
-                <div className="xp-panel p-4 space-y-4 font-sans text-xs text-black">
+                <div className="p-4 space-y-4 font-sans text-xs text-black">
                   
                   {/* Day Selection */}
                   <div className="space-y-1.5">
@@ -1443,18 +1401,13 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 font-sans">
                 
                 {/* Major Visibility Window */}
-                <div className="xp-window xl:col-span-2 flex flex-col">
-                  <div className="xp-titlebar">
-                    <span className="flex items-center gap-1.5 text-xs font-bold">
+                <div className="xl:col-span-2 flex flex-col bg-white border border-[#d8d2bd]">
+                  <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+                    <span className="flex items-center gap-1.5">
                       <Layers className="w-3.5 h-3.5 text-white" /> Active Major Branches
                     </span>
-                    <div className="flex gap-0.5">
-                      <button className="xp-btn-action text-[8px] font-bold">_</button>
-                      <button className="xp-btn-action text-[9px] font-bold">□</button>
-                      <button className="xp-btn-close">X</button>
-                    </div>
                   </div>
-                  <div className="xp-panel p-4 flex-grow space-y-4">
+                  <div className="p-4 flex-grow space-y-4">
                     <p className="text-[11px] text-zinc-600 font-sans">
                       Toggle major specializations to show or hide their corresponding study modules in the flow graph.
                     </p>
@@ -1584,18 +1537,14 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
                   </div>
                 </div>
 
-                {/* Study Progression Window */}
-                <div className="xp-window flex flex-col h-full">
-                  <div className="xp-titlebar">
-                    <span className="flex items-center gap-1.5 text-xs font-bold">
+                {/* Study Progression Panel */}
+                <div className="flex flex-col h-full bg-[#ece9d8] border border-[#d8d2bd]">
+                  <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+                    <span className="flex items-center gap-1.5">
                       <Award className="w-3.5 h-3.5 text-white" /> Study Progression
                     </span>
-                    <div className="flex gap-0.5">
-                      <button className="xp-btn-action text-[8px] font-bold">_</button>
-                      <button className="xp-btn-close">X</button>
-                    </div>
                   </div>
-                  <div className="xp-panel p-4 flex-grow space-y-4 font-sans text-xs text-black">
+                  <div className="p-4 flex-grow space-y-4 font-sans text-xs text-black">
                     
                     {/* Progress Meter */}
                     <div className="space-y-1.5">
@@ -1770,17 +1719,13 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
 
               {/* 3. Custom Elective Option Selectors */}
               {optionStructures.length > 0 && (
-                <div className="xp-window flex flex-col font-sans">
-                  <div className="xp-titlebar">
-                    <span className="flex items-center gap-1.5 text-xs font-bold">
+                <div className="flex flex-col font-sans bg-[#ece9d8] border border-[#d8d2bd]">
+                  <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+                    <span className="flex items-center gap-1.5">
                       Customize Elective Pathways & Minors
                     </span>
-                    <div className="flex gap-0.5">
-                      <button className="xp-btn-action text-[8px] font-bold">_</button>
-                      <button className="xp-btn-close">X</button>
-                    </div>
                   </div>
-                  <div className="xp-panel p-4 space-y-4 text-xs text-black">
+                  <div className="p-4 space-y-4 text-xs text-black">
                     <p className="text-[11px] text-zinc-600">
                       Configure your elective choices below. These selections automatically dynamically link prerequisite paths onto the study map.
                     </p>
@@ -1836,19 +1781,14 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
                 </p>
               </div>
 
-              {/* 4. Display Window: Obsidian Graph */}
-              <div className="xp-window flex flex-col flex-grow">
-                <div className="xp-titlebar">
-                  <span className="flex items-center gap-1.5 text-xs font-bold">
+              {/* 4. Display Panel: Obsidian Graph */}
+              <div className="flex flex-col flex-grow bg-white border border-[#d8d2bd]">
+                <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+                  <span className="flex items-center gap-1.5">
                     <Network className="w-3.5 h-3.5 text-white" /> Obsidian Graph Network Flow
                   </span>
-                  <div className="flex gap-0.5">
-                    <button className="xp-btn-action text-[8px] font-bold">_</button>
-                    <button className="xp-btn-action text-[9px] font-bold">□</button>
-                    <button className="xp-btn-close">X</button>
-                  </div>
                 </div>
-                <div className="xp-panel p-0 flex-grow bg-white border-t-2 border-l-2 border-t-[#707070] border-l-[#707070]">
+                <div className="p-0 flex-grow bg-white border-t-2 border-l-2 border-t-[#707070] border-l-[#707070]">
                   <ObsidianGraph
                     units={unitsInLayout}
                     links={activeLinks}
@@ -1869,19 +1809,18 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData, f
           )}
 
         </div>
-      </div>
 
-      {/* Details Side-Drawer */}
-      <UnitDetailsDrawer
-        unit={selectedUnit}
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        onJumpToUnit={handleJumpToUnit}
-        allUnitsMap={allCourseUnitsMap}
-        isCompleted={selectedUnit ? completedUnits.has(selectedUnit.code) : false}
-        onToggleCompleted={toggleUnitCompleted}
-        assessmentsData={assessmentsData}
-      />
-    </div>
+        {/* Details Side-Drawer */}
+        <UnitDetailsDrawer
+          unit={selectedUnit}
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          onJumpToUnit={handleJumpToUnit}
+          allUnitsMap={allCourseUnitsMap}
+          isCompleted={selectedUnit ? completedUnits.has(selectedUnit.code) : false}
+          onToggleCompleted={toggleUnitCompleted}
+          assessmentsData={assessmentsData}
+        />
+      </div>
   );
 }

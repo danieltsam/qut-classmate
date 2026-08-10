@@ -9,7 +9,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { exportToICS } from "@/lib/export-utils"
-import { Download, Calendar } from "lucide-react"
+import { Download, Calendar, Sliders } from "lucide-react"
 import { AutoTimetableGenerator } from "./auto-timetable-generator"
 
 export function TimetableMaker() {
@@ -357,78 +357,89 @@ export function TimetableMaker() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap justify-between items-center gap-2">
-        <h2 className="text-xl font-semibold text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
-          Timetable Creator
-        </h2>
-        <div className="flex flex-wrap gap-2">
+    <div className="space-y-4 font-sans">
+      {/* Action Toolbar */}
+      <div className="flex flex-wrap justify-between items-center gap-2 p-2 bg-[#ece9d8] border border-[#d8d2bd]">
+        <span className="text-xs font-bold text-zinc-700">Allocated Classes: {selectedClasses.length}</span>
+        <div className="flex flex-wrap gap-2 items-center">
           <AutoTimetableGenerator
             onAddClasses={handleAddClasses}
             existingClasses={selectedClasses}
             onAddSearchedUnit={handleAddSearchedUnit}
           />
 
-          <Button
+          <button
             onClick={handleExport}
-            variant="outline"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
+            className="flex items-center gap-1.5 py-1 px-3"
             disabled={selectedClasses.length === 0}
           >
-            <Download className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Export (.ics)</span>
-            <span className="sm:hidden">Export</span>
-          </Button>
+            <Download className="h-3.5 w-3.5" />
+            <span>Export (.ics)</span>
+          </button>
 
-          <Button
+          <button
             onClick={handleExportToGoogle}
-            variant="outline"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
+            className="flex items-center gap-1.5 py-1 px-3"
             disabled={selectedClasses.length === 0}
           >
-            <Calendar className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Google Calendar</span>
-            <span className="sm:hidden">Google</span>
-          </Button>
+            <Calendar className="h-3.5 w-3.5" />
+            <span>Google Calendar</span>
+          </button>
 
           {selectedClasses.length > 0 && (
-            <Button
+            <button
               onClick={handleClearAll}
-              variant="outline"
-              className="border-red-200 hover:bg-red-50 text-red-600 dark:border-red-800 dark:hover:bg-red-900/30 dark:text-red-400 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
+              className="py-1 px-3 border-red-400 text-red-700 font-bold"
             >
               Clear All
-            </Button>
+            </button>
           )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
-          <TimetableSidebar
-            onClassHover={handleClassHover}
-            onClassToggle={handleClassToggle}
-            onActivityTypeHover={handleActivityTypeHover}
-            selectedClasses={selectedClasses}
-            searchedUnits={searchedUnits}
-            onAddSearchedUnit={handleAddSearchedUnit}
-            onAddClasses={handleAddClasses}
-          />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Left Column: Sidebar Controls */}
+        <div className="lg:col-span-1 flex flex-col h-fit bg-[#ece9d8] border border-[#d8d2bd]">
+          <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+            <span className="flex items-center gap-1.5">
+              <Sliders className="w-3.5 h-3.5 text-white" /> Class Finder & Streams
+            </span>
+          </div>
+          <div className="p-4 bg-white">
+            <TimetableSidebar
+              onClassHover={handleClassHover}
+              onClassToggle={handleClassToggle}
+              onActivityTypeHover={handleActivityTypeHover}
+              selectedClasses={selectedClasses}
+              searchedUnits={searchedUnits}
+              onAddSearchedUnit={handleAddSearchedUnit}
+              onAddClasses={handleAddClasses}
+            />
+          </div>
         </div>
-        <div className="lg:col-span-2">
-          {selectedClasses.length > 0 && (
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-center sm:justify-start">
-              <span className="inline-flex items-center">
-                <span className="mr-1">💡</span> Tip: Click on any class in the timetable to remove it
-              </span>
-            </div>
-          )}
-          <WeeklyTimetable
-            selectedClasses={selectedClasses}
-            hoveredClass={hoveredClass}
-            onClassToggle={handleClassToggle}
-            previewClasses={previewClasses}
-          />
+
+        {/* Right Column: Weekly Schedule Grid */}
+        <div className="lg:col-span-2 flex flex-col bg-[#ece9d8] border border-[#d8d2bd]">
+          <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-white" /> Weekly Class Schedule Calendar
+            </span>
+          </div>
+          <div className="p-4 bg-white flex-grow overflow-auto min-h-[400px]">
+            {selectedClasses.length > 0 && (
+              <div className="text-[10px] text-zinc-500 mb-2 flex items-center justify-center sm:justify-start">
+                <span className="inline-flex items-center">
+                  <span className="mr-1">💡</span> Tip: Click on any class in the timetable to remove it
+                </span>
+              </div>
+            )}
+            <WeeklyTimetable
+              selectedClasses={selectedClasses}
+              hoveredClass={hoveredClass}
+              onClassToggle={handleClassToggle}
+              previewClasses={previewClasses}
+            />
+          </div>
         </div>
       </div>
     </div>
