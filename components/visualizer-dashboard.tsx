@@ -707,6 +707,13 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
       if (a.isOngoing && !b.isOngoing) return -1;
       if (!a.isOngoing && b.isOngoing) return 1;
       
+      // Prioritize classes that start closest to the chosen explorer time (exact match comes first)
+      const diffA = Math.abs(a.startMinutes - chosenTimeMinutes);
+      const diffB = Math.abs(b.startMinutes - chosenTimeMinutes);
+      if (diffA !== diffB) {
+        return diffA - diffB;
+      }
+      
       // Heuristic: Deprioritize classes that span over 4 hours (240 minutes) e.g., 9am-3pm (6 hours)
       const isLongA = a.duration > 240;
       const isLongB = b.duration > 240;
