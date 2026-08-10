@@ -312,3 +312,133 @@
   background: linear-gradient(to bottom, #4aa14a 0%, #6ebc6e 30%, #4aa14a 90%, #296029 100%);
 }
 
+/* Windows XP Global overrides inside xp-window */
+.xp-window,
+.xp-window * {
+  font-family: 'Tahoma', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Force standard inputs, selects, autocompletes, and textareas inside windows to look like XP text boxes */
+.xp-window input[type="text"],
+.xp-window input[type="search"],
+.xp-window input[type="number"],
+.xp-window select,
+.xp-window textarea {
+  background-color: white !important;
+  border-top: 2px solid #707070 !important;
+  border-left: 2px solid #707070 !important;
+  border-right: 1.5px solid #d8d2bd !important;
+  border-bottom: 1.5px solid #d8d2bd !important;
+  padding: 4px 6px !important;
+  font-size: 11px !important;
+  color: black !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+.xp-window input:focus,
+.xp-window select:focus,
+.xp-window textarea:focus {
+  outline: 1.5px solid #e5973c !important;
+}
+
+/* Force standard buttons inside windows to look like XP Luna beveled buttons */
+/* Ignore the window action buttons (close, minimize, maximize) and Radix tabs */
+.xp-window button:not(.xp-btn-action):not(.xp-btn-close):not([role="tab"]):not(.weekly-timetable-cell) {
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f0e0 40%, #e1dfcc 100%) !important;
+  border-top: 1.5px solid #fff !important;
+  border-left: 1.5px solid #fff !important;
+  border-right: 1.5px solid #707070 !important;
+  border-bottom: 1.5px solid #707070 !important;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.15) !important;
+  color: black !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  padding: 6px 14px !important;
+  cursor: pointer !important;
+  outline: none !important;
+  border-radius: 3px !important;
+  height: auto !important;
+  min-height: 24px !important;
+}
+
+.xp-window button:not(.xp-btn-action):not(.xp-btn-close):not([role="tab"]):not(.weekly-timetable-cell):hover {
+  border-color: #e5973c !important;
+  box-shadow: 0 0 2px #e5973c !important;
+}
+
+.xp-window button:not(.xp-btn-action):not(.xp-btn-close):not([role="tab"]):not(.weekly-timetable-cell):active {
+  background: #e1dfcc !important;
+  border-top: 1.5px solid #707070 !important;
+  border-left: 1.5px solid #707070 !important;
+  border-right: 1.5px solid #fff !important;
+  border-bottom: 1.5px solid #fff !important;
+}
+
+/* Force standard shadcn Cards to look like flat XP Explorer panes */
+.xp-window .bg-card,
+.xp-window [class*="bg-background"] {
+  background-color: #ece9d8 !important;
+  border: 1px solid #d8d2bd !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  color: black !important;
+}
+
+/* Remove all rounded corners from layout grids, badges, etc. */
+.xp-window * {
+  border-radius: 0px !important;
+}
+
+/* Force shadcn dialogs and select popovers inside the viewport to render with XP styling */
+div[role="dialog"],
+div[data-role="dialog"],
+.xp-popover-content {
+  background-color: #ece9d8 !important;
+  border: 3px solid #0053e2 !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 12px rgba(0,0,0,0.3) !important;
+}
+
+/* Force all tables inside xp-window to look like classic windows detail grids */
+.xp-window table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  border: 1.5px solid #707070 !important;
+}
+
+.xp-window th {
+  background: linear-gradient(to bottom, #ffffff 0%, #ece9d8 100%) !important;
+  border-right: 1px solid #b2a98f !important;
+  border-bottom: 2px solid #b2a98f !important;
+  color: black !important;
+  font-weight: bold !important;
+  font-size: 11px !important;
+  padding: 5px 8px !important;
+  text-align: left !important;
+  box-shadow: inset 1px 1px 0 #fff !important;
+}
+
+.xp-window td {
+  border-right: 1px solid #e0e0e0 !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  padding: 5px 8px !important;
+  font-size: 11px !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Target weekly calendar cells */
+.xp-window [class*="border-gray-200"],
+.xp-window [class*="border-zinc-200"],
+.xp-window [class*="border-zinc-800"] {
+  border-color: #d8d2bd !important;
+}
+
+/* Highlight active entries in the scheduler */
+.xp-window .bg-primary\/10 {
+  background-color: #d3e5fa !important;
+  border-left: 3px solid #0053e2 !important;
+}
+
+

@@ -44,9 +44,10 @@ interface VisualizerDashboardProps {
       dueDate?: string;
     }>;
   }>;
+  forcedViewMode?: 'graph' | 'explorer';
 }
 
-export default function VisualizerDashboard({ allCoursesData, assessmentsData }: VisualizerDashboardProps) {
+export default function VisualizerDashboard({ allCoursesData, assessmentsData, forcedViewMode }: VisualizerDashboardProps) {
   // Course Selection
   const [selectedCourseCode, setSelectedCourseCode] = useState<string>('IN01');
   
@@ -58,6 +59,7 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
   // View States
   const [entryTerm, setEntryTerm] = useState<'feb' | 'july'>('feb');
   const [viewMode, setViewMode] = useState<'graph' | 'explorer'>('graph'); // default to Graph
+  const activeView = forcedViewMode || viewMode;
   const [hoveredUnitCode, setHoveredUnitCode] = useState<string | null>(null);
   const [focusedUnitCode, setFocusedUnitCode] = useState<string | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<UnitData | null>(null);
@@ -1003,7 +1005,7 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
         {/* XP Menu Bar */}
         <div className="xp-menubar">
           <span className="xp-menu-item font-semibold" onClick={() => window.location.href = '/'}>File</span>
-          <span className="xp-menu-item font-semibold" onClick={() => setViewMode(viewMode === 'graph' ? 'explorer' : 'graph')}>View</span>
+          <span className="xp-menu-item font-semibold" onClick={() => !forcedViewMode && setViewMode(activeView === 'graph' ? 'explorer' : 'graph')}>View</span>
           <span className="xp-menu-item font-semibold" onClick={() => handleExploreUnit('IFB104')}>Help</span>
         </div>
 
@@ -1027,7 +1029,7 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
 
           {/* XP Top Control Bar (mimicking standard XP options panel) */}
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white border-t-2 border-l-2 border-r-2 border-b-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white p-4">
-            {viewMode === 'graph' ? (
+            {activeView === 'graph' ? (
               /* Left Controls: Course Selector & Title (Graph specific) */
               <div className="space-y-1 w-full lg:w-auto">
                 <div className="flex items-center gap-2 text-xs font-bold text-zinc-700 font-sans">
@@ -1064,27 +1066,29 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
 
             {/* Right Controls: View modes & Search */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
-              <div className="flex items-center gap-1.5 shrink-0">
-                <span className="text-xs font-bold text-zinc-700 font-sans">View:</span>
-                <button
-                  onClick={() => setViewMode('graph')}
-                  className={cn(
-                    'xp-button py-1 px-3',
-                    viewMode === 'graph' && 'xp-button-active'
-                  )}
-                >
-                  <Network className="w-3.5 h-3.5" /> Obsidian Graph
-                </button>
-                <button
-                  onClick={() => setViewMode('explorer')}
-                  className={cn(
-                    'xp-button py-1 px-3',
-                    viewMode === 'explorer' && 'xp-button-active'
-                  )}
-                >
-                  <Compass className="w-3.5 h-3.5" /> Campus Explorer
-                </button>
-              </div>
+              {!forcedViewMode && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="text-xs font-bold text-zinc-700 font-sans">View:</span>
+                  <button
+                    onClick={() => setViewMode('graph')}
+                    className={cn(
+                      'xp-button py-1 px-3',
+                      activeView === 'graph' && 'xp-button-active'
+                    )}
+                  >
+                    <Network className="w-3.5 h-3.5" /> Obsidian Graph
+                  </button>
+                  <button
+                    onClick={() => setViewMode('explorer')}
+                    className={cn(
+                      'xp-button py-1 px-3',
+                      activeView === 'explorer' && 'xp-button-active'
+                    )}
+                  >
+                    <Compass className="w-3.5 h-3.5" /> Campus Explorer
+                  </button>
+                </div>
+              )}
 
               {/* Autocomplete Input */}
               <div className="relative w-full sm:w-48">
@@ -1130,7 +1134,7 @@ export default function VisualizerDashboard({ allCoursesData, assessmentsData }:
             </div>
           </div>
 
-          {viewMode === 'explorer' ? (
+          {activeView === 'explorer' ? (
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow">
               
               {/* Left Column: Explorer task sidebar */}
