@@ -41,6 +41,7 @@ import {
   Search,
   SlidersHorizontal,
   Star,
+  Undo2,
   X,
 } from "lucide-react"
 
@@ -718,6 +719,22 @@ function planSignature(plan: PlanSemester[]): string {
         `${semester.id}:${semester.name}:${semester.units.map((unit) => unit.code).join(",")}#${JSON.stringify(semester.notes)}`,
     )
     .join("|")
+}
+
+/**
+ * A copy deep enough that a later plan cannot reach back into it.
+ *
+ * Undo restores this object graph as the live plan, so the columns, their names,
+ * their unit arrays and the `slotId` on each filled choice all have to be its own:
+ * a shared array would let the next drag reorder the snapshot too, and the undo
+ * would then "restore" a layout nobody ever saw.
+ */
+function snapshotPlan(plan: PlanSemester[]): PlanSemester[] {
+  return plan.map((semester) => ({
+    ...semester,
+    notes: [...semester.notes],
+    units: semester.units.map((unit) => ({ ...unit })),
+  }))
 }
 
 function planStorageKey(courseCode: string, specIndex: number, structureId: string): string {
@@ -2843,20 +2860,24 @@ function PlanUnitPanel({ unit, campus, onClose }: PlanUnitPanelProps) {
                 <div className="flex items-center gap-2">
                   <Award className="h-3.5 w-3.5 text-[#003A6E] dark:text-blue-300" />
                   <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">Assessment</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {meta.assessmentCount} {meta.assessmentCount === 1 ? "item" : "items"}
-                  </span>
-                </div>
-                <span
-                  className={cn(
-                    "rounded-full border px-2 py-0.5 text-xs font-semibold",
-                    meta.hasExam
-                      ? "border-amber-200 bg-amber-50 text-amber-600 dark:border-amber-700/40 dark:text-amber-400"
-                      : "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-700/40 dark:text-emerald-400",
+                  {meta.assessmentCount > 0 && (
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {meta.assessmentCount} {meta.assessmentCount === 1 ? "item" : "items"}
+                    </span>
                   )}
-                >
-                  {meta.hasExam ? "Exam required" : "No final exam"}
-                </span>
+                </div>
+                {meta.assessmentCount > 0 && (
+                  <span
+                    className={cn(
+                      "rounded-full border px-2 py-0.5 text-xs font-semibold",
+                      meta.hasExam
+                        ? "border-amber-200 bg-amber-50 text-amber-600 dark:border-amber-700/40 dark:text-amber-400"
+                        : "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-700/40 dark:text-emerald-400",
+                    )}
+                  >
+                    {meta.hasExam ? "Exam required" : "No final exam"}
+                  </span>
+                )}
               </div>
 
               {meta.items.length > 0 ? (
@@ -2888,7 +2909,9 @@ function PlanUnitPanel({ unit, campus, onClose }: PlanUnitPanelProps) {
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-gray-500 dark:text-gray-500">Assessment details not specified.</p>
+                <p className="text-xs italic text-gray-500 dark:text-gray-500">
+                  No assessment details published for this unit.
+                </p>
               )}
             </section>
           )}
@@ -2974,6 +2997,9 @@ function OptionSlotPicker({
   const [starredCodes, setStarredCodes] = useState<string[]>(() => readStarredCodes())
   const closeRef = useRef<HTMLButtonElement>(null)
   const escapeRef = useRef(escapeDisabled)
+  /** The scrolling list, and one entry per rendered group, so a chip can snap to it. */
+  const listRef = useRef<HTMLDivElement>(null)
+  const groupRefs = useRef(new Map<string, HTMLDivElement | null>())
 
   useEffect(() => {
     escapeRef.current = escapeDisabled
@@ -3053,6 +3079,49 @@ function OptionSlotPicker({
 
   const displayGroups = starredGroup ? [starredGroup, ...filteredGroups] : filteredGroups
   const anyRows = displayGroups.some((group) => group.units.length > 0)
+
+  /**
+   * One chip per group the list is actually showing, in list order.
+   *
+   * Derived from `displayGroups`, so the row shrinks and grows with the same free
+   * text and "only offered" filters the rows obey: type "account" and the chips for
+   * every other heading disappear with the rows they pointed at.
+   *
+   * Two kinds of group get no chip. Header-only dividers have no units to jump to,
+   * and legacy groups ("not available for new intake") always sit at the tail of the
+   * list, so a chip for one would only duplicate the long scroll it is meant to save.
+   * The row itself only appears with two or more groups: a single chip is not a
+   * shortcut to anywhere.
+   */
+  const chipGroups = useMemo(
+    () =>
+      displayGroups
+        .map((group, index) => ({ key: `${group.name}-${index}`, group }))
+        .filter(({ group }) => !group.headerOnly && !group.legacy && group.units.length > 0)
+        .map(({ key, group }) => ({ key, name: group.name })),
+    [displayGroups],
+  )
+
+  /**
+   * Scroll a group's heading to the top of the list.
+   *
+   * The search box and the filter controls sit in a panel above the list rather
+   * than inside it, so the top of the scroll port already *is* "just below the
+   * search box": no offset to guess at, and the heading lands under the panel
+   * instead of behind it. `scrollIntoView` is avoided because it also scrolls the
+   * page behind the dialog; measuring against the scroll container moves one box.
+   * The distance is taken from the group wrapper, not from the sticky heading: a
+   * heading already stuck to the top would report the stuck position and the list
+   * would barely move.
+   */
+  const jumpToGroup = (key: string) => {
+    const scroller = listRef.current
+    const target = groupRefs.current.get(key)
+    if (!scroller || !target) return
+    const top =
+      target.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop
+    scroller.scrollTo({ top: Math.max(0, top), behavior: "auto" })
+  }
 
   return (
     <div
@@ -3157,9 +3226,32 @@ function OptionSlotPicker({
               </p>
             )
           })()}
+
+          {chipGroups.length > 1 && (
+            <div
+              data-testid="group-chips"
+              role="group"
+              aria-label="Jump to a heading in the list"
+              // One row that scrolls sideways instead of wrapping: the panel is
+              // narrow, and three lines of chips would push the list off screen.
+              className="mt-2 flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {chipGroups.map(({ key, name }) => (
+                <button
+                  key={key}
+                  type="button"
+                  data-testid="group-chip"
+                  onClick={() => jumpToGroup(key)}
+                  className="shrink-0 whitespace-nowrap rounded-full border border-[#003A6E]/20 bg-white px-2 py-0.5 text-[11px] font-medium text-[#003A6E] transition-colors hover:bg-[#003A6E]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#003A6E] dark:border-blue-900/50 dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-blue-900/20 dark:focus-visible:ring-blue-500"
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="flex-1 space-y-4 overflow-y-auto p-3">
+        <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto p-3">
           {!anyRows ? (
             <p className="px-2 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
               No option matches “{query}”{onlyOffered ? " and the semester filter" : ""}. Clear the filter to see the
@@ -3169,7 +3261,14 @@ function OptionSlotPicker({
             displayGroups.map((group, groupIndex) => (
               // Two pools can share a semester heading ("QUT You" is published in
               // more than one pathway), so the name alone is not a unique key.
-              <div key={`${group.name}-${groupIndex}`} data-testid="slot-candidate-group" data-group-name={group.name}>
+              <div
+                key={`${group.name}-${groupIndex}`}
+                ref={(element) => {
+                  groupRefs.current.set(`${group.name}-${groupIndex}`, element)
+                }}
+                data-testid="slot-candidate-group"
+                data-group-name={group.name}
+              >
                 {group.headerOnly ? (
                   <div className="sticky top-0 z-20 border-b border-gray-100 bg-white px-2 py-1.5 text-[11px] font-medium uppercase tracking-wide text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400">
                     {group.name}
@@ -3368,6 +3467,14 @@ export function CoursePlanner() {
 
   /** What the last target change did to the plan. Cleared by any manual edit. */
   const [reflowNotice, setReflowNotice] = useState<string | null>(null)
+
+  /**
+   * The plan as it stood immediately before the last load re-pack, or null when
+   * there is nothing to take back. One level only: a second re-pack replaces it,
+   * because redo-after-undo is not a thing a student asked for and a stack of
+   * plan shapes would be a second plan model to keep honest.
+   */
+  const [reflowUndo, setReflowUndo] = useState<PlanSemester[] | null>(null)
 
   /**
    * The Tune disclosure: the load target, the per-semester overrides and the
@@ -3599,6 +3706,7 @@ export function CoursePlanner() {
     setPlan(next)
     setSavedAt(stored ? Date.now() : null)
     setReflowNotice(null)
+    setReflowUndo(null)
     // qutPlan only changes when the structure does; both move together.
   }, [structureKey, qutPlan, courseCode, effectiveSpecIndex, structure])
 
@@ -3676,6 +3784,7 @@ export function CoursePlanner() {
     setOverColumn(columnOf(id))
     // The notice describes the last reflow; a manual drag is a new state.
     setReflowNotice(null)
+    setReflowUndo(null)
   }
 
   const handleDragOver = (event: DragOverEvent) => {
@@ -3741,6 +3850,7 @@ export function CoursePlanner() {
     setPlan(next)
     setOpenSlotId(null)
     setReflowNotice(null)
+    setReflowUndo(null)
   }
 
   /**
@@ -3759,6 +3869,7 @@ export function CoursePlanner() {
     setPlan(next)
     setFixNotice({ text: describeMove(fix.move), signature: planSignature(next) })
     setReflowNotice(null)
+    setReflowUndo(null)
   }
 
   /** `null` clears the override so the semester follows the plan default again. */
@@ -3828,11 +3939,15 @@ export function CoursePlanner() {
     if (planSignature(reflowed) !== planSignature(current)) {
       planRef.current = reflowed
       setPlan(reflowed)
+      // Taken before the write above, from the plan the student was looking at.
+      setReflowUndo(snapshotPlan(current))
+    } else {
+      setReflowUndo(null)
     }
 
     setReflowNotice(
       moved > 0 || notesMoved > 0
-        ? `Re-packed from QUT's plan with ${semester.name} at ${cap} CP: ${describeReflow(moved, notesMoved)} moved, ${reflowed.length} semesters. Reset to QUT plan undoes it.`
+        ? `Re-packed from QUT's plan with ${semester.name} at ${cap} CP: ${describeReflow(moved, notesMoved)} moved, ${reflowed.length} semesters.`
         : `${semester.name} already fits ${cap} CP, so nothing had to move.`,
     )
   }
@@ -3858,13 +3973,30 @@ export function CoursePlanner() {
     if (planSignature(reflowed) !== planSignature(current)) {
       planRef.current = reflowed
       setPlan(reflowed)
+      setReflowUndo(snapshotPlan(current))
+    } else {
+      setReflowUndo(null)
     }
 
     setReflowNotice(
       moved > 0 || notesMoved > 0
-        ? `Re-packed from QUT's plan to ${next} CP: ${describeReflow(moved, notesMoved)} moved, ${reflowed.length} semesters. Reset to QUT plan undoes it.`
+        ? `Re-packed from QUT's plan to ${next} CP: ${describeReflow(moved, notesMoved)} moved, ${reflowed.length} semesters.`
         : `Nothing needed moving. Every semester already fits ${next} CP.`,
     )
+  }
+
+  /**
+   * Take back the last load re-pack: the plan returns to the exact shape it had
+   * before the target change. Only the plan goes back. The target select keeps the
+   * number the student picked, because that is what they asked for; the layout was
+   * the side effect, and that is what this undoes.
+   */
+  const undoReflow = () => {
+    if (!reflowUndo) return
+    planRef.current = reflowUndo
+    setPlan(reflowUndo)
+    setReflowUndo(null)
+    setReflowNotice("Undone. The plan is back to how it was before the target change.")
   }
 
   // Slots are derived from the plan's notes, not stored with it: the notes never
@@ -4002,6 +4134,7 @@ export function CoursePlanner() {
     setOpenSlotId(null)
     setDetailUnit((current) => (existing && current?.uid === existing.uid ? null : current))
     setReflowNotice(null)
+    setReflowUndo(null)
   }
 
   /** Reopen the picker for the slot `unit` fills, with that unit marked as chosen. */
@@ -4023,6 +4156,7 @@ export function CoursePlanner() {
     setPlan(next)
     setDetailUnit((current) => (current?.uid === unit.uid ? null : current))
     setReflowNotice(null)
+    setReflowUndo(null)
   }
 
   /** Peek at an option without committing to it — the outline panel opens on top of the picker. */
@@ -4527,10 +4661,21 @@ export function CoursePlanner() {
                 <div
                   data-testid="reflow-notice"
                   aria-live="polite"
-                  className="mt-2 flex items-center gap-1.5 text-xs text-[#003A6E] dark:text-blue-300"
+                  className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-[#003A6E] dark:text-blue-300"
                 >
                   <Layers3 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   <span>{reflowNotice}</span>
+                  {reflowUndo && (
+                    <button
+                      type="button"
+                      data-testid="reflow-undo"
+                      onClick={undoReflow}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-md px-1.5 py-0.5 font-semibold text-[#003A6E] underline decoration-[#003A6E]/40 underline-offset-2 transition-colors hover:bg-[#003A6E]/5 hover:decoration-[#003A6E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#003A6E] dark:text-blue-300 dark:decoration-blue-300/40 dark:hover:bg-blue-900/20 dark:hover:decoration-blue-300 dark:focus-visible:ring-blue-500"
+                    >
+                      <Undo2 className="h-3 w-3" aria-hidden="true" />
+                      Undo
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -4616,7 +4761,8 @@ export function CoursePlanner() {
                       Drag a unit to another semester, or up and down within one, to reorder. Click a unit to read its
                       synopsis and assessment. Dashed cards are choices QUT leaves open. Click one to pick a unit, and
                       Change on a filled one to swap it. Changing either target re-packs from QUT&rsquo;s plan, so drags
-                      made by hand are dropped. Reset to QUT plan is the way back. A semester can be set above the plan
+                      made by hand are dropped. Undo takes back the last re-pack, and Reset to QUT plan starts again
+                      from QUT&rsquo;s plan. A semester can be set above the plan
                       target if you want to take more units. Changes are kept on this device only.
                     </span>
                   </div>

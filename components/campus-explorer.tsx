@@ -8,26 +8,46 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import classesDataRaw from '@/data/qut-unit-classes.json';
-import unitMetaRaw from '@/data/unit-meta.json';
+import { getUnitTitle } from '@/lib/unit-codes';
 import { SectionNote } from '@/components/section-note';
 
-interface UnitMetaEntry {
-  title: string;
+interface UnitMetaItem {
+  name: string;
+  description: string | null;
+  weight: number | null;
+  individualGroup: string | null;
+  dueDate: string | null;
+}
+
+interface UnitMeta {
+  code: string;
+  title: string | null;
   synopsis: string | null;
   hasExam: boolean;
   assessmentCount: number;
-  items?: Array<{
-    name: string;
-    description: string;
-    weight?: number | null;
-    individualGroup?: string | null;
-    dueDate?: string | null;
-  }>;
+  items: UnitMetaItem[];
 }
 
-// Trimmed unit metadata built by scripts/build-unit-meta.js
-const UNIT_META: Record<string, UnitMetaEntry> = ((unitMetaRaw as any)?.units || {}) as Record<string, UnitMetaEntry>;
+// One entry of data/qut-unit-classes.json. Both files are served by the API
+// (/api/unit-classes, /api/units/[code]) and fetched at runtime — importing them
+// here is what used to put 2.1 MB of JSON into the first-load bundle.
+interface ClassSnapshotEntry {
+  offered?: boolean;
+  classes?: any[];
+}
+
+type SnapshotState =
+  | { status: 'loading' }
+  | { status: 'ready'; units: Record<string, ClassSnapshotEntry> }
+  | { status: 'error'; message: string };
+
+type UnitMetaState =
+  | { status: 'loading' }
+  | { status: 'ready'; meta: UnitMeta }
+  | { status: 'missing' }
+  | { status: 'error'; message: string };
+
+const NO_ASSESSMENT = 'No assessment details published for this unit.';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as const;
 const FACULTIES = [
@@ -91,9 +111,7 @@ function fmtHour(h: number) {
 interface UnitPanelProps {
   unitCode: string;
   unitTitle: string;
-  synopsis: string | null;
   allClassesForUnit: any[];
-  unitMeta: Record<string, UnitMetaEntry>;
   starred: Set<string>;
   toggleStar: (key: string) => void;
   currentDay: string;
@@ -104,18 +122,78 @@ interface UnitPanelProps {
 function UnitPanel({
   unitCode,
   unitTitle,
-  synopsis,
   allClassesForUnit,
-  unitMeta,
   starred,
   toggleStar,
   currentDay,
   isOpen,
   onClose,
 }: UnitPanelProps) {
-  const assessment = unitMeta[unitCode];
+  // The outline (synopsis + assessment) is fetched per open. data/unit-meta.json
+  // is 1.3 MB and stays on the server, so a panel open costs one round trip
+  // instead of shipping every unit's outline to every visitor.
+  const [metaState, setMetaState] = useState<UnitMetaState>({ status: 'loading' });
   const [typeFilter, setTypeFilter] = useState<string>('All');
   const [dayFilter, setDayFilter] = useState<'all' | 'remaining'>('all');
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setMetaState({ status: 'loading' });
+
+    (async () => {
+      try {
+        const response = await fetch(`/api/units/${encodeURIComponent(unitCode)}`, {
+          signal: controller.signal,
+        });
+        if (response.status === 404) {
+          setMetaState({ status: 'missing' });
+          return;
+        }
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data) {
+          setMetaState({ status: 'error', message: `Could not load the outline for ${unitCode}.` });
+          return;
+        }
+        setMetaState({
+          status: 'ready',
+          meta: {
+            code: typeof data.code === 'string' ? data.code : unitCode,
+            title: typeof data.title === 'string' ? data.title : null,
+            synopsis: typeof data.synopsis === 'string' && data.synopsis.trim() ? data.synopsis : null,
+            hasExam: data.hasExam === true,
+            assessmentCount:
+              typeof data.assessmentCount === 'number' ? data.assessmentCount : 0,
+            items: Array.isArray(data.items)
+              ? data.items
+                  .map((item: any) => ({
+                    name: typeof item?.name === 'string' && item.name.trim() ? item.name : 'Assessment item',
+                    description:
+                      typeof item?.description === 'string' && item.description.trim()
+                        ? item.description
+                        : null,
+                    weight: typeof item?.weight === 'number' ? item.weight : null,
+                    individualGroup:
+                      typeof item?.individualGroup === 'string' && item.individualGroup.trim()
+                        ? item.individualGroup
+                        : null,
+                    dueDate:
+                      typeof item?.dueDate === 'string' && item.dueDate.trim() ? item.dueDate : null,
+                  }))
+              : [],
+          },
+        });
+      } catch (error) {
+        if ((error as Error)?.name === 'AbortError') return;
+        setMetaState({ status: 'error', message: `Could not reach the outline for ${unitCode}.` });
+      }
+    })();
+
+    return () => controller.abort();
+  }, [unitCode]);
+
+  const meta = metaState.status === 'ready' ? metaState.meta : null;
+  const synopsis = meta?.synopsis ?? null;
+  const assessmentItems = meta?.items ?? [];
 
   // Count by category
   const counts = useMemo(() => {
@@ -199,9 +277,13 @@ function UnitPanel({
             </div>
             {synopsis ? (
               <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{synopsis}</p>
+            ) : metaState.status === 'loading' ? (
+              <p className="text-sm text-gray-500 dark:text-gray-500 italic">Loading the unit outline…</p>
+            ) : metaState.status === 'error' ? (
+              <p className="text-sm text-gray-500 dark:text-gray-500 italic">{metaState.message}</p>
             ) : (
               <p className="text-sm text-gray-500 dark:text-gray-500 italic">
-                No synopsis in local dataset.{' '}
+                No synopsis published for this unit.{' '}
                 <a
                   href={`https://www.qut.edu.au/study/unit?unitCode=${unitCode}`}
                   target="_blank"
@@ -215,46 +297,50 @@ function UnitPanel({
           </div>
 
           {/* Assessments */}
-          {assessment && (
-            <div className="p-5 border-b border-gray-200 dark:border-gray-800/60">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <Award className="w-3.5 h-3.5 text-[#003A6E] dark:text-blue-300" />
-                  <span className="text-xs font-semibold text-gray-500 dark:text-gray-500">Assessment Breakdown</span>
-                </div>
+          <div className="p-5 border-b border-gray-200 dark:border-gray-800/60">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Award className="w-3.5 h-3.5 text-[#003A6E] dark:text-blue-300" />
+                <span className="text-xs font-semibold text-gray-500 dark:text-gray-500">Assessment Breakdown</span>
+              </div>
+              {/* Only claim "no final exam" once the outline has actually loaded
+                  and published something. An empty section proves nothing. */}
+              {assessmentItems.length > 0 && (
                 <span className={cn(
                   "text-xs font-semibold px-2 py-0.5 rounded-full border",
-                  assessment.hasExam
+                  meta?.hasExam
                     ? "bg-amber-50 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-700/40"
                     : "bg-emerald-50 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-700/40"
                 )}>
-                  {assessment.hasExam ? 'Exam Required' : 'No Final Exam'}
+                  {meta?.hasExam ? 'Exam Required' : 'No Final Exam'}
                 </span>
-              </div>
-              {assessment.items?.length ? (
-                <div className="space-y-2">
-                  {assessment.items.map((item, i) => (
-                    <div key={i} className="bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-800 rounded-xl p-3">
-                      <div className="flex items-start justify-between gap-2">
-                        <span className="text-sm font-semibold text-gray-900 dark:text-gray-200">{item.name}</span>
-                        {item.weight != null && (
-                          <span className="shrink-0 text-xs font-semibold text-[#003A6E] dark:text-blue-300">{item.weight}%</span>
-                        )}
-                      </div>
-                      {item.dueDate && (
-                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">{item.dueDate}</div>
-                      )}
-                      {item.description && (
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1.5 leading-relaxed">{item.description}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs text-gray-500 dark:text-gray-500 italic">Assessment details not specified.</p>
               )}
             </div>
-          )}
+            {metaState.status === 'loading' ? (
+              <p className="text-xs text-gray-500 dark:text-gray-500 italic">Loading assessment details…</p>
+            ) : assessmentItems.length > 0 ? (
+              <div className="space-y-2">
+                {assessmentItems.map((item, i) => (
+                  <div key={i} className="bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-800 rounded-xl p-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="text-sm font-semibold text-gray-900 dark:text-gray-200">{item.name}</span>
+                      {item.weight != null && (
+                        <span className="shrink-0 text-xs font-semibold text-[#003A6E] dark:text-blue-300">{item.weight}%</span>
+                      )}
+                    </div>
+                    {item.dueDate && (
+                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">{item.dueDate}</div>
+                    )}
+                    {item.description && (
+                      <p className="text-xs text-gray-500 dark:text-gray-500 mt-1.5 leading-relaxed">{item.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-gray-500 dark:text-gray-500 italic">{NO_ASSESSMENT}</p>
+            )}
+          </div>
 
           {/* All Session Instances & Tutorials */}
           <div className="p-5">
@@ -438,9 +524,38 @@ export function CampusExplorer() {
   const [filtersOpen, setFiltersOpen] = useState(true);
 
   // Selected unit for detail panel
-  const [selectedUnit, setSelectedUnit] = useState<{ code: string; title: string; synopsis: string | null } | null>(null);
-  const [panelUnit, setPanelUnit] = useState<{ code: string; title: string; synopsis: string | null } | null>(null);
+  const [panelUnit, setPanelUnit] = useState<{ code: string; title: string } | null>(null);
   const [panelOpen, setPanelOpen] = useState(false);
+
+  // The class snapshot (~830 KB) is fetched rather than imported, so it never
+  // reaches the first-load bundle. `reloadToken` re-runs the fetch on retry.
+  const [snapshot, setSnapshot] = useState<SnapshotState>({ status: 'loading' });
+  const [reloadToken, setReloadToken] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setSnapshot({ status: 'loading' });
+
+    (async () => {
+      try {
+        const response = await fetch('/api/unit-classes', { signal: controller.signal });
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data || typeof data.data !== 'object' || data.data === null) {
+          setSnapshot({
+            status: 'error',
+            message: data?.message || 'Could not load the class snapshot.',
+          });
+          return;
+        }
+        setSnapshot({ status: 'ready', units: data.data as Record<string, ClassSnapshotEntry> });
+      } catch (error) {
+        if ((error as Error)?.name === 'AbortError') return;
+        setSnapshot({ status: 'error', message: 'Could not reach the class snapshot.' });
+      }
+    })();
+
+    return () => controller.abort();
+  }, [reloadToken]);
 
   // Starred state with localStorage persistence
   const [starred, setStarred] = useState<Set<string>>(() => {
@@ -477,30 +592,32 @@ export function CampusExplorer() {
     return () => clearTimeout(id);
   }, [searchInput]);
 
-  // Unit title + synopsis lookup from the trimmed metadata bundle
-  const unitDataMap = useMemo(() => new Map<string, UnitMetaEntry>(Object.entries(UNIT_META)), []);
+  // Titles come from the unit catalogue module (lib/unit-codes.ts), which the
+  // Unit Search tab already bundles. The full 1.3 MB outline file stays on the
+  // server and is fetched per unit when a panel opens.
+  const snapshotUnits = snapshot.status === 'ready' ? snapshot.units : null;
 
-  // All available classes from JSON, enriched
+  // All available classes from the snapshot, enriched
   const allClasses = useMemo(() => {
     const list: any[] = [];
-    const db = (classesDataRaw as any)?.data || {};
-    Object.keys(db).forEach(unitCode => {
-      const entry = db[unitCode];
+    if (!snapshotUnits) return list;
+    Object.keys(snapshotUnits).forEach(unitCode => {
+      const entry = snapshotUnits[unitCode];
       if (entry?.offered && entry?.classes) {
         const code = unitCode.toUpperCase();
-        const info = unitDataMap.get(code);
+        const title = getUnitTitle(code) || '';
         entry.classes.forEach((cls: any) => {
           list.push({
             ...cls,
             unitCode: code,
-            unitTitle: info?.title || '',
+            unitTitle: title,
             faculty: getFaculty(code),
           });
         });
       }
     });
     return list;
-  }, [unitDataMap]);
+  }, [snapshotUnits]);
 
   // All classes for the selected unit (for the detail panel)
   const selectedUnitClasses = useMemo(() => {
@@ -564,14 +681,8 @@ export function CampusExplorer() {
   }, [allClasses, starred]);
 
   const openUnit = (unitCode: string) => {
-    const info = unitDataMap.get(unitCode);
-    const next = {
-      code: unitCode,
-      title: info?.title || unitCode,
-      synopsis: info?.synopsis || null,
-    };
-    setSelectedUnit(next);
-    setPanelUnit(next);
+    const title = getUnitTitle(unitCode) || unitCode;
+    setPanelUnit({ code: unitCode, title });
     setPanelOpen(false);
     // Let the initial closed state paint so the entrance transition runs.
     requestAnimationFrame(() => setPanelOpen(true));
@@ -580,7 +691,6 @@ export function CampusExplorer() {
   const closePanel = () => {
     setPanelOpen(false);
     setTimeout(() => {
-      setSelectedUnit(null);
       setPanelUnit(null);
     }, 300);
   };
@@ -769,7 +879,35 @@ export function CampusExplorer() {
             </CardHeader>
 
             <CardContent className="pt-4 dark:bg-gray-900 flex-1 min-h-0 overflow-hidden flex flex-col">
-              {results.length === 0 ? (
+              {snapshot.status === 'loading' ? (
+                <div
+                  className="flex-1 flex flex-col items-center justify-center gap-3 py-16 text-center"
+                  data-testid="campus-loading"
+                >
+                  <div className="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-700 border-t-[#003A6E] dark:border-t-blue-300 animate-spin motion-reduce:animate-none" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">Loading classes</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Pulling the semester class list</p>
+                  </div>
+                </div>
+              ) : snapshot.status === 'error' ? (
+                <div
+                  className="flex-1 flex flex-col items-center justify-center gap-3 py-16 text-center"
+                  data-testid="campus-error"
+                >
+                  <Compass className="w-8 h-8 text-gray-300 dark:text-gray-700" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">Could not load the class list</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{snapshot.message}</p>
+                  </div>
+                  <button
+                    onClick={() => setReloadToken(t => t + 1)}
+                    className="mt-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-[#003A6E]/20 text-[#003A6E] hover:bg-[#003A6E]/10 dark:border-blue-800 dark:text-blue-300 dark:hover:bg-blue-900/30 transition-colors"
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : results.length === 0 ? (
                 <div className="flex-1 flex flex-col items-center justify-center gap-3 py-16 text-center">
                   <Clock className="w-8 h-8 text-gray-300 dark:text-gray-700" />
                   <div>
@@ -946,11 +1084,10 @@ export function CampusExplorer() {
       {/* Unit detail panel */}
       {panelUnit && (
         <UnitPanel
+          key={panelUnit.code}
           unitCode={panelUnit.code}
           unitTitle={panelUnit.title}
-          synopsis={panelUnit.synopsis}
           allClassesForUnit={selectedUnitClasses}
-          unitMeta={UNIT_META}
           starred={starred}
           toggleStar={toggleStar}
           currentDay={day}

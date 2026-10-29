@@ -168,7 +168,7 @@ deliberate — the CI job fails loudly rather than quietly emptying the list.
 
 ```
 app/
-  page.tsx                    # 3 tabs: Search | Timetable | Campus Explorer
+  page.tsx                    # 4 tabs: Timetable | Campus Explorer | Course Planner | Unit Search
   api/timetable/search/route.ts   # proxy to QUT Virtual 4
   api/units/route.ts          # optional: serve cached catalog
 lib/
@@ -319,6 +319,38 @@ than throwing per request. Both the timetable route and `/api/clear-cache` share
 
 ---
 
+## Deploying to production
+
+Live at `https://qut-classmate.vercel.app`, project `qut-classmate` under
+`danieltsams-projects`. `https://qut.vercel.app` also serves it, but that domain is
+still owned by the paused `v0-qut-timetable-planner` project, so it is pinned to a
+single deployment instead of following production. Remove the domain from that
+project in the dashboard and add it here to make it permanent.
+
+```bash
+npx vercel --prod --yes
+```
+
+**Two bugs that existed only in production. Both are fixed. Do not undo the fixes.**
+
+1. **Data files must be traced into the serverless bundle.** The API routes read
+   `data/*.json` with `fs` at request time. Next only traces static imports, so every
+   data route returned ENOENT on Vercel while working perfectly in dev.
+   `outputFileTracingIncludes` in `next.config.mjs` is what prevents that. Any new
+   route that reads a file with `fs` must be added to it.
+2. **The page must not fall back to client-only rendering.** `HomePage` used to call
+   `useSearchParams`, which in a static build dereferences to client rendering: the
+   deployed HTML contained only "Loading QUT Classmate" and visitors saw a blank
+   frame until JS booted. It now reads the tab from `window.location` once on mount
+   and the route is `dynamic = "force-dynamic"`. First response is about 45 KB of
+   real markup with all four tabs.
+
+Verify a deploy with `curl` against the live URL (`/`, `/api/courses`,
+`/api/unit-prereqs`, and a `POST /api/timetable/search`), not with the build log. A
+green build says nothing about whether the data shipped.
+
+---
+
 ## Dev & deploy
 
 ```bash
@@ -407,7 +439,8 @@ Two things the checker cannot judge, so they are review-time calls:
 
 ## UX conventions (keep)
 
-- Single-page app, 3 tabs: Unit Search | Timetable Creator | Campus Explorer
+- Single-page app, 4 tabs, in this order: Timetable Creator | Campus Explorer | Course Planner | Unit Search.
+  Timetable Creator leads because Unit Search is the narrowest of the four.
 - Unit code validation: `/^[A-Za-z]{3}[0-9]{3}$/`
 - Default teaching period: current semester (Sem 2 from July)
 - Dark mode via `next-themes`
