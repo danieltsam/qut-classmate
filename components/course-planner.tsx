@@ -451,6 +451,222 @@ function isSectionHeading(semester: StructureSemester): boolean {
   return semester.units.length === 0 && semester.notes.length === 0 && /entry\s*$/i.test(semester.name)
 }
 
+// ── One plan per entry path ───────────────────────────────────────────────────
+//
+// QUT publishes "Accounting major full-time February or July entry" as a single
+// structure: one divider row, then one list of semesters. Offered like that, the
+// plan cannot say when anything actually runs, and a July starter cannot see that
+// their first semester is the second one of the year. The dividers already mark
+// the entry paths, so every section becomes its own plan with its own title, its
+// own units and therefore its own storage key.
+
+/** The intake a heading names, or null when it names none we understand. */
+function headingEntry(name: string): "February" | "July" | null {
+  const match = /february|july/i.exec(name)
+  if (!match) return null
+  return match[0].toLowerCase() === "july" ? "July" : "February"
+}
+
+/** Matches "February or July entry" and friends wherever the title puts it. */
+const COMBINED_ENTRY_PHRASE = /\s*(?:February|July)\s*(?:or|and|&|\/)\s*(?:February|July)\s*entry\s*/i
+
+/**
+ * The plan's title with the entry word in place of the combined phrasing. Replaced
+ * where it stands rather than bolted on the end, because some titles keep the load
+ * word after it ("... February and July entry - Full time"). Titles with no
+ * combined phrasing get the entry word appended.
+ */
+function planTitle(title: string, entry: "February" | "July"): string {
+  const phrase = `${entry} entry`
+  const text = COMBINED_ENTRY_PHRASE.test(title)
+    ? title.replace(COMBINED_ENTRY_PHRASE, ` ${phrase} `)
+    : `${title} ${phrase}`
+  return text.replace(/\s+/g, " ").replace(/\s+([,.;:])/g, "$1").trim()
+}
+
+interface PlanSection {
+  /** The divider row that opened this section, or null for leading semesters. */
+  heading: StructureSemester | null
+  semesters: StructureSemester[]
+}
+
+/** Splits a structure's semesters on its divider rows. */
+function planSections(semesters: StructureSemester[]): PlanSection[] {
+  const sections: PlanSection[] = []
+  for (const semester of semesters) {
+    if (isSectionHeading(semester)) {
+      sections.push({ heading: semester, semesters: [] })
+      continue
+    }
+    if (sections.length === 0) sections.push({ heading: null, semesters: [] })
+    sections[sections.length - 1].semesters.push(semester)
+  }
+  return sections
+}
+
+/**
+ * The name a column gets when the divider says one list serves both intakes. A
+ * July starter's first semester is Semester 2 of their start year, so the shared
+ * list is relabelled from that point and carries the month marker QUT's own July
+ * sections use. The marker also keeps the availability check quiet, because the
+ * number in the name is no longer the calendar semester.
+ */
+function relocateSharedSemester(
+  semester: StructureSemester,
+  index: number,
+  entry: "February" | "July",
+): StructureSemester {
+  if (entry === "February") return semester
+  const month = index % 2 === 0 ? "July" : "February"
+  const semesterNumber = index % 2 === 0 ? 2 : 1
+  const year = 1 + Math.floor((index + 1) / 2)
+  return { ...semester, name: `Year ${year}, Semester ${semesterNumber} (${month})` }
+}
+
+function sectionTotals(semesters: StructureSemester[]) {
+  let unitCount = 0
+  let creditPoints = 0
+  for (const semester of semesters) {
+    unitCount += semester.units.length
+    for (const unit of semester.units) creditPoints += unit.creditPoints || 0
+  }
+  return { unitCount, creditPoints }
+}
+
+/**
+ * One plan per entry path. A structure with no divider rows is returned exactly
+ * as it is: same title, same id, same saved plan.
+ */
+function splitStructures(structures: Structure[]): Structure[] {
+  const out: Structure[] = []
+
+  for (const structure of structures) {
+    if (structure.kind === "options") {
+      out.push(structure)
+      continue
+    }
+
+    const sections = planSections(structure.semesters)
+    if (!sections.some((section) => section.heading)) {
+      out.push(structure)
+      continue
+    }
+
+    const used = new Map<string, number>()
+
+    for (const section of sections) {
+      if (!section.heading) {
+        // Semesters listed before the first divider belong to the plan as a whole.
+        out.push({ ...structure, semesters: section.semesters, ...sectionTotals(section.semesters) })
+        continue
+      }
+
+      const words = section.heading.name.match(/february|july/gi) ?? []
+      // A divider that names both intakes is one list for two entry points.
+      const both = words.length > 1
+      const single = words.length === 1 ? headingEntry(section.heading.name) : null
+      const entries: Array<"February" | "July"> = both ? ["February", "July"] : single ? [single] : []
+
+      if (entries.length === 0) {
+        // A divider we cannot read: keep the section whole rather than guess.
+        out.push({
+          ...structure,
+          id: `${structure.id}~${used.size + 1}`,
+          semesters: [section.heading, ...section.semesters],
+        })
+        continue
+      }
+
+      for (const entry of entries) {
+        const seen = (used.get(entry) ?? 0) + 1
+        used.set(entry, seen)
+        const semesters = section.semesters.map((semester, index) =>
+          both ? relocateSharedSemester(semester, index, entry) : semester,
+        )
+        out.push({
+          ...structure,
+          id: `${structure.id}~${entry.toLowerCase()}${seen > 1 ? `-${seen}` : ""}`,
+          title: planTitle(structure.title, entry),
+          semesters: [{ name: `${entry} entry`, notes: [], units: [] }, ...semesters],
+          ...sectionTotals(semesters),
+        })
+      }
+    }
+  }
+
+  return out
+}
+
+// ── Calendar labels ──────────────────────────────────────────────────────────
+
+type EntryMonth = "February" | "July"
+
+const START_YEAR_STORAGE_KEY = `${STORAGE_PREFIX}:start-year`
+const CURRENT_YEAR = new Date().getFullYear()
+/** A year either side of now, plus enough room to plan a whole degree ahead. */
+const START_YEAR_CHOICES = Array.from({ length: 8 }, (_, index) => CURRENT_YEAR - 1 + index)
+
+/** A year we are willing to print, or the current one when the stored value is junk. */
+function normaliseStartYear(value: unknown): number {
+  const numeric = typeof value === "number" ? value : Number(value)
+  if (!Number.isInteger(numeric) || numeric < 2000 || numeric > 2100) return CURRENT_YEAR
+  return numeric
+}
+
+function readStartYear(): number {
+  try {
+    const raw = window.localStorage.getItem(START_YEAR_STORAGE_KEY)
+    if (!raw) return CURRENT_YEAR
+    return normaliseStartYear(JSON.parse(raw))
+  } catch {
+    return CURRENT_YEAR
+  }
+}
+
+function writeStartYear(year: number) {
+  try {
+    window.localStorage.setItem(START_YEAR_STORAGE_KEY, JSON.stringify(year))
+  } catch {
+    // Storage full or blocked: the labels still work for this session.
+  }
+}
+
+/** Which intake a plan belongs to, read from its divider or its first column. */
+function entryMonthOf(structure: Structure | null): EntryMonth | null {
+  if (!structure) return null
+
+  const heading = structure.semesters.find((semester) => isSectionHeading(semester))
+  if (heading) {
+    const word = headingEntry(heading.name)
+    if (word) return word
+  }
+
+  const first = structure.semesters.find((semester) => !isSectionHeading(semester))
+  if (!first) return null
+  const marker = /\((february|july)\)/i.exec(first.name)
+  if (marker) return marker[1].toLowerCase() === "july" ? "July" : "February"
+  const semester = /semester\s+([12])\b/i.exec(first.name)
+  if (semester) return semester[1] === "2" ? "July" : "February"
+  return null
+}
+
+/**
+ * The real month and year of the column at `index`.
+ *
+ * A February intake runs Semester 1 in February and Semester 2 in July of the
+ * same academic year. A July intake starts in Semester 2 of the start year and
+ * rolls into the next year's February. Both are read from the column's position,
+ * so a reflow, an overload target or a longer plan keeps the labels right. A
+ * column whose name tells us nothing gets no label rather than a guess.
+ */
+function calendarLabel(name: string, index: number, entry: EntryMonth, startYear: number): string | null {
+  if (!/\((february|july)\)/i.test(name) && !/semester\s+[12]\b/i.test(name)) return null
+  const julyFirst = entry === "July"
+  const isJuly = index % 2 === 0 ? julyFirst : !julyFirst
+  const year = startYear + Math.floor((index + (julyFirst ? 1 : 0)) / 2)
+  return `${isJuly ? "Jul" : "Feb"} ${year}`
+}
+
 function buildQutPlan(structure: Structure): PlanSemester[] {
   const plan: PlanSemester[] = []
   let section = ""
@@ -883,6 +1099,10 @@ function renumberRun(run: PlanSemester[]): PlanSemester[] {
 
   const names: string[] = []
   let stepped = template
+  // A path whose first column carries a month marker (a July entry) keeps a
+  // marker on every column, including the ones a reflow appended: the months
+  // alternate with the position, so they are re-derived rather than inherited.
+  const templateMarker = nameMarker(template)
   for (let index = 0; index < run.length; index += 1) {
     if (index > 0) {
       const next = stepSemesterName(stepped)
@@ -891,7 +1111,15 @@ function renumberRun(run: PlanSemester[]): PlanSemester[] {
       if (!next) return run
       stepped = next
     }
-    const marker = nameMarker(run[index].name)
+    const own = nameMarker(run[index].name)
+    const marker =
+      templateMarker === null
+        ? own
+        : index % 2 === 0
+          ? templateMarker
+          : templateMarker.toLowerCase() === "(july)"
+            ? "(February)"
+            : "(July)"
     names.push(marker ? `${nameWithoutMarker(stepped)} ${marker}` : nameWithoutMarker(stepped))
   }
 
@@ -1692,6 +1920,8 @@ function LoadTargetSelect({
 interface SemesterColumnProps {
   semester: PlanSemester
   slots: PlanSlot[]
+  /** "Feb 2026" for this column, or null when the name tells us nothing. */
+  calendarLabel: string | null
   showSection: boolean
   isActiveColumn: boolean
   isAnyDrag: boolean
@@ -1716,6 +1946,7 @@ function SemesterColumn({
   // undefined (reading 'filter')" and take the whole app to a white screen, since
   // there is no error boundary above the planner.
   slots = [],
+  calendarLabel,
   showSection,
   isActiveColumn,
   isAnyDrag,
@@ -1758,11 +1989,17 @@ function SemesterColumn({
     >
       <div className="rounded-t-xl border-b border-[#003A6E]/15 dark:border-blue-900/30 bg-[#003A6E]/5 dark:bg-blue-900/20 px-3 py-2">
         <div className="flex items-start justify-between gap-2">
-          <div
-            className="min-w-0 flex-1 text-sm font-semibold leading-snug text-[#003A6E] dark:text-blue-300 transition-colors duration-300"
-            title={semester.name}
-          >
-            {semester.name}
+          <div className="min-w-0 flex-1" title={semester.name}>
+            <div className="text-sm font-semibold leading-snug text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+              {semester.name}
+            </div>
+            {calendarLabel && (
+              // The real month and year this column runs in, worked out from where
+              // the column sits in the plan rather than from its name.
+              <div className="mt-0.5 text-[11px] font-medium text-[#003A6E]/70 dark:text-blue-300/70">
+                <span data-testid="column-calendar">{calendarLabel}</span>
+              </div>
+            )}
           </div>
           {showTune ? (
             <LoadTargetSelect
@@ -3140,6 +3377,10 @@ export function CoursePlanner() {
   const [tuneOpen, setTuneOpen] = useState(false)
   const [tuneReady, setTuneReady] = useState(false)
 
+  /** The calendar year the plan starts in. Display only: it moves the month labels. */
+  const [startYear, setStartYear] = useState(CURRENT_YEAR)
+  const [startYearReady, setStartYearReady] = useState(false)
+
   /**
    * The confirmation line for the last one-tap fix, plus the plan signature it
    * describes. The signature is what retires it: the moment the plan is anything
@@ -3188,6 +3429,18 @@ export function CoursePlanner() {
     if (!tuneReady) return
     writeTune(tuneOpen)
   }, [tuneOpen, tuneReady])
+
+  // Start year, same pattern: the server and the first client render both use the
+  // current year, then the stored one is applied.
+  useEffect(() => {
+    setStartYear(readStartYear())
+    setStartYearReady(true)
+  }, [])
+
+  useEffect(() => {
+    if (!startYearReady) return
+    writeStartYear(startYear)
+  }, [startYear, startYearReady])
 
   useEffect(() => {
     if (!loadSettingsReady) return
@@ -3296,7 +3549,10 @@ export function CoursePlanner() {
   const specializations = course?.specializations ?? []
   const effectiveSpecIndex = specializations[specIndex] ? specIndex : 0
   const activeSpec = specializations[effectiveSpecIndex] ?? null
-  const allStructures = activeSpec?.structures ?? []
+  // Split once per pathway: every entry path becomes its own plan, so the picker
+  // offers "February entry" and "July entry" as separate options with their own
+  // units and their own saved layout.
+  const allStructures = useMemo(() => splitStructures(activeSpec?.structures ?? []), [activeSpec])
   // QUT lists option pools ("Minor Options List", "QUT You") alongside real study
   // plans. Only progressions belong in the plan picker; the pools feed the option
   // slots instead. Fall back to everything if a course has no labelled progression.
@@ -3661,6 +3917,21 @@ export function CoursePlanner() {
   const showSection = useMemo(
     () => new Set(plan.map((semester) => semester.section).filter(Boolean)).size > 1,
     [plan],
+  )
+
+  /**
+   * "Feb 2026" under each column name, from the plan's entry point and the
+   * column's position. Recomputed from `plan`, so a reflow that adds or removes
+   * columns keeps every label right. Null when the plan or the name gives us
+   * nothing to go on.
+   */
+  const entryMonth = useMemo(() => entryMonthOf(structure), [structure])
+  const calendarLabels = useMemo(
+    () =>
+      plan.map((semester, index) =>
+        entryMonth ? calendarLabel(semester.name, index, entryMonth, startYear) : null,
+      ),
+    [plan, entryMonth, startYear],
   )
 
   /**
@@ -4195,16 +4466,33 @@ export function CoursePlanner() {
                     {activeSpec ? prettyName(activeSpec.name) : "Pathway"} · {structure.title}
                   </CardDescription>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={resetToQutPlan}
-                  disabled={!dirty}
-                  className="rounded-lg border-[#003A6E]/30 dark:border-blue-900/50 text-[#003A6E] dark:text-blue-300 hover:bg-[#003A6E]/5 dark:hover:bg-blue-900/20 transition-all duration-200 shrink-0"
-                >
-                  <RotateCcw className="mr-2 h-3.5 w-3.5" />
-                  Reset to QUT plan
-                </Button>
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Starts</span>
+                  <LoadTargetSelect
+                    compact
+                    testId="start-year-select"
+                    ariaLabel="Year this plan starts"
+                    title="The calendar year this plan starts in. It only changes the month label on each column."
+                    value={String(startYear)}
+                    onChange={(value) => setStartYear(normaliseStartYear(value))}
+                  >
+                    {START_YEAR_CHOICES.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </LoadTargetSelect>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={resetToQutPlan}
+                    disabled={!dirty}
+                    className="rounded-lg border-[#003A6E]/30 dark:border-blue-900/50 text-[#003A6E] dark:text-blue-300 hover:bg-[#003A6E]/5 dark:hover:bg-blue-900/20 transition-all duration-200 shrink-0"
+                  >
+                    <RotateCcw className="mr-2 h-3.5 w-3.5" />
+                    Reset to QUT plan
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent className="pt-4 dark:bg-gray-900 transition-colors duration-300">
@@ -4361,7 +4649,7 @@ export function CoursePlanner() {
                 className="flex gap-3 overflow-x-auto overscroll-x-contain pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x"
                 data-testid="planner-board"
               >
-                {plan.map((semester) => {
+                {plan.map((semester, index) => {
                   const override =
                     typeof loadOverrides[loadOverrideKey(semester.id)] === "number"
                       ? loadOverrides[loadOverrideKey(semester.id)]
@@ -4371,6 +4659,7 @@ export function CoursePlanner() {
                       key={semester.id}
                       semester={semester}
                       slots={slotsBySemester.get(semester.id) ?? []}
+                      calendarLabel={calendarLabels[index] ?? null}
                       showSection={showSection}
                       isActiveColumn={overColumn === semester.id}
                       isAnyDrag={activeUid !== null}

@@ -7,10 +7,8 @@ import { TimetableMaker } from "@/components/timetable-maker"
 import { CampusExplorer } from "@/components/campus-explorer"
 import { CoursePlanner } from "@/components/course-planner"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { useSearchParams } from "next/navigation"
 
 export function HomePage() {
-  const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState("timetable")
   // Set once React has attached. Server-rendered markup looks interactive before
   // that, and clicks in the gap are silently lost — tests gate on this.
@@ -20,14 +18,14 @@ export function HomePage() {
     setHydrated(true)
   }, [])
 
+  // Read the tab once from the URL instead of useSearchParams. useSearchParams
+  // forces the nearest Suspense boundary to fall back to client rendering in a
+  // static build, which shipped a production page whose only HTML was
+  // "Loading QUT Classmate". Reading location directly lets the page prerender.
   useEffect(() => {
-    const tab = searchParams.get("tab")
-
-    if (tab) {
-      setActiveTab(tab)
-    }
-
-  }, [searchParams])
+    const tab = new URLSearchParams(window.location.search).get("tab")
+    if (tab) setActiveTab(tab)
+  }, [])
 
   const handleTabChange = (value: string) => {
     setActiveTab(value)
