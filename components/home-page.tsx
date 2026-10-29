@@ -4,42 +4,29 @@ import { useState, useEffect } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UnitSearch } from "@/components/unit-search"
 import { TimetableMaker } from "@/components/timetable-maker"
-import { UnitReviews } from "@/components/unit-reviews"
+import { CampusExplorer } from "@/components/campus-explorer"
+import { CoursePlanner } from "@/components/course-planner"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { HelpDialog } from "@/components/help-dialog"
 import { useSearchParams } from "next/navigation"
 
 export function HomePage() {
   const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState("search")
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [unitCodeParam, setUnitCodeParam] = useState<string | null>(null)
-  const [unitNameParam, setUnitNameParam] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState("timetable")
+  // Set once React has attached. Server-rendered markup looks interactive before
+  // that, and clicks in the gap are silently lost — tests gate on this.
+  const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoaded(true)
-    }, 100)
-
-    return () => clearTimeout(timer)
+    setHydrated(true)
   }, [])
 
   useEffect(() => {
-    const unitCode = searchParams.get("unitCode")
-    const unitName = searchParams.get("unitName")
     const tab = searchParams.get("tab")
 
     if (tab) {
       setActiveTab(tab)
     }
 
-    if (unitCode) {
-      setUnitCodeParam(unitCode)
-    }
-
-    if (unitName) {
-      setUnitNameParam(decodeURIComponent(unitName))
-    }
   }, [searchParams])
 
   const handleTabChange = (value: string) => {
@@ -47,16 +34,18 @@ export function HomePage() {
   }
 
   return (
-    <main className="container mx-auto py-6 px-4 sm:py-10 flex flex-col min-h-[calc(100vh-80px)]">
+    <main
+      className="container mx-auto py-6 px-4 sm:py-10 flex flex-col min-h-[calc(100vh-80px)]"
+      data-hydrated={hydrated}
+    >
       <div
-        className={`flex justify-end space-x-4 mb-4 items-center transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className="flex justify-end space-x-4 mb-4 items-center"
       >
-        <HelpDialog />
         <ThemeToggle />
       </div>
 
       <div
-        className={`text-center mb-6 pb-4 border-b border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-500 ${isLoaded ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
+        className="text-center mb-6 pb-4 border-b border-[#003A6E]/20 dark:border-blue-900/30"
       >
         <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#003A6E] dark:text-blue-300 transition-colors duration-300 animate-pulse-once">
           QUT Classmate
@@ -72,47 +61,60 @@ export function HomePage() {
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full flex-grow">
         <TabsList
-          className={`grid w-full grid-cols-3 mb-6 bg-gray-100 dark:bg-gray-800 rounded-xl transition-all duration-500 ${isLoaded ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
+          className="grid w-full grid-cols-4 gap-0.5 h-auto py-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-xl"
         >
           <TabsTrigger
-            value="search"
-            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3"
-          >
-            Unit Search
-          </TabsTrigger>
-          <TabsTrigger
             value="timetable"
-            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3"
+            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3 leading-tight whitespace-normal text-center"
           >
             Timetable Creator
           </TabsTrigger>
           <TabsTrigger
-            value="reviews"
-            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3"
+            value="explorer"
+            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3 leading-tight whitespace-normal text-center"
           >
-            Unit Reviews
+            Campus Explorer
+          </TabsTrigger>
+          <TabsTrigger
+            value="planner"
+            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3 leading-tight whitespace-normal text-center"
+          >
+            Course Planner
+          </TabsTrigger>
+          <TabsTrigger
+            value="search"
+            className="data-[state=active]:bg-white data-[state=active]:text-[#003A6E] dark:data-[state=active]:bg-gray-900 dark:data-[state=active]:text-blue-300 rounded-lg transition-all duration-200 text-xs sm:text-sm py-1.5 px-1 sm:px-3 leading-tight whitespace-normal text-center"
+          >
+            Unit Search
           </TabsTrigger>
         </TabsList>
 
         <TabsContent
           value="search"
-          className={`focus:outline-none transition-all duration-500 ${isLoaded ? "opacity-100 transform-none" : "opacity-0 translate-y-8"}`}
+          className="focus:outline-none"
         >
           <UnitSearch />
         </TabsContent>
 
         <TabsContent
           value="timetable"
-          className={`focus:outline-none transition-all duration-500 ${isLoaded ? "opacity-100 transform-none" : "opacity-0 translate-y-8"}`}
+          className="focus:outline-none"
         >
           <TimetableMaker />
         </TabsContent>
 
         <TabsContent
-          value="reviews"
-          className={`focus:outline-none transition-all duration-500 ${isLoaded ? "opacity-100 transform-none" : "opacity-0 translate-y-8"}`}
+          value="explorer"
+          className="focus:outline-none"
         >
-          <UnitReviews initialUnitCode={unitCodeParam} initialUnitName={unitNameParam} />
+          <CampusExplorer />
+        </TabsContent>
+
+        <TabsContent
+          value="planner"
+          className="focus:outline-none"
+        >
+          <CoursePlanner />
         </TabsContent>
       </Tabs>
     </main>

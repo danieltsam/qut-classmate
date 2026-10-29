@@ -1,16 +1,65 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { WeeklyTimetable } from "./weekly-timetable"
 import { TimetableSidebar } from "./timetable-sidebar"
 import type { TimetableEntry, SelectedClass } from "@/lib/types"
-import { doClassesOverlap, extractWeeksInfo } from "@/lib/format-utils"
+import { doClassesOverlap, extractWeeksInfo, collapseNearDuplicateClasses } from "@/lib/format-utils"
 import { useToast } from "@/components/ui/use-toast"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { exportToICS } from "@/lib/export-utils"
 import { Download, Calendar } from "lucide-react"
 import { AutoTimetableGenerator } from "./auto-timetable-generator"
+import { SectionNote } from "@/components/section-note"
+
+const TIMETABLE_CACHE_PREFIX = "timetable-"
+
+/**
+ * Reads the class list for a unit out of the per-unit timetable cache that
+ * `timetable-sidebar.tsx` writes through `safelyStoreInCache`.
+ *
+ * Prefers the cache for the period the class itself belongs to; if that is
+ * missing it unions every cached period for the unit, because a class can be
+ * added by the auto generator without its period being what the sidebar cached.
+ */
+function readCachedUnitClasses(unitCode: string, teachingPeriodId?: string): TimetableEntry[] {
+  if (typeof window === "undefined") return []
+
+  const prefix = `${TIMETABLE_CACHE_PREFIX}${unitCode}-`
+
+  const readKey = (key: string): TimetableEntry[] => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) || "{}")
+      return Array.isArray(parsed?.data) ? (parsed.data as TimetableEntry[]) : []
+    } catch (error) {
+      console.error("Error parsing cached timetable data:", error)
+      return []
+    }
+  }
+
+  if (teachingPeriodId) {
+    const exact = readKey(`${prefix}${teachingPeriodId}`)
+    if (exact.length > 0) return exact
+  }
+
+  const collected: TimetableEntry[] = []
+  const seenPeriods = new Set<string>()
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (!key || !key.startsWith(prefix)) continue
+
+    const period = key.slice(prefix.length)
+    if (teachingPeriodId && period === teachingPeriodId) continue
+    if (seenPeriods.has(period)) continue
+
+    seenPeriods.add(period)
+    collected.push(...readKey(key))
+  }
+
+  return collected
+}
 
 export function TimetableMaker() {
   const { toast } = useToast()
@@ -99,7 +148,7 @@ export function TimetableMaker() {
           return []
         })
 
-      setPreviewClasses(matchingClasses)
+      setPreviewClasses(collapseNearDuplicateClasses(matchingClasses))
     } else {
       setPreviewClasses([])
     }
@@ -139,12 +188,28 @@ export function TimetableMaker() {
 
       if (existingClassOfSameType) {
         // Replace the existing class with the new one
+        const newClass = {
+          ...classEntry,
+          id,
+        } as SelectedClass
+
+        // The replacement removes the old stream, so check conflicts against
+        // everything that stays on the timetable rather than the full list.
+        const conflictingClass = selectedClasses
+          .filter((cls) => cls.id !== existingClassOfSameType.id)
+          .find((cls) => doClassesOverlap(cls, newClass))
+
+        if (conflictingClass) {
+          toast({
+            title: "Time Conflict",
+            description: `This class conflicts with ${conflictingClass.unitCode} ${conflictingClass.activityType} on ${conflictingClass.dayFormatted}`,
+            variant: "destructive",
+            duration: 5000,
+          })
+        }
+
         setSelectedClasses((prevClasses) => {
           const updatedClasses = prevClasses.filter((cls) => cls.id !== existingClassOfSameType.id)
-          const newClass = {
-            ...classEntry,
-            id,
-          } as SelectedClass
 
           const result = [...updatedClasses, newClass]
 
@@ -196,6 +261,29 @@ export function TimetableMaker() {
       }
     }
   }
+
+  /**
+   * Every other stream of the same unit + activity type. This is what a drag
+   * offers as drop targets: QUT fixes class times, so "moving" a class means
+   * switching to a different stream of the same activity.
+   */
+  const getClassAlternatives = useCallback((classEntry: TimetableEntry | SelectedClass): TimetableEntry[] => {
+    if (!classEntry.unitCode) return []
+
+    const cachedClasses = readCachedUnitClasses(classEntry.unitCode, classEntry.teachingPeriodId)
+
+    return cachedClasses.filter(
+      (alt) =>
+        alt.activityType === classEntry.activityType &&
+        // Exclude the stream already on the timetable
+        !(
+          alt.dayFormatted === classEntry.dayFormatted &&
+          alt.startTime === classEntry.startTime &&
+          alt.endTime === classEntry.endTime &&
+          alt.location === classEntry.location
+        ),
+    )
+  }, [])
 
   // Handle adding a searched unit
   const handleAddSearchedUnit = (unitCode: string, teachingPeriodId: string) => {
@@ -419,7 +507,8 @@ export function TimetableMaker() {
           {selectedClasses.length > 0 && (
             <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-center sm:justify-start">
               <span className="inline-flex items-center">
-                <span className="mr-1">💡</span> Tip: Click on any class in the timetable to remove it
+                <span className="mr-1">💡</span> Tip: Click on any class in the timetable to remove it, or drag it onto a
+                highlighted stream to move it
               </span>
             </div>
           )}
@@ -428,9 +517,16 @@ export function TimetableMaker() {
             hoveredClass={hoveredClass}
             onClassToggle={handleClassToggle}
             previewClasses={previewClasses}
+            getAlternatives={getClassAlternatives}
           />
         </div>
       </div>
+
+      <SectionNote>
+        I do this once at the start of every semester and then forget about it. Put my work shifts in as
+        unavailable blocks, press Auto Generate, and take whatever it gives me. It beats shuffling classes
+        around by hand for twenty minutes.
+      </SectionNote>
     </div>
   )
 }

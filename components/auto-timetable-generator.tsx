@@ -21,15 +21,6 @@ import { filterUnitCodes } from "@/lib/unit-codes"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useMediaQuery } from "@/hooks/use-mobile"
 
-// Add this to the top of the file, after the imports
-// Update the existing SelectedClass type from @/lib/types
-declare module "@/lib/types" {
-  interface SelectedClass extends TimetableEntry {
-    id: string
-    hasConflict?: boolean
-  }
-}
-
 interface AutoTimetableGeneratorProps {
   onAddClasses: (classes: SelectedClass[]) => void
   existingClasses: SelectedClass[]
@@ -669,7 +660,8 @@ export function AutoTimetableGenerator({
           // Add this class to the solution
           solution.push({
             ...cls,
-            id: `${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.endTime}`,
+            unitCode,
+            id: `${unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.endTime}`,
           })
           classAdded = true
           break
@@ -688,7 +680,8 @@ export function AutoTimetableGenerator({
           // Add this class to the solution even though it conflicts
           solution.push({
             ...cls,
-            id: `${cls.unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.endTime}`,
+            unitCode,
+            id: `${unitCode}-${cls.activityType}-${cls.dayFormatted}-${cls.startTime}-${cls.endTime}`,
             hasConflict: !isLecture, // Don't mark lectures as having conflicts since they're allowed to clash
           })
         }

@@ -13,7 +13,7 @@ import { teachingPeriods, getTeachingPeriodWithCampus } from "@/lib/teaching-per
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 // Update the import to ensure we're using the extractWeeksInfo function
-import { formatActivityType, extractWeeksInfo } from "@/lib/format-utils"
+import { formatActivityType, extractWeeksInfo, collapseNearDuplicateClasses } from "@/lib/format-utils"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
@@ -622,6 +622,11 @@ export function TimetableSidebar({
                     const fullActivityType = formatActivityType(activityType)
                     const isExpanded = (expandedActivities[unitCode] || []).includes(activityType)
 
+                    // Rows stay expanded: each one is a separate selectable stream, so
+                    // folding them here would make "the online one" unselectable. The
+                    // grid collapses them because it only has room for one block.
+                    const hasSharedSlot = collapseNearDuplicateClasses(classes).length < classes.length
+
                     return (
                       <AccordionItem
                         key={`${unitCode}-${activityType}`}
@@ -644,6 +649,11 @@ export function TimetableSidebar({
 
                         <AccordionContent className="pt-0 pb-1">
                           <div className="space-y-1">
+                            {hasSharedSlot && (
+                              <p className="px-2 pb-1 text-[11px] leading-snug text-gray-500 dark:text-gray-400 transition-colors duration-300">
+                                Some of these run at the same time in a different location. Pick one.
+                              </p>
+                            )}
                             {/* Find the section where class entries are rendered in the sidebar and update it to display week info correctly */}
                             {classes.map((classEntry, idx) => {
                               const isSelected = isClassSelected(classEntry)

@@ -36,6 +36,12 @@ export function RateLimitProvider({ children }: RateLimitProviderProps) {
       const response = await fetch("/api/check-rate-limit")
       if (response.ok) {
         const data = await response.json()
+        // The limiter is disabled by default, so the endpoint reports no window.
+        // Leave the badge alone rather than rendering a null/NaN count.
+        if (data.unlimited) {
+          setIsRateLimited(false)
+          return
+        }
         setRemainingRequests(data.remaining)
         setIsRateLimited(data.remaining <= 0)
       }

@@ -1,0 +1,56 @@
+{
+  "discoveredAt": "2026-10-28T13:45:07.715Z",
+  "source": "QUT Virtual 4 unit search",
+  "periods": [
+    {
+      "id": "4382869",
+      "code": "SEM-2/2027/U",
+      "seenOnUnits": 4,
+      "name": "Semester 2, 2027",
+      "campus": "All Campuses",
+      "dateRange": "Jul 2027 to Nov 2027",
+      "year": 2027,
+      "semester": 2
+    },
+    {
+      "id": "4382870",
+      "code": "SEM-2/2027/U",
+      "seenOnUnits": 1,
+      "name": "Semester 2, 2027",
+      "campus": "All Campuses",
+      "dateRange": "Jul 2027 to Nov 2027",
+      "year": 2027,
+      "semester": 2
+    },
+    {
+      "id": "4382863",
+      "code": "SEM-1/2027/U",
+      "seenOnUnits": 3,
+      "name": "Semester 1, 2027",
+      "campus": "All Campuses",
+      "dateRange": "Feb 2027 to Jun 2027",
+      "year": 2027,
+      "semester": 1
+    },
+    {
+      "id": "4381474",
+      "code": "SEM-2/2026/U",
+      "seenOnUnits": 4,
+      "name": "Semester 2, 2026",
+      "campus": "All Campuses",
+      "dateRange": "Jul 2026 to Nov 2026",
+      "year": 2026,
+      "semester": 2
+    },
+    {
+      "id": "4381475",
+      "code": "SEM-2/2026/U",
+      "seenOnUnits": 1,
+      "name": "Semester 2, 2026",
+      "campus": "All Campuses",
+      "dateRange": "Jul 2026 to Nov 2026",
+      "year": 2026,
+      "semester": 2
+    }
+  ]
+}

@@ -14,7 +14,6 @@ export const RATE_LIMIT_CONFIG = {
 export const CACHE_CONFIG = {
   defaultTTL: 3600, // 1 hour in seconds
   timetableTTL: 3600, // 1 hour for timetable data
-  reviewsTTL: 300, // 5 minutes for reviews
   keyPrefix: "cache:",
 } as const
 

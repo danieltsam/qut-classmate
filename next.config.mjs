@@ -15,6 +15,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
+  // The API routes read these with fs at request time. Next only traces static
+  // imports into a serverless bundle, so without this every data route returns
+  // ENOENT on Vercel while working perfectly in dev.
+  outputFileTracingIncludes: {
+    "/api/courses": ["./data/course-structures.json", "./data/qut-active-courses.json"],
+    "/api/courses/[code]": ["./data/course-structures.json"],
+    "/api/unit-prereqs": ["./data/unit-prereqs.json"],
+    "/api/units/[code]": ["./data/unit-meta.json"],
+  },
+
   async headers() {
     return [
       {

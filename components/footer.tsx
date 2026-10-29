@@ -1,63 +1,46 @@
 "use client"
 
-import { Github, Linkedin, ExternalLink } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+const SHORT_TERM_PROGRAMS =
+  "https://qutvirtual2.qut.edu.au/ismms-core/studentNav/shortTermPrograms"
 
 export function Footer() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    // Add a small delay before showing the footer for a nice animation
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
-    <footer
-      className={`py-8 border-t border-[#003A6E]/20 dark:border-blue-900/30 transition-all duration-700 ${isVisible ? "opacity-100 transform-none" : "opacity-0 translate-y-4"}`}
-    >
-      <div className="container mx-auto flex flex-col items-center justify-center">
-        <p className="text-gray-600 dark:text-gray-400 mb-4 text-center text-xs border-b border-gray-200 dark:border-gray-700 pb-3 w-full max-w-md">
+    <footer className="mt-auto py-8 border-t border-[#003A6E]/20 dark:border-blue-900/30">
+      <div className="container mx-auto flex flex-col items-center gap-3 px-4">
+        {/* A personal note, not a product feature: this is the single piece of advice
+            the owner would give any student with a spare elective. */}
+        <p className="text-center text-xs leading-relaxed text-gray-500 dark:text-gray-500 max-w-xl">
+          If you have a spare elective, spend it on a{" "}
+          <a
+            href={SHORT_TERM_PROGRAMS}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#003A6E] underline underline-offset-2 hover:text-[#0053e2] dark:text-blue-300 dark:hover:text-blue-200"
+          >
+            QUT short-term exchange
+          </a>
+          . The unit still counts, so you are technically reattributing the money you would have spent on it
+          towards going somewhere new. NCP funding can cover a surprising amount of the rest.
+        </p>
+
+        <p className="text-center text-xs leading-relaxed text-gray-400 dark:text-gray-600 max-w-xl">
+          Prerequisite and requisite checks here are advisory, not binding. In practice a waiver is often
+          possible. A sensible email explaining your background, outside projects or prior experience usually
+          gets one.
+        </p>
+
+        <p className="text-center text-xs text-gray-500 dark:text-gray-500 max-w-md">
           Not affiliated with QUT. Always check the official timetable.
         </p>
-        <p className="text-gray-600 dark:text-gray-400 mb-2 text-center">Built by Daniel Sam</p>
-        <p className="text-gray-600 dark:text-gray-400 mb-4 text-center text-xs">(with a lot of help from v0 😉)</p>
-        <div className="flex flex-wrap justify-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow animate-in fade-in-50 duration-300"
-            onClick={() => window.open("https://github.com/danieltsam", "_blank")}
-            style={{ animationDelay: "100ms" }}
-          >
-            <Github className="h-4 w-4 mr-2" />
-            GitHub
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow animate-in fade-in-50 duration-300"
-            onClick={() => window.open("https://linkedin.com/in/daniel-sam-852487236/", "_blank")}
-            style={{ animationDelay: "200ms" }}
-          >
-            <Linkedin className="h-4 w-4 mr-2" />
-            LinkedIn
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow animate-in fade-in-50 duration-300"
-            onClick={() => window.open("https://danieltsam.github.io", "_blank")}
-            style={{ animationDelay: "300ms" }}
-          >
-            <ExternalLink className="h-4 w-4 mr-2" />
-            Portfolio
-          </Button>
-        </div>
+
+        <a
+          href="https://github.com/danieltsam/qut-classmate"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-gray-400 underline-offset-4 transition-colors duration-200 hover:text-[#003A6E] hover:underline dark:text-gray-600 dark:hover:text-blue-300"
+        >
+          View the source on GitHub
+        </a>
       </div>
     </footer>
   )

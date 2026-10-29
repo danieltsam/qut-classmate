@@ -1,3 +1,5 @@
+import type { TimetableEntry } from "./types"
+
 // Activity type mapping
 export const activityTypeMap: Record<string, string> = {
   STU: "Studio",
@@ -121,7 +123,6 @@ export function extractWeeksInfo(classInfo: string): string {
   // Try to match parentheses pattern with commas (e.g., "(Week 3, 7)")
   const parenthesesMatch = classInfo.match(/$$Week[s]?\s+(\d+(?:,\s*\d+)*)(?:\s*&\s*\d+)*$$/i)
   if (parenthesesMatch && parenthesesMatch.length >= 2) {
-    console.log("Parentheses match found:", parenthesesMatch[1])
     // Format with commas and & for the final week
     return formatWeekNumbers(parenthesesMatch[1])
   }
@@ -129,7 +130,6 @@ export function extractWeeksInfo(classInfo: string): string {
   // Try to match simple "Week X, Y" pattern without parentheses
   const simpleMatch = classInfo.match(/Week[s]?\s+(\d+(?:,\s*\d+)*(?:\s*&\s*\d+)*)/i)
   if (simpleMatch && simpleMatch.length >= 2) {
-    console.log("Simple match found:", simpleMatch[1])
     // Format with commas and & for the final week
     return formatWeekNumbers(simpleMatch[1])
   }
@@ -359,4 +359,98 @@ const combineWeekInfo = (week1: string, week2: string): string => {
     const formattedWeeks = allNumbers.slice(0, -1).join(", ") + " & " + allNumbers[allNumbers.length - 1]
     return `Weeks ${formattedWeeks}`
   }
+}
+
+/**
+ * A class record that covers a slot occupied by more than one mode.
+ *
+ * QUT lists a lecture once per delivery mode: CAB201's Thursday 1pm lecture
+ * exists three times, identical in unit, activity, day, time, weeks and staff,
+ * differing only in `location` ("GP B117", "Virtual", "Online"). Rendering all
+ * three puts two or three blocks in the same grid cell, text stacked on text.
+ *
+ * `alternates` holds the streams that lost the tie-break (input order decides,
+ * the first one wins as the representative). They are display-only: the
+ * underlying records stay separate so each mode can still be selected or
+ * dragged onto.
+ */
+export interface CollapsedEntry extends TimetableEntry {
+  alternates: TimetableEntry[]
+  locations: string[]
+  locationSummary: string
+}
+
+const normaliseKeyPart = (value: string | undefined): string =>
+  (value ?? "").trim().toLowerCase().replace(/\s+/g, " ")
+
+/**
+ * Identity of a slot, ignoring where it is held.
+ *
+ * Staff is deliberately excluded: the same lecturer is usually listed for every
+ * mode, and a one-character difference in one record would otherwise stop a
+ * legitimate collapse. Location is excluded by design - it is the field that
+ * varies. Weeks are compared through `extractWeeksInfo` so "Weeks 1-13" and
+ * "(Week 1-13) (Internal Mode)" compare equal.
+ */
+export function nearDuplicateClassKey(entry: TimetableEntry): string {
+  return [
+    normaliseKeyPart(entry.unitCode),
+    normaliseKeyPart(entry.activityType),
+    normaliseKeyPart(entry.dayFormatted || entry.day),
+    normaliseKeyPart(entry.startTime),
+    normaliseKeyPart(entry.endTime),
+    normaliseKeyPart(extractWeeksInfo(entry.class)),
+  ].join("|")
+}
+
+const locationsOf = (entry: TimetableEntry): string[] => {
+  const collapsed = entry as Partial<CollapsedEntry>
+  if (Array.isArray(collapsed.locations) && collapsed.locations.length > 0) return collapsed.locations
+  return [entry.location]
+}
+
+/** Terse label for a grid block: "GP B117 · +2 more". */
+export function formatLocationSummary(locations: string[]): string {
+  const unique = locations.filter((location, index) => locations.indexOf(location) === index && location)
+  if (unique.length === 0) return ""
+  if (unique.length === 1) return unique[0]
+  return `${unique[0]} · +${unique.length - 1} more`
+}
+
+/**
+ * Fold near-duplicate classes into one entry each, preserving input order.
+ *
+ * Records that repeat the same slot *and* the same location are true duplicates
+ * and are dropped; records that only differ by location become `alternates` on
+ * the first one seen.
+ */
+export function collapseNearDuplicateClasses(entries: TimetableEntry[]): CollapsedEntry[] {
+  const byKey = new Map<string, CollapsedEntry>()
+  const keyOrder: string[] = []
+
+  for (const entry of entries) {
+    const key = nearDuplicateClassKey(entry)
+    const existing = byKey.get(key)
+
+    if (!existing) {
+      const locations = locationsOf(entry)
+      byKey.set(key, {
+        ...entry,
+        alternates: [],
+        locations,
+        locationSummary: formatLocationSummary(locations),
+      })
+      keyOrder.push(key)
+      continue
+    }
+
+    const freshLocations = locationsOf(entry).filter((location) => !existing.locations.includes(location))
+    if (freshLocations.length === 0) continue
+
+    existing.locations.push(...freshLocations)
+    existing.alternates.push(entry)
+    existing.locationSummary = formatLocationSummary(existing.locations)
+  }
+
+  return keyOrder.map((key) => byKey.get(key) as CollapsedEntry)
 }

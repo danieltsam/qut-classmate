@@ -15,12 +15,11 @@ import { checkCache, safelyStoreInCache } from "@/lib/storage-utils"
 import type { TimetableEntry } from "@/lib/types"
 import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
-import { useRouter } from "next/navigation"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { SectionNote } from "@/components/section-note"
 
 export function UnitSearch() {
   const { toast } = useToast()
-  const router = useRouter()
   const [unitCode, setUnitCode] = useState("")
   const [teachingPeriodId, setTeachingPeriodId] = useState("4381474") // Default to Semester 2 2026
   const [timetableData, setTimetableData] = useState<TimetableEntry[]>([])
@@ -186,20 +185,6 @@ export function UnitSearch() {
     }
   }
 
-  // Handle view reviews
-  const handleViewReviews = (unitCode: string) => {
-    // Navigate to the reviews tab with the unit code as a parameter
-    router.push(`/?tab=reviews&unitCode=${unitCode}${unitName ? `&unitName=${encodeURIComponent(unitName)}` : ""}`)
-
-    // Show a toast notification
-    toast({
-      title: "Viewing Reviews",
-      description: `Showing reviews for ${unitCode}${unitName ? ` - ${unitName}` : ""}.`,
-      duration: 3000,
-      className: "bg-[#003A6E] text-white dark:bg-blue-800 border-none shadow-lg",
-    })
-  }
-
   return (
     <div className="space-y-6">
       <Card className="border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300">
@@ -314,9 +299,15 @@ export function UnitSearch() {
         <TimetableResults
           entries={timetableData}
           unitName={unitName || undefined}
-          onViewReviews={() => handleViewReviews(timetableData[0].unitCode || "")}
         />
       )}
+
+      <SectionNote>
+        I never planned my week around tutorials. I turned up on the days I already had work in the city
+        and did everything else online. So on those days I would open this and ask one question: is there
+        a tutorial for one of my units today that I would actually bother sitting in on? If there was, I
+        went. If not, I watched the recording.
+      </SectionNote>
     </div>
   )
 }
