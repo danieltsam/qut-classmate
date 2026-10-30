@@ -17,6 +17,8 @@ import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { SectionNote } from "@/components/section-note"
+import { getUnitTitle } from "@/lib/unit-codes"
+import { QUT_UNREACHABLE, timetableErrorMessage } from "@/lib/messages"
 
 export function UnitSearch() {
   const { toast } = useToast()
@@ -101,12 +103,9 @@ export function UnitSearch() {
     if (cachedData) {
       setTimetableData(cachedData)
 
-      // Extract unit name from the first entry if available
-      if (cachedData.length > 0 && cachedData[0].unitName) {
-        setUnitName(cachedData[0].unitName)
-      } else {
-        setUnitName("")
-      }
+      // Extract the unit name from the first entry if available, otherwise
+      // fall back to the bundled catalog. The API never sends unitName.
+      setUnitName(cachedData[0]?.unitName || getUnitTitle(formattedUnitCode) || "")
 
       return
     }
@@ -134,7 +133,7 @@ export function UnitSearch() {
 
 
       if (result.error) {
-        setError(result.message)
+        setError(timetableErrorMessage(result.message))
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
@@ -156,12 +155,9 @@ export function UnitSearch() {
         }
         safelyStoreInCache(`timetable-${formattedUnitCode}-${teachingPeriodId.trim()}`, cacheData)
 
-        // Extract unit name from the first entry if available
-        if (result.data.length > 0 && result.data[0].unitName) {
-          setUnitName(result.data[0].unitName)
-        } else {
-          setUnitName("")
-        }
+        // Extract the unit name from the first entry if available, otherwise
+        // fall back to the bundled catalog. The API never sends unitName.
+        setUnitName(result.data?.[0]?.unitName || getUnitTitle(formattedUnitCode) || "")
 
         // Show remaining requests toast when getting low
         if (result.remainingRequests <= 3) {
@@ -173,9 +169,9 @@ export function UnitSearch() {
         }
       }
     } catch (err) {
-      // Handle any unexpected errors
-      setError("An unexpected error occurred. Please try again later.")
-      console.error("Unexpected error:", err)
+      // Keep the technical detail for us; the student gets one plain sentence.
+      console.error("Unit search failed:", err)
+      setError(QUT_UNREACHABLE)
     } finally {
       setIsLoading(false)
       setIsPendingRequest(false)

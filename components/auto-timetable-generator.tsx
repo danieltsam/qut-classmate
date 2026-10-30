@@ -18,6 +18,7 @@ import { doClassesOverlap, extractWeeksInfo } from "@/lib/format-utils"
 import { TimeBlockSelector } from "./time-block-selector"
 import { Input } from "@/components/ui/input"
 import { filterUnitCodes } from "@/lib/unit-codes"
+import { TIMETABLE_BUILD_FAILED } from "@/lib/messages"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useMediaQuery } from "@/hooks/use-mobile"
 
@@ -184,28 +185,29 @@ export function AutoTimetableGenerator({
             const result = await response.json()
 
             if (result.error) {
-              if (result.rateLimitExceeded) {
-                throw new Error(
-                  "Rate limit exceeded. You have used your 15 searches for today. Please try again tomorrow.",
-                )
-              }
-              throw new Error(`Failed to fetch data for ${unitCode}: ${result.message}`)
-            }
-
-            if (result.data && result.data.length > 0) {
+              // Upstream text stays in the console; the student gets a sentence.
+              console.error(`Timetable search failed for ${unitCode}`, result)
+              setWarnings((prev) => [
+                ...prev,
+                result.rateLimitExceeded || response.status === 429
+                  ? "You have used today's searches. That unit will be skipped."
+                  : `Could not load classes for ${unitCode}. It will be skipped.`,
+              ])
+            } else if (result.data && result.data.length > 0) {
               allClasses[unitCode] = result.data
             } else {
               setWarnings((prev) => [...prev, `No classes found for ${unitCode}. This unit will be skipped.`])
             }
           }
         } catch (err) {
-          setWarnings((prev) => [...prev, `Error fetching data for ${unitCode}. This unit will be skipped.`])
+          console.error(`Timetable search failed for ${unitCode}`, err)
+          setWarnings((prev) => [...prev, `Could not load classes for ${unitCode}. It will be skipped.`])
         }
       }
 
       // Check if we have any classes to work with
       if (Object.keys(allClasses).length === 0) {
-        throw new Error("Could not fetch class data for any of the units. Please try again later.")
+        throw new Error("no class data for any unit")
       }
 
       // Generate timetable with Monte Carlo simulation
@@ -254,62 +256,19 @@ export function AutoTimetableGenerator({
         ])
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to generate timetable")
+      // The thrown messages above are internal markers; never show them.
+      console.error("Timetable generation failed:", err)
+      setError(TIMETABLE_BUILD_FAILED)
 
-      // Even if there's an error, try to generate a basic timetable with whatever data we have
-      try {
-        const fallbackResult = generateFallbackTimetable(unitCodes)
-        if (fallbackResult.classes.length > 0) {
-          setGeneratedClasses(fallbackResult.classes)
-          setIsComplete(true)
-          setActiveTab("preview")
-          setWarnings((prev) => [...prev, "Using a basic timetable due to errors. Some classes may be missing."])
-        }
-      } catch (fallbackErr) {
-        console.error("Error generating fallback timetable:", fallbackErr)
-      }
+      // No fabricated fallback. This used to invent a lecture per unit at made-up
+      // times with location "TBD" and show it in the grid under a small warning.
+      // A timetable that looks generated but is not is worse than no timetable:
+      // someone could plan their week around a class that does not exist.
+      setGeneratedClasses([])
+      setIsComplete(false)
     } finally {
       setIsGenerating(false)
     }
-  }
-
-  // Generate a basic fallback timetable when the main algorithm fails
-  const generateFallbackTimetable = (unitCodes: string[]): { classes: SelectedClass[] } => {
-    // This is a very simple fallback that just creates placeholder classes
-    const fallbackClasses: SelectedClass[] = []
-
-    // Create a simple placeholder timetable
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    const times = ["9:00am", "11:00am", "1:00pm", "3:00pm"]
-
-    unitCodes.forEach((unitCode, i) => {
-      const day = days[i % days.length]
-      const startTime = times[i % times.length]
-      const endTime = startTime.includes("9:00")
-        ? "10:00am"
-        : startTime.includes("11:00")
-          ? "12:00pm"
-          : startTime.includes("1:00")
-            ? "2:00pm"
-            : "4:00pm"
-
-      fallbackClasses.push({
-        id: `fallback-${unitCode}-lecture`,
-        unitCode,
-        activityType: "Lecture",
-        classTitle: "Lecture",
-        dayFormatted: day,
-        startTime,
-        endTime,
-        location: "TBD",
-        locationBuilding: "",
-        locationRoom: "",
-        teachingStaff: "TBA",
-        class: "Placeholder",
-      })
-    })
-
-    return { classes: fallbackClasses }
   }
 
   // Update the handleApplyTimetable function to avoid state updates during rendering

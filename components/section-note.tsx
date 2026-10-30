@@ -8,7 +8,7 @@ import type { ReactNode } from "react"
 export function SectionNote({ children }: { children: ReactNode }) {
   return (
     <aside className="mt-8 border-t border-gray-200/70 pt-4 dark:border-gray-800/70">
-      <p className="max-w-3xl text-xs leading-relaxed text-gray-500 dark:text-gray-500">{children}</p>
+      <div className="max-w-3xl space-y-2 text-xs leading-relaxed text-gray-500 dark:text-gray-500">{children}</div>
     </aside>
   )
 }

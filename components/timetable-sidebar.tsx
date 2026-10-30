@@ -20,6 +20,9 @@ import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { getUnitTitle } from "@/lib/unit-codes"
+import { useUnitTitle } from "@/hooks/use-unit-title"
+import { QUT_UNREACHABLE, timetableErrorMessage } from "@/lib/messages"
 
 // Add this function at the top of the file, after the imports but before the component definition
 // This function determines the priority of activity types for sorting
@@ -156,12 +159,9 @@ export function TimetableSidebar({
     if (cachedData) {
       setSearchResults(cachedData)
 
-      // Extract unit name from the first entry if available
-      if (cachedData.length > 0 && cachedData[0].unitName) {
-        setUnitName(cachedData[0].unitName)
-      } else {
-        setUnitName("")
-      }
+      // Extract the unit name from the first entry if available, otherwise
+      // fall back to the bundled catalog. The API never sends unitName.
+      setUnitName(cachedData[0]?.unitName || getUnitTitle(formattedUnitCode) || "")
 
       // Add to search history
       const key = `${formattedUnitCode}-${teachingPeriodId}`
@@ -201,7 +201,7 @@ export function TimetableSidebar({
       const result = await response.json()
 
       if (result.error) {
-        setError(result.message)
+        setError(timetableErrorMessage(result.message))
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
@@ -223,12 +223,9 @@ export function TimetableSidebar({
         }
         safelyStoreInCache(`timetable-${formattedUnitCode}-${teachingPeriodId.trim()}`, cacheData)
 
-        // Extract unit name from the first entry if available
-        if (result.data.length > 0 && result.data[0].unitName) {
-          setUnitName(result.data[0].unitName)
-        } else {
-          setUnitName("")
-        }
+        // Extract the unit name from the first entry if available, otherwise
+        // fall back to the bundled catalog. The API never sends unitName.
+        setUnitName(result.data?.[0]?.unitName || getUnitTitle(formattedUnitCode) || "")
 
         // Add to search history
         const key = `${formattedUnitCode}-${teachingPeriodId}`
@@ -250,9 +247,9 @@ export function TimetableSidebar({
         }
       }
     } catch (err) {
-      // Handle any unexpected errors
-      setError("An unexpected error occurred. Please try again later.")
-      console.error("Unexpected error:", err)
+      // Keep the technical detail for us; the student gets one plain sentence.
+      console.error("Unit search failed:", err)
+      setError(QUT_UNREACHABLE)
     } finally {
       setIsLoading(false)
       setIsPendingRequest(false)
@@ -333,7 +330,7 @@ export function TimetableSidebar({
       const result = await response.json()
 
       if (result.error) {
-        setError(result.message)
+        setError(timetableErrorMessage(result.message))
 
         // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
@@ -348,12 +345,9 @@ export function TimetableSidebar({
         console.log(`📡 Fetched ${unitCode} from server`)
         setSearchResults(result.data)
 
-        // Extract unit name from the first entry if available
-        if (result.data.length > 0 && result.data[0].unitName) {
-          setUnitName(result.data[0].unitName)
-        } else {
-          setUnitName("")
-        }
+        // Extract the unit name from the first entry if available, otherwise
+        // fall back to the bundled catalog. The API never sends unitName.
+        setUnitName(result.data?.[0]?.unitName || getUnitTitle(unitCode) || "")
 
         // Add to search history
         setSearchHistory((prev) => ({
@@ -374,9 +368,9 @@ export function TimetableSidebar({
         }
       }
     } catch (err) {
-      // Handle any unexpected errors
-      setError("An unexpected error occurred. Please try again later.")
-      console.error("Unexpected error:", err)
+      // Keep the technical detail for us; the student gets one plain sentence.
+      console.error("Unit search failed:", err)
+      setError(QUT_UNREACHABLE)
     } finally {
       setIsLoading(false)
       setIsPendingRequest(false)
@@ -420,6 +414,11 @@ export function TimetableSidebar({
     },
     {} as Record<string, TimetableEntry[]>,
   )
+
+  // The API does not send unitName, so the heading resolves it from the catalog
+  // or the outline endpoint.
+  const resultUnitCode = searchResults[0]?.unitCode
+  const resultUnitName = useUnitTitle(resultUnitCode, unitName)
 
   // Group selected classes by unit code
   const selectedByUnit = selectedClasses.reduce(
@@ -610,7 +609,8 @@ export function TimetableSidebar({
             {searchResults.length > 0 && (
               <div className="mt-4 animate-in fade-in-50 duration-300">
                 <h3 className="font-medium mb-2 text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
-                  {searchResults[0].unitCode} {unitName && <span className="font-normal">- {unitName}</span>}
+                  {searchResults[0].unitCode}
+                  {resultUnitName && <span className="font-normal"> · {resultUnitName}</span>}
                   <div className="text-xs text-gray-500 dark:text-gray-400 font-normal mt-1 transition-colors duration-300">
                     {getTeachingPeriodWithCampus(teachingPeriodId)}
                   </div>

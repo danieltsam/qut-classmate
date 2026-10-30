@@ -66,6 +66,8 @@ import {
 const FULL_TIME_CP = 48
 const STORAGE_PREFIX = "qut-classmate:course-planner"
 const STAR_STORAGE_KEY = `${STORAGE_PREFIX}:stars`
+const SHORT_TERM_PROGRAMS =
+  "https://qutvirtual2.qut.edu.au/ismms-core/studentNav/shortTermPrograms"
 
 // ── Load target ──────────────────────────────────────────────────────────────
 //
@@ -4858,9 +4860,29 @@ export function CoursePlanner() {
       )}
 
       <SectionNote>
-        I open this before enrolment opens, mostly to answer one question: if I switch to this major, what
-        does the rest of my degree actually look like? Dragging a unit forward a semester is usually enough
-        to tell whether a minor fits or whether I would be doubling up on something heavy.
+        <p>
+          I open this before enrolment opens, mostly to answer one question: if I switch to this major, what
+          does the rest of my degree actually look like? Dragging a unit forward a semester is usually enough
+          to tell whether a minor fits or whether I would be doubling up on something heavy.
+        </p>
+        <p>
+          Prerequisite and requisite checks here are advisory, not binding. In practice a waiver is often
+          possible. A sensible email explaining your background, outside projects or prior experience usually
+          gets one.
+        </p>
+        <p>
+          If you have a spare elective, spend it on a{" "}
+          <a
+            href={SHORT_TERM_PROGRAMS}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#003A6E] underline underline-offset-2 hover:text-[#0053e2] dark:text-blue-300 dark:hover:text-blue-200"
+          >
+            QUT short-term exchange
+          </a>
+          . The unit still counts, so you are technically reattributing the money you would have spent on it
+          towards going somewhere new. NCP funding can cover a surprising amount of the rest.
+        </p>
       </SectionNote>
     </div>
   )

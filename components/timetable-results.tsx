@@ -10,6 +10,7 @@ import { getTeachingPeriodWithCampus } from "@/lib/teaching-periods"
 import { Download } from "lucide-react"
 import { exportToICS } from "@/lib/export-utils"
 import { useToast } from "@/components/ui/use-toast"
+import { useUnitTitle } from "@/hooks/use-unit-title"
 
 interface TimetableResultsProps {
   entries: TimetableEntry[]
@@ -21,6 +22,12 @@ interface TimetableResultsProps {
 export function TimetableResults({ entries, unitName, cached = false }: TimetableResultsProps) {
   const { toast } = useToast()
   const [selectedActivityType, setSelectedActivityType] = useState<string | null>(null)
+
+  // The API does not send unitName, so the heading resolves it from the catalog
+  // or the outline endpoint and reads "CAB201 · Object-Oriented Programming"
+  // instead of a bare code.
+  const unitCode = entries[0]?.unitCode
+  const resolvedUnitName = useUnitTitle(unitCode, unitName)
 
   // Group entries by activity type
   const groupedByActivityType = entries.reduce<Record<string, TimetableEntry[]>>((acc, entry) => {
@@ -57,7 +64,8 @@ export function TimetableResults({ entries, unitName, cached = false }: Timetabl
         <div>
           <div className="flex items-center">
             <h2 className="text-xl font-semibold text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
-              {entries[0]?.unitCode} {unitName && <span className="font-normal">- {unitName}</span>}
+              {unitCode}
+              {resolvedUnitName && <span className="font-normal"> · {resolvedUnitName}</span>}
             </h2>
             {cached && (
               <span className="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 rounded-full">
