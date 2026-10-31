@@ -19,7 +19,7 @@ function kvAvailable(): boolean {
   if (!announced) {
     announced = true
     console.info(
-      "[cache] KV disabled — KV_REST_API_URL / KV_REST_API_TOKEN are not set. " +
+      "[cache] KV disabled because KV_REST_API_URL / KV_REST_API_TOKEN are not set. " +
         "Every timetable request will go to QUT directly.",
     )
   }

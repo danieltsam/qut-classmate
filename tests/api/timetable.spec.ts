@@ -107,6 +107,43 @@ test.describe("POST /api/timetable/search", () => {
     expect(body.message.length).toBeGreaterThan(0)
   })
 
+  /**
+   * CAB202 is the worked example: QUT's search page for it lists only EGH449, so
+   * there is no class link for CAB202 at all. That is a retired unit, and the
+   * old copy told students to try another semester, which sent them looking for
+   * something that no longer exists.
+   */
+  test("a retired unit says it is no longer offered, not 'try another semester'", async ({ request }) => {
+    const { body } = await fetchTimetable(request, "CAB202", SEMESTER_2_2026)
+
+    expect(body.error).toBe(true)
+    expect(body.message).toMatch(/no longer offered/i)
+    expect(body.message).not.toMatch(/different semester/i)
+    expect(body.message).not.toMatch(/no classes/i)
+  })
+
+  /**
+   * EUB111 runs in Semester 1 only. The page carries a class link for it, just
+   * not for the period being asked about, so this must not collapse into the
+   * retired case above.
+   */
+  test("a unit not offered in the requested period names a period it does run in", async ({ request }) => {
+    const { body } = await fetchTimetable(request, "EUB111", SEMESTER_2_2026)
+
+    expect(body.error).toBe(true)
+    expect(body.message).toMatch(/not offered in that semester/i)
+    expect(body.message).not.toMatch(/no longer offered/i)
+    // The sentence names a semester when the page tells us one.
+    expect(body.message).toMatch(/Semester \d, \d{4}/)
+  })
+
+  test("still returns all 14 CAB201 classes in Semester 2 2026", async ({ request }) => {
+    const { body } = await fetchTimetable(request, UNIT_CODE, SEMESTER_2_2026)
+
+    expect(body.error).toBe(false)
+    expect(body.data).toHaveLength(14)
+  })
+
   // A bodyless request used to reach `await req.json()` inside the route's main
   // try/catch and come back as a 500 "Unable to fetch timetable data". The route
   // now parses the body separately and returns 400 for malformed input.

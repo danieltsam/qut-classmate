@@ -7,7 +7,7 @@ import { TimetableResults } from "./timetable-results"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Loader2, Search, AlertCircle } from "lucide-react"
+import { Loader2, Search } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { teachingPeriods } from "@/lib/teaching-periods"
 import { useToast } from "@/components/ui/use-toast"
@@ -15,7 +15,7 @@ import { checkCache, safelyStoreInCache } from "@/lib/storage-utils"
 import type { TimetableEntry } from "@/lib/types"
 import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { InlineNotice } from "@/components/inline-notice"
 import { SectionNote } from "@/components/section-note"
 import { getUnitTitle } from "@/lib/unit-codes"
 import { QUT_UNREACHABLE, timetableErrorMessage } from "@/lib/messages"
@@ -280,16 +280,7 @@ export function UnitSearch() {
         </CardContent>
       </Card>
 
-      {error && (
-        <Alert
-          variant="destructive"
-          className="rounded-lg shadow-md dark:bg-red-900/20 dark:border-red-800 dark:text-red-400 animate-in fade-in-50 duration-300"
-        >
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
+      {error && <InlineNotice variant="error">{error}</InlineNotice>}
 
       {timetableData.length > 0 && (
         <TimetableResults

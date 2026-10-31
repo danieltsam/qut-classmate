@@ -18,7 +18,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOTS = ['components', 'app'];
+const ROOTS = ['components', 'app', 'lib'];
 const SKIP_DIRS = new Set(['node_modules', '.next', '.scratch']);
 
 /** Rule 1, 2 and 3: sycophancy openers, stock vocabulary, hedging openers. */

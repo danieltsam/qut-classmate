@@ -19,7 +19,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { safelyStoreInCache, checkCache } from "@/lib/storage-utils"
 import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { InlineNotice } from "@/components/inline-notice"
 import { getUnitTitle } from "@/lib/unit-codes"
 import { useUnitTitle } from "@/hooks/use-unit-title"
 import { QUT_UNREACHABLE, timetableErrorMessage } from "@/lib/messages"
@@ -572,14 +572,9 @@ export function TimetableSidebar({
             </form>
 
             {error && (
-              <Alert
-                variant="destructive"
-                className="rounded-lg shadow-md dark:bg-red-900/20 dark:border-red-800 dark:text-red-400 animate-in fade-in-50 duration-300 mt-4"
-              >
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
+              <InlineNotice variant="error" className="mt-4">
+                {error}
+              </InlineNotice>
             )}
 
             {/* Previously searched units */}
