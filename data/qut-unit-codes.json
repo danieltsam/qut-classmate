@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-31T12:40:07.019Z",
+  "scrapedAt": "2026-10-31T13:01:26.471Z",
   "codes": [
     "ABB100",
     "ABB101",
@@ -189,6 +189,7 @@
     "AYN485",
     "AYN486",
     "AYN520",
+    "BLB170",
     "BSB009",
     "BSB105",
     "BSB106",
@@ -534,6 +535,7 @@
     "DYN909",
     "DYN910",
     "EDN612",
+    "EED001",
     "EFB106",
     "EFB130",
     "EFB201",
@@ -1259,6 +1261,7 @@
     "IGB383",
     "IGB388",
     "IGB400",
+    "INN700",
     "ITD102",
     "ITD103",
     "ITD104",
@@ -1492,6 +1495,14 @@
     "LLH477",
     "LLH479",
     "LLH480",
+    "LPP110",
+    "LPP113",
+    "LPP114",
+    "LPP115",
+    "LPP116",
+    "LPP117",
+    "LPP118",
+    "LPP119",
     "LQB180",
     "LQB181",
     "LQB182",
@@ -1545,6 +1556,19 @@
     "LQB784",
     "LQB785",
     "LQB786",
+    "LQH370",
+    "LQH412",
+    "LQN100",
+    "LQN101",
+    "LQN102",
+    "LQN103",
+    "LQN201",
+    "LQN202",
+    "LQN203",
+    "LQN204",
+    "LQN206",
+    "LQN301",
+    "LQN303",
     "LSB110",
     "LSB111",
     "LSB142",
@@ -1558,6 +1582,9 @@
     "LSB655",
     "LSB658",
     "LSB665",
+    "LSN104",
+    "LSN707",
+    "LWN164",
     "LWS011",
     "LWS075",
     "LWS101",
@@ -1645,6 +1672,7 @@
     "MXB362",
     "MXB371",
     "MXB372",
+    "MXH400",
     "MXN401",
     "MXN402",
     "MXN403",
@@ -1658,6 +1686,12 @@
     "MXN501",
     "MXN600",
     "MXN601",
+    "MZB103",
+    "MZB104",
+    "MZB105",
+    "MZB125",
+    "MZB127",
+    "MZB221",
     "NSB102",
     "NSB103",
     "NSB104",
@@ -1882,6 +1916,10 @@
     "PYB356",
     "PYB359",
     "PYB360",
+    "PYH401",
+    "PYH402",
+    "PYH406",
+    "PYH407",
     "PYN001",
     "PYN002",
     "PYN003",
@@ -1938,8 +1976,14 @@
     "QUT001",
     "QUT002",
     "QUT003",
+    "QUT004",
+    "QUT005",
     "QUT006",
+    "QUT007",
+    "QUT009",
+    "QUT010",
     "QUT013",
+    "SCB300",
     "SEB107",
     "SEB108",
     "SEB109",
@@ -1952,6 +1996,14 @@
     "SEB410",
     "SEB411",
     "SEB420",
+    "STB101",
+    "STB200",
+    "STH410",
+    "STH411",
+    "STH412",
+    "STH413",
+    "STH414",
+    "STH415",
     "SWB100",
     "SWB102",
     "SWB105",
@@ -1976,6 +2028,11 @@
     "SWB333",
     "SWB412",
     "SWD105",
+    "SWH200",
+    "SWH312",
+    "SWH400",
+    "SWH401",
+    "SWH404",
     "SWN002",
     "SWN003",
     "SWN004",
@@ -2068,7 +2125,12 @@
     "XNH461",
     "XNH462",
     "XNH475",
-    "XNH476"
+    "XNH476",
+    "XNN444",
+    "XNN445",
+    "XNN446",
+    "XNN447",
+    "XNN449"
   ],
   "units": [
     {
@@ -2824,6 +2886,10 @@
     {
       "code": "AYN520",
       "title": "Integrated Issues in Professional Prac"
+    },
+    {
+      "code": "BLB170",
+      "title": "The Evidence Based Enterprise"
     },
     {
       "code": "BSB009",
@@ -4209,6 +4275,10 @@
     {
       "code": "EDN612",
       "title": "Shaping an Educational Research Project"
+    },
+    {
+      "code": "EED001",
+      "title": "Developing an Entrepreneurial Mindset"
     },
     {
       "code": "EFB106",
@@ -7125,6 +7195,10 @@
       "title": "Game Studio 3: Game Innovation"
     },
     {
+      "code": "INN700",
+      "title": "Introduction to Research"
+    },
+    {
       "code": "ITD102",
       "title": "Introduction to Computer Systems"
     },
@@ -8059,6 +8133,38 @@
       "title": "Consumer Law in a Digital Age"
     },
     {
+      "code": "LPP110",
+      "title": "Lawyers Skills"
+    },
+    {
+      "code": "LPP113",
+      "title": "Civil Litigation"
+    },
+    {
+      "code": "LPP114",
+      "title": "Commercial"
+    },
+    {
+      "code": "LPP115",
+      "title": "Property"
+    },
+    {
+      "code": "LPP116",
+      "title": "Electives"
+    },
+    {
+      "code": "LPP117",
+      "title": "Interaction (Professional Capability)"
+    },
+    {
+      "code": "LPP118",
+      "title": "Placement"
+    },
+    {
+      "code": "LPP119",
+      "title": "Career Skills"
+    },
+    {
       "code": "LQB180",
       "title": "Foundations of Biochemistry"
     },
@@ -8271,6 +8377,58 @@
       "title": "Work Integrated Learning Internship 2"
     },
     {
+      "code": "LQH370",
+      "title": "Digital Research Practice in Biomedical Science"
+    },
+    {
+      "code": "LQH412",
+      "title": "Biomedical Research Translation"
+    },
+    {
+      "code": "LQN100",
+      "title": "Human Genetics"
+    },
+    {
+      "code": "LQN101",
+      "title": "Disease Pathogenesis"
+    },
+    {
+      "code": "LQN102",
+      "title": "Diagnostic Genetics"
+    },
+    {
+      "code": "LQN103",
+      "title": "Genetic Technologies"
+    },
+    {
+      "code": "LQN201",
+      "title": "Lab Mgt, Compliance and Quality Control"
+    },
+    {
+      "code": "LQN202",
+      "title": "Variant Classification"
+    },
+    {
+      "code": "LQN203",
+      "title": "Ethical, Legal and Social Issues in Genetics and Genomics"
+    },
+    {
+      "code": "LQN204",
+      "title": "Molecular Genomics"
+    },
+    {
+      "code": "LQN206",
+      "title": "Cytogenomics"
+    },
+    {
+      "code": "LQN301",
+      "title": "Cancer Genomics"
+    },
+    {
+      "code": "LQN303",
+      "title": "Computational Genomics"
+    },
+    {
       "code": "LSB110",
       "title": "Understanding Disease Concepts"
     },
@@ -8321,6 +8479,18 @@
     {
       "code": "LSB665",
       "title": "Transfusion and Transplantation Science"
+    },
+    {
+      "code": "LSN104",
+      "title": "Advancing Anatomy and Physiology"
+    },
+    {
+      "code": "LSN707",
+      "title": "Advanced Biomedical Data Science Project"
+    },
+    {
+      "code": "LWN164",
+      "title": "Health Care Law and Ethics"
     },
     {
       "code": "LWS011",
@@ -8671,6 +8841,10 @@
       "title": "Research Project 2"
     },
     {
+      "code": "MXH400",
+      "title": "Mathematical Research Training"
+    },
+    {
       "code": "MXN401",
       "title": "Minor Project"
     },
@@ -8721,6 +8895,30 @@
     {
       "code": "MXN601",
       "title": "Advanced Stochastic Modelling"
+    },
+    {
+      "code": "MZB103",
+      "title": "Introduction to Statistics"
+    },
+    {
+      "code": "MZB104",
+      "title": "Quantitative Methods"
+    },
+    {
+      "code": "MZB105",
+      "title": "Introduction to Calculus"
+    },
+    {
+      "code": "MZB125",
+      "title": "Introductory Engineering Mathematics"
+    },
+    {
+      "code": "MZB127",
+      "title": "Engineering Mathematics and Statistics"
+    },
+    {
+      "code": "MZB221",
+      "title": "Advanced Engineering Mathematics"
     },
     {
       "code": "NSB102",
@@ -9620,6 +9818,22 @@
       "title": "Interventions for Addictive Behaviours"
     },
     {
+      "code": "PYH401",
+      "title": "Advanced Research Methods for Psychology"
+    },
+    {
+      "code": "PYH402",
+      "title": "Counselling Psychology Perspectives and Practice"
+    },
+    {
+      "code": "PYH406",
+      "title": "Psychological Assessment in Applied Contexts"
+    },
+    {
+      "code": "PYH407",
+      "title": "Professional Development Frameworks for Working in Diverse Contexts"
+    },
+    {
       "code": "PYN001",
       "title": "Ethics and Reflective Practice"
     },
@@ -9849,14 +10063,38 @@
       "legacy": false
     },
     {
+      "code": "QUT004",
+      "title": "QUT You: Living and Working Collaboratively, Ethically, and Inclusively"
+    },
+    {
+      "code": "QUT005",
+      "title": "QUT You: Seeing Me, Seeing You: Skills for a Diverse World"
+    },
+    {
       "code": "QUT006",
       "title": "QUT You: The Art of Pitching",
       "legacy": false
     },
     {
+      "code": "QUT007",
+      "title": "QUT You: Fighting 'Fake News'"
+    },
+    {
+      "code": "QUT009",
+      "title": "QUT You: Data Science for Society"
+    },
+    {
+      "code": "QUT010",
+      "title": "QUT You: People with Robots"
+    },
+    {
       "code": "QUT013",
       "title": "QUT You: Human Agency in the Digital World",
       "legacy": false
+    },
+    {
+      "code": "SCB300",
+      "title": "Professional Practice"
     },
     {
       "code": "SEB107",
@@ -9905,6 +10143,38 @@
     {
       "code": "SEB420",
       "title": "Technological Frontiers"
+    },
+    {
+      "code": "STB101",
+      "title": "Research Skills and Techniques"
+    },
+    {
+      "code": "STB200",
+      "title": "Advanced Research Skills and Techniques"
+    },
+    {
+      "code": "STH410",
+      "title": "Advanced Techniques in Earth, Environmental and Biological Research"
+    },
+    {
+      "code": "STH411",
+      "title": "Advanced Topics in Earth, Environmental and Biological Research"
+    },
+    {
+      "code": "STH412",
+      "title": "Advanced Experimental Chemistry Techniques"
+    },
+    {
+      "code": "STH413",
+      "title": "Frontiers of Chemistry"
+    },
+    {
+      "code": "STH414",
+      "title": "Advances in Theoretical Physics"
+    },
+    {
+      "code": "STH415",
+      "title": "Advances in Experimental Physics"
     },
     {
       "code": "SWB100",
@@ -10001,6 +10271,26 @@
     {
       "code": "SWD105",
       "title": "Contemporary Human Rights"
+    },
+    {
+      "code": "SWH200",
+      "title": "Critically Reflective Practice in Organisations"
+    },
+    {
+      "code": "SWH312",
+      "title": "Real Utopias, Social Alternatives and Policy Possibilities"
+    },
+    {
+      "code": "SWH400",
+      "title": "Critical Social Policy and Advocacy"
+    },
+    {
+      "code": "SWH401",
+      "title": "Social Research for Social Change"
+    },
+    {
+      "code": "SWH404",
+      "title": "Climate Justice in Local and Global Worlds"
     },
     {
       "code": "SWN002",
@@ -10374,14 +10664,34 @@
     {
       "code": "XNH476",
       "title": "Sport Science Service Delivery and Professional Practices"
+    },
+    {
+      "code": "XNN444",
+      "title": "N&D Prac Med Nutr Therapy 1"
+    },
+    {
+      "code": "XNN445",
+      "title": "N&D Prac Med Nutr Therapy 2"
+    },
+    {
+      "code": "XNN446",
+      "title": "N&D Prac Comm Pub Hlth Nutr"
+    },
+    {
+      "code": "XNN447",
+      "title": "N&D Prac Food Srvce Mngmnt"
+    },
+    {
+      "code": "XNN449",
+      "title": "Adv Qlty & Prac in Nut & Diet"
     }
   ],
   "stats": {
-    "total": 2068,
+    "total": 2130,
     "modern": 2068,
     "legacy": 0,
-    "previousTotal": 878,
-    "added": 1190,
+    "previousTotal": 2068,
+    "added": 62,
     "prefixesScraped": 114
   }
 }

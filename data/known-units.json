@@ -1,7 +1,7 @@
 {
-  "builtAt": "2026-10-31T12:40:47.480Z",
-  "count": 2206,
-  "titledCount": 2206,
+  "builtAt": "2026-10-31T13:01:47.612Z",
+  "count": 2221,
+  "titledCount": 2221,
   "units": {
     "ABB100": {
       "title": "Introduction to Building Structures",
@@ -1452,6 +1452,7 @@
     "BLB170": {
       "title": "The Evidence Based Enterprise",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -4063,6 +4064,12 @@
       "title": "Shaping an Educational Research Project",
       "seenIn": [
         "classes",
+        "codes"
+      ]
+    },
+    "EED001": {
+      "title": "Developing an Entrepreneurial Mindset",
+      "seenIn": [
         "codes"
       ]
     },
@@ -9515,6 +9522,7 @@
     "INN700": {
       "title": "Introduction to Research",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -11360,45 +11368,58 @@
         "meta"
       ]
     },
+    "LPP110": {
+      "title": "Lawyers Skills",
+      "seenIn": [
+        "codes"
+      ]
+    },
     "LPP113": {
       "title": "Civil Litigation",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "LPP114": {
       "title": "Commercial",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "LPP115": {
       "title": "Property",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "LPP116": {
       "title": "Electives",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "LPP117": {
       "title": "Interaction (Professional Capability)",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "LPP118": {
       "title": "Placement",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "LPP119": {
       "title": "Career Skills",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -11805,17 +11826,85 @@
         "prereqs"
       ]
     },
+    "LQH370": {
+      "title": "Digital Research Practice in Biomedical Science",
+      "seenIn": [
+        "codes"
+      ]
+    },
     "LQH412": {
       "title": "Biomedical Research Translation",
       "seenIn": [
+        "codes",
         "prereqs"
+      ]
+    },
+    "LQN100": {
+      "title": "Human Genetics",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN101": {
+      "title": "Disease Pathogenesis",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN102": {
+      "title": "Diagnostic Genetics",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN103": {
+      "title": "Genetic Technologies",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN201": {
+      "title": "Lab Mgt, Compliance and Quality Control",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN202": {
+      "title": "Variant Classification",
+      "seenIn": [
+        "codes"
       ]
     },
     "LQN203": {
       "title": "Ethical, Legal and Social Issues in Genetics and Genomics",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
+      ]
+    },
+    "LQN204": {
+      "title": "Molecular Genomics",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN206": {
+      "title": "Cytogenomics",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN301": {
+      "title": "Cancer Genomics",
+      "seenIn": [
+        "codes"
+      ]
+    },
+    "LQN303": {
+      "title": "Computational Genomics",
+      "seenIn": [
+        "codes"
       ]
     },
     "LSB110": {
@@ -11915,9 +12004,16 @@
         "prereqs"
       ]
     },
+    "LSN104": {
+      "title": "Advancing Anatomy and Physiology",
+      "seenIn": [
+        "codes"
+      ]
+    },
     "LSN707": {
       "title": "Advanced Biomedical Data Science Project",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -11925,6 +12021,7 @@
     "LWN164": {
       "title": "Health Care Law and Ethics",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -12643,6 +12740,7 @@
     "MXH400": {
       "title": "Mathematical Research Training",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -12756,6 +12854,7 @@
     "MZB103": {
       "title": "Introduction to Statistics",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -12763,6 +12862,7 @@
     "MZB104": {
       "title": "Quantitative Methods",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -12770,6 +12870,7 @@
     "MZB105": {
       "title": "Introduction to Calculus",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -12777,6 +12878,7 @@
     "MZB125": {
       "title": "Introductory Engineering Mathematics",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -12784,6 +12886,7 @@
     "MZB127": {
       "title": "Engineering Mathematics and Statistics",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -12791,6 +12894,7 @@
     "MZB221": {
       "title": "Advanced Engineering Mathematics",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -14465,19 +14569,28 @@
     "PYH401": {
       "title": "Advanced Research Methods for Psychology",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "PYH402": {
       "title": "Counselling Psychology Perspectives and Practice",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "PYH406": {
       "title": "Psychological Assessment in Applied Contexts",
       "seenIn": [
+        "codes",
         "prereqs"
+      ]
+    },
+    "PYH407": {
+      "title": "Professional Development Frameworks for Working in Diverse Contexts",
+      "seenIn": [
+        "codes"
       ]
     },
     "PYN001": {
@@ -14879,12 +14992,14 @@
     "QUT004": {
       "title": "QUT You: Living and Working Collaboratively, Ethically, and Inclusively",
       "seenIn": [
+        "codes",
         "meta"
       ]
     },
     "QUT005": {
       "title": "QUT You: Seeing Me, Seeing You: Skills for a Diverse World",
       "seenIn": [
+        "codes",
         "meta"
       ]
     },
@@ -14899,18 +15014,21 @@
     "QUT007": {
       "title": "QUT You: Fighting 'Fake News'",
       "seenIn": [
+        "codes",
         "meta"
       ]
     },
     "QUT009": {
       "title": "QUT You: Data Science for Society",
       "seenIn": [
+        "codes",
         "meta"
       ]
     },
     "QUT010": {
       "title": "QUT You: People with Robots",
       "seenIn": [
+        "codes",
         "meta"
       ]
     },
@@ -14925,6 +15043,7 @@
     "SCB300": {
       "title": "Professional Practice",
       "seenIn": [
+        "codes",
         "meta",
         "prereqs"
       ]
@@ -15042,12 +15161,14 @@
     "STB101": {
       "title": "Research Skills and Techniques",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "STB200": {
       "title": "Advanced Research Skills and Techniques",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -15060,36 +15181,42 @@
     "STH410": {
       "title": "Advanced Techniques in Earth, Environmental and Biological Research",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "STH411": {
       "title": "Advanced Topics in Earth, Environmental and Biological Research",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "STH412": {
       "title": "Advanced Experimental Chemistry Techniques",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "STH413": {
       "title": "Frontiers of Chemistry",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "STH414": {
       "title": "Advances in Theoretical Physics",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "STH415": {
       "title": "Advances in Experimental Physics",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -15270,30 +15397,35 @@
     "SWH200": {
       "title": "Critically Reflective Practice in Organisations",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "SWH312": {
       "title": "Real Utopias, Social Alternatives and Policy Possibilities",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "SWH400": {
       "title": "Critical Social Policy and Advocacy",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "SWH401": {
       "title": "Social Research for Social Change",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "SWH404": {
       "title": "Climate Justice in Local and Global Worlds",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
@@ -15961,30 +16093,35 @@
     "XNN444": {
       "title": "Nutrition and Dietetics Practice - Medical Nutrition Therapy 1",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "XNN445": {
       "title": "Nutrition and Dietetics Practice - Medical Nutrition Therapy 2",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "XNN446": {
       "title": "Nutrition and Dietetics Practice - Community and Public Health Nutrition",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "XNN447": {
       "title": "Nutrition and Dietetics Practice - Foodservice Management",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     },
     "XNN449": {
       "title": "Advanced Quality and Practice in Nutrition and Dietetics Businesses and Services",
       "seenIn": [
+        "codes",
         "prereqs"
       ]
     }

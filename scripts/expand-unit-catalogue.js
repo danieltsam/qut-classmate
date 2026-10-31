@@ -17,6 +17,7 @@
  *   node scripts/expand-unit-catalogue.js                  # prefixes already in the data
  *   node scripts/expand-unit-catalogue.js --all            # every A-Z 3-letter prefix
  *   node scripts/expand-unit-catalogue.js --max-prefixes 10
+ *   node scripts/expand-unit-catalogue.js --codes-from-gap   # only units the planner uses but we lack
  */
 
 const fs = require("fs");
@@ -98,15 +99,100 @@ function allPrefixes() {
   return out;
 }
 
+/**
+ * Codes the course planner references that the catalogue does not hold. These are
+ * the ones a student can actually click, so filling them matters more than any
+ * arbitrary prefix.
+ */
+function plannerGapCodes() {
+  const structures = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "../data/course-structures.json"), "utf8"),
+  );
+  const codes = JSON.parse(fs.readFileSync(CODES_PATH, "utf8"));
+  const known = new Set((codes.units || []).map((u) => u.code));
+
+  const wanted = new Set();
+  for (const course of Object.values(structures.courses || {})) {
+    for (const spec of course.specializations || []) {
+      for (const structure of spec.structures || []) {
+        for (const semester of structure.semesters || []) {
+          for (const unit of semester.units || []) {
+            const code = String(unit.code || "").toUpperCase();
+            if (/^[A-Z]{3}\d{3}$/.test(code) && !known.has(code)) wanted.add(code);
+          }
+        }
+      }
+    }
+  }
+  return [...wanted].sort();
+}
+
+async function scrapeCodes(codes) {
+  const added = new Map();
+  let index = 0;
+
+  async function worker() {
+    while (index < codes.length) {
+      const code = codes[index++];
+      let html;
+      try {
+        const res = await fetch(searchUrl(code, 0), { headers: HEADERS });
+        if (!res.ok) continue;
+        html = await res.text();
+      } catch {
+        continue;
+      }
+      // QUT's query is a fuzzy search, so a code can return unrelated units.
+      for (const unit of parseUnits(html)) {
+        if (unit.code === code) added.set(unit.code, unit);
+      }
+      await sleep(DELAY_MS);
+    }
+  }
+
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  return added;
+}
+
 async function main() {
   const existing = JSON.parse(fs.readFileSync(CODES_PATH, "utf8"));
   const units = new Map((existing.units || []).map((u) => [u.code, u]));
   const before = units.size;
+  let added = 0;
 
   const argv = process.argv.slice(2);
   const useAll = argv.includes("--all");
+  const fromGap = argv.includes("--codes-from-gap");
   const limitArg = argv.find((a) => a.startsWith("--max-prefixes="));
   const limit = limitArg ? Number.parseInt(limitArg.split("=")[1], 10) : 0;
+
+  if (fromGap) {
+    const gap = plannerGapCodes();
+    console.log(`Planner gap: ${gap.length} codes the course planner uses but the catalogue lacks`);
+    const found = await scrapeCodes(gap);
+    for (const [code, unit] of found) {
+      if (!units.has(code)) added += 1;
+      units.set(code, unit);
+    }
+    const mergedGap = [...units.values()].sort((a, b) => a.code.localeCompare(b.code));
+    fs.writeFileSync(
+      CODES_PATH,
+      JSON.stringify(
+        {
+          ...existing,
+          scrapedAt: new Date().toISOString(),
+          codes: mergedGap.map((u) => u.code),
+          units: mergedGap,
+          stats: { ...existing.stats, total: mergedGap.length, previousTotal: before, added },
+        },
+        null,
+        2,
+      ) + "\n",
+      "utf8",
+    );
+    console.log(`\nNo longer missing: ${found.size} of ${gap.length}. Catalogue now ${mergedGap.length} units.`);
+    return;
+  }
 
   let prefixes = useAll
     ? allPrefixes()
@@ -117,7 +203,6 @@ async function main() {
   console.log(`Scraping ${prefixes.length} prefixes (${useAll ? "full A-Z sweep" : "known prefixes only"})`);
 
   let index = 0;
-  let added = 0;
   let done = 0;
 
   async function worker() {
