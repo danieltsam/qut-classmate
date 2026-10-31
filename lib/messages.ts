@@ -12,12 +12,44 @@ export const QUT_UNREACHABLE =
 export const TIMETABLE_BUILD_FAILED =
   "Could not build a timetable from that unit data. Try again."
 
+interface Replacement {
+  code: string
+  title?: string
+}
+
+function describeUnit(unit: Replacement): string {
+  const title = (unit.title ?? "").trim()
+  return title ? `${unit.code} ${title}` : unit.code
+}
+
 /**
- * QUT has no record of this unit at all. It is not a scheduling problem, so the
- * advice is to check the course structure rather than to try another semester.
+ * The code is one we have seen before, so "no longer offered" is a claim we can
+ * stand behind. When we also know what took its place, say that instead of
+ * leaving the student to guess.
  */
-export function unitNoLongerOfferedMessage(unitCode: string): string {
-  return `${unitCode.toUpperCase()} is no longer offered by QUT. Check the current course structure, or search for the replacement unit.`
+export function unitNoLongerOfferedMessage(unitCode: string, replacements: Replacement[] = []): string {
+  const head = `${unitCode.toUpperCase()} is no longer offered by QUT.`
+  const named = replacements.slice(0, 3).map(describeUnit)
+
+  if (named.length === 1) {
+    return `${head} It was replaced by ${named[0]}.`
+  }
+
+  if (named.length > 1) {
+    return `${head} Related units still running: ${named.join(", ")}.`
+  }
+
+  return `${head} Check the current course structure, or search for the replacement unit.`
+}
+
+/**
+ * We have never seen this code. That is all we know: QUT answers a retired code
+ * and a typo with the same "Page not found" page, and a live unit can be missing
+ * from our datasets too. So point at the code itself rather than claiming the
+ * unit is gone.
+ */
+export function unitNotFoundMessage(unitCode: string): string {
+  return `We could not find ${unitCode.toUpperCase()} at QUT. Check the code, or search for the unit by name on QUT Virtual.`
 }
 
 /**
@@ -47,6 +79,7 @@ const KEEP_SPECIFIC = [
   /no timetable found/i,
   /no classes/i,
   /couldn't find that unit/i,
+  /could not find/i,
   /no longer offered/i,
   /is not offered in/i,
 ]

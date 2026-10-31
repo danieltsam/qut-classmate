@@ -25,6 +25,9 @@ const nextConfig = {
       "/api/unit-prereqs": ["./data/unit-prereqs.json"],
       "/api/unit-classes": ["./data/qut-unit-classes.json"],
       "/api/units/[code]": ["./data/unit-meta.json"],
+      // The timetable error path reads both with fs to decide whether a code is
+      // one we have seen before, and which units replaced it.
+      "/api/timetable/search": ["./data/known-units.json", "./data/unit-prereqs.json"],
     },
   },
 

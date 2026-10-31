@@ -1,11 +1,15 @@
 import * as cheerio from "cheerio"
+import fs from "node:fs"
+import path from "node:path"
 import { formatDayName } from "@/lib/format-utils"
 import type { TimetableEntry } from "@/lib/types"
 import {
   noClassesScheduledMessage,
   unitNoLongerOfferedMessage,
+  unitNotFoundMessage,
   unitNotOfferedInPeriodMessage,
 } from "@/lib/messages"
+import { findReplacements, lookupUnit, type KnownUnitsIndex, type PrereqIndex } from "@/lib/unit-lookup"
 import { getAllDiscoveredPeriods } from "@/lib/teaching-periods"
 import {
   buildUnitSearchUrl,
@@ -13,6 +17,43 @@ import {
   QUT_VIRTUAL4_BASE,
   QUT_VIRTUAL4_BROWSER_HEADERS,
 } from "@/lib/qutvirtual4-session"
+
+const KNOWN_UNITS_FILE = path.join(process.cwd(), "data", "known-units.json")
+const UNIT_PREREQS_FILE = path.join(process.cwd(), "data", "unit-prereqs.json")
+
+/**
+ * Both files are read lazily and cached for the life of the process: they are
+ * only needed on the error path, where a code QUT returned no classes for has
+ * to be classified honestly. Cached values are null when the file is missing or
+ * unreadable, and the caller then behaves as if we know nothing, which is true.
+ */
+let knownUnitsCache: KnownUnitsIndex | null | undefined
+let prereqCache: PrereqIndex | null | undefined
+
+function loadKnownUnits(): KnownUnitsIndex | null {
+  if (knownUnitsCache === undefined) {
+    try {
+      knownUnitsCache = JSON.parse(fs.readFileSync(KNOWN_UNITS_FILE, "utf8")) as KnownUnitsIndex
+    } catch (error) {
+      console.error("Could not read known-units.json:", error)
+      knownUnitsCache = null
+    }
+  }
+  return knownUnitsCache
+}
+
+function loadPrereqIndex(): PrereqIndex | null {
+  if (prereqCache === undefined) {
+    try {
+      prereqCache = JSON.parse(fs.readFileSync(UNIT_PREREQS_FILE, "utf8")) as PrereqIndex
+    } catch (error) {
+      console.error("Could not read unit-prereqs.json:", error)
+      prereqCache = null
+    }
+  }
+  return prereqCache
+}
+
 
 const UNIT_CLASSES_PATH =
   "/web/qut/search?p_p_id=SolrQuest_WAR_solrquest&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=getUnitClasses&p_p_cacheability=cacheLevelPage"
@@ -226,6 +267,33 @@ async function bootstrapUnitSearchSession(unitCode: string): Promise<UnitSearchS
   }
 }
 
+/**
+ * The sentence for a code QUT's search page has no classes for.
+ *
+ * Two different situations were being flattened into one: a unit we know about
+ * but QUT no longer runs, and a code we have never seen at all. The first can be
+ * said plainly and comes with suggestions pulled from the prereq index. The
+ * second cannot, because QUT cannot tell a retired code from a typo either.
+ *
+ * Exported so the wording can be tested without going upstream.
+ */
+export function describeUnlistedUnit(
+  unitCode: string,
+  knownUnits: KnownUnitsIndex | null = loadKnownUnits(),
+  prereqs: PrereqIndex | null = loadPrereqIndex(),
+): string {
+  const upperUnitCode = unitCode.toUpperCase()
+
+  if (lookupUnit(upperUnitCode, knownUnits).kind === "unknown") {
+    return unitNotFoundMessage(upperUnitCode)
+  }
+
+  return unitNoLongerOfferedMessage(
+    upperUnitCode,
+    findReplacements(upperUnitCode, knownUnits, prereqs),
+  )
+}
+
 export async function fetchUnitClassesFromVirtual4(
   unitCode: string,
   teachingPeriodId: string,
@@ -240,14 +308,15 @@ export async function fetchUnitClassesFromVirtual4(
 
     if (session.versionByPeriod.size === 0) {
       // No class link for this unit code anywhere on the page. If QUT still
-      // presents it as a result then it exists and simply has nothing scheduled;
-      // if it does not, it has been retired or renamed and "try another
-      // semester" would send the student chasing something that is gone.
+      // presents it as a result then it exists and simply has nothing scheduled.
+      // Otherwise we can only say what our own data supports: a code we have
+      // seen before is retired, a code we have never seen is just unrecognised.
+      // QUT answers both cases with the same "Page not found" page.
       return {
         error: true,
         message: session.unitListed
           ? noClassesScheduledMessage(upperUnitCode)
-          : unitNoLongerOfferedMessage(upperUnitCode),
+          : describeUnlistedUnit(upperUnitCode),
       }
     }
 

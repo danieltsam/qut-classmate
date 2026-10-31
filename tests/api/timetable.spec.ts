@@ -108,17 +108,35 @@ test.describe("POST /api/timetable/search", () => {
   })
 
   /**
-   * CAB202 is the worked example: QUT's search page for it lists only EGH449, so
-   * there is no class link for CAB202 at all. That is a retired unit, and the
-   * old copy told students to try another semester, which sent them looking for
-   * something that no longer exists.
+   * CAB202 is the worked example of a code QUT will not talk about: its search
+   * page lists only EGH449, so there is no class link for CAB202 at all. But
+   * QUT answers CAB202 and ZZZ999 with the same "Page not found" page, and
+   * CAB202 is not in our own unit index either, so we cannot claim it was
+   * retired. The honest answer points at the code.
    */
-  test("a retired unit says it is no longer offered, not 'try another semester'", async ({ request }) => {
+  test("a code we have no record of is reported as not found, not as retired", async ({ request }) => {
     const { body } = await fetchTimetable(request, "CAB202", SEMESTER_2_2026)
 
     expect(body.error).toBe(true)
-    expect(body.message).toMatch(/no longer offered/i)
+    expect(body.message).toMatch(/could not find CAB202/i)
+    expect(body.message).not.toMatch(/no longer offered/i)
     expect(body.message).not.toMatch(/different semester/i)
+    expect(body.message).not.toMatch(/no classes/i)
+  })
+
+  /**
+   * SEB202 is the mirror case: it is in data/known-units.json but QUT's search
+   * page carries no class link for it, so "no longer offered" is a claim the
+   * index actually supports.
+   */
+  test("a unit we do have a record of and QUT no longer runs says it is no longer offered", async ({
+    request,
+  }) => {
+    const { body } = await fetchTimetable(request, "SEB202", SEMESTER_2_2026)
+
+    expect(body.error).toBe(true)
+    expect(body.message).toMatch(/SEB202 is no longer offered by QUT/i)
+    expect(body.message).not.toMatch(/could not find/i)
     expect(body.message).not.toMatch(/no classes/i)
   })
 
