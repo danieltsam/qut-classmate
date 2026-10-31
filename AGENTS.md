@@ -124,6 +124,44 @@ Returns old formats like `CH 815-2 - Inorganic Chemistry II`. Paginate until emp
 
 ---
 
+## Unit catalogue coverage
+
+`data/qut-unit-codes.json` is a **partial snapshot**, never a registry of what
+exists. It originally held 823 units across 114 of the 17,576 possible three-letter
+prefixes, which reads like one page per prefix because QUT returns 10 per page and
+the average was about seven. The scrape had been interrupted, not misconfigured.
+
+Paginating those same 114 prefixes took it to **2068 units**, because every prefix
+had more pages behind it. `EUB111` was a live unit with a real QUT page and
+offerings, and it had been missing from every dataset here purely because its
+prefix was never finished.
+
+Coverage is still 114 of 17,576 prefixes. Always check `stats.total` and the prefix
+count before treating this file as evidence about what exists.
+
+To widen it:
+
+```bash
+node scripts/expand-unit-catalogue.js             # paginate every prefix we know about
+node scripts/expand-unit-catalogue.js --all       # every A-Z prefix (hours of requests)
+```
+
+Two things that bite:
+
+1. **QUT's `params.query` is a search, not a prefix filter.** Asking for `CAB202`
+   returns links for `EGH449`. Every result must be checked against the prefix or
+   the catalogue fills with unrelated units. This is also why a code can look
+   "retired" when it is simply not a real result.
+2. **Writes merge rather than replace**, so an interrupted run never loses earlier
+   progress. Re-run it freely.
+
+After expanding, rebuild the derived files in this order:
+`build-unit-prereqs.js`, `build-course-planner-data.js`, `build-known-units.js`.
+`data/known-units.json` is what the error path uses to decide whether a code is a
+unit we have seen before.
+
+---
+
 ## Teaching periods (auto-discovered)
 
 Do not hand-maintain a period list. QUT rotates these IDs every year and silently
