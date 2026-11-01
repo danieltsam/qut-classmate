@@ -126,6 +126,29 @@ function slugify(title) {
     .replace(/^-+|-+$/g, '');
 }
 
+/**
+ * Exact course code to slug, built by build-course-url-index.js from the JSON-LD on
+ * each course page. Slugs cannot be derived from titles for double degrees, so when
+ * this file has an entry it wins over every guess.
+ */
+let urlIndexCache;
+function slugOverrides() {
+  if (urlIndexCache !== undefined) return urlIndexCache;
+  try {
+    const p = path.join(__dirname, '../data/course-urls.json');
+    urlIndexCache = JSON.parse(fs.readFileSync(p, 'utf8')).byCode || {};
+  } catch {
+    urlIndexCache = {};
+  }
+  return urlIndexCache;
+}
+
+function mappedSlug(code) {
+  const entry = slugOverrides()[String(code).toUpperCase()];
+  if (!entry) return null;
+  return typeof entry === 'string' ? entry : entry.slug || null;
+}
+
 /** Candidate URLs, best guess first. */
 function slugVariants(title) {
   const variants = [];
@@ -591,7 +614,8 @@ function majorName(slug, courseSlug) {
 /** Scrape one course. Returns { specializations } or { error }. */
 async function scrapeCourse(session, course, log) {
   const baseSlug = slugify(course.title);
-  const variants = slugVariants(course.title);
+  const mapped = mappedSlug(course.code);
+  const variants = mapped ? [mapped, ...slugVariants(course.title).filter((v) => v !== mapped)] : slugVariants(course.title);
 
   let page = null;
   let landing = null;

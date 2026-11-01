@@ -129,12 +129,32 @@ Returns old formats like `CH 815-2 - Inorganic Chemistry II`. Paginate until emp
 `scripts/scrape-course-structures.js` takes `--faculty` or `--codes IX59,ID22`, and
 resumes by `(course, title)`, so re-running is free for anything already fetched.
 
-**Double degrees are listed in a different order to their title.** QUT publishes
-"Bachelor of Engineering (Honours)/Bachelor of Business" at
-`/courses/bachelor-of-business-bachelor-of-engineering-honours`, with the second
-degree first. `slugVariants` now tries the reversed order as well; before that,
-every double degree failed with "course page not found". If a double still fails,
-check the slug by hand before assuming the course is gone.
+**Double-degree slugs cannot be derived from titles.** QUT publishes "Bachelor of
+Engineering (Honours)/Bachelor of Business" at
+`/courses/bachelor-of-business-bachelor-of-engineering-honours`, second degree first,
+and the ordering varies per course. `slugVariants` tries the reversed order, which
+recovers some, but not all.
+
+**The reliable source is the JSON-LD on each course page.** Every page carries a
+schema.org `Course` block with `"courseCode": "IX59"`. QUT does not print the code in
+the visible text, so this is easy to miss, and it means a code to URL map can be read
+exactly rather than guessed:
+
+```bash
+node scripts/build-course-url-index.js     # writes data/course-urls.json
+```
+
+It crawls a set of hub degrees (each course page links to about 60 others), then
+reads the code off every URL it finds. `scrape-course-structures.js` prefers that
+mapping over any slug guess, so `--codes ID15` works when the title gives nothing.
+
+Do not go back to matching titles to slugs. It was tried and it fails loudly: with
+token-subset matching, "Bachelor of Communication/Bachelor of Science" resolves to a
+behavioural-science and design page, and the MBA resolves to the executive MBA. A
+wrong degree layout is worse than a missing one.
+
+Some course pages have no "Details and units" tab at all, and those genuinely have no
+structure to scrape. ID15 is one. That is not a scraper failure.
 
 Graduate certificates and research degrees are deliberately not scraped. They are
 not what students plan semesters with.

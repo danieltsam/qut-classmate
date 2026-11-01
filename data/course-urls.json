@@ -1,0 +1,470 @@
+{
+  "builtAt": "2026-11-01T14:40:45.016Z",
+  "slugCount": 187,
+  "byCode": {
+    "EB02": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-built-environment-honours-construction-management-and-quantity-surveying",
+      "name": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Construction Management and Quantity Surveying)"
+    },
+    "EB03": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-built-environment-honours-interior-design",
+      "name": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Interior Design)"
+    },
+    "EB04": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-built-environment-honours-landscape-architecture",
+      "name": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Landscape Architecture)"
+    },
+    "EB01": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-built-environment-honours-urban-and-regional-planning",
+      "name": "Bachelor of Architectural Design/Bachelor of Built Environment (Honours) (Urban and Regional Planning)"
+    },
+    "ID35": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-business",
+      "name": "Bachelor of Architectural Design/Bachelor of Business"
+    },
+    "EB07": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-engineering-honours",
+      "name": "Bachelor of Architectural Design/Bachelor of Engineering (Honours) (Civil)"
+    },
+    "ID53": {
+      "slug": "bachelor-of-architectural-design-bachelor-of-property-economics",
+      "name": "Bachelor of Architectural Design/Bachelor of Property Economics"
+    },
+    "AB05": {
+      "slug": "bachelor-of-architectural-design-master-of-architecture",
+      "name": "Bachelor of Architectural Design/Master of Architecture"
+    },
+    "ID62": {
+      "slug": "bachelor-of-arts-bachelor-of-laws-honours",
+      "name": "Bachelor of Arts/Bachelor of Laws (Honours)"
+    },
+    "PY09": {
+      "slug": "bachelor-of-behavioural-science-honours-psychology",
+      "name": "Bachelor of Behavioural Science (Honours Psychology)"
+    },
+    "PY45": {
+      "slug": "bachelor-of-behavioural-science-psychology",
+      "name": "Bachelor of Behavioural Science (Psychology)"
+    },
+    "IX51": {
+      "slug": "bachelor-of-behavioural-science-psychology-bachelor-of-business",
+      "name": "Bachelor of Behavioural Science (Psychology)/Bachelor of Business"
+    },
+    "ID56": {
+      "slug": "bachelor-of-behavioural-science-psychology-bachelor-of-design-visual-communication",
+      "name": "Bachelor of Behavioural Science (Psychology) / Bachelor of Design (Visual Communication)"
+    },
+    "IX77": {
+      "slug": "bachelor-of-behavioural-science-psychology-bachelor-of-justice",
+      "name": "Bachelor of Behavioural Science (Psychology)/Bachelor of Justice"
+    },
+    "ID44": {
+      "slug": "bachelor-of-behavioural-science-psychology-bachelor-of-laws-honours",
+      "name": "Bachelor of Behavioural Science (Psychology) / Bachelor of Laws (Honours)"
+    },
+    "HL20": {
+      "slug": "bachelor-of-behavioural-science-psychology-bachelor-of-social-work",
+      "name": "Bachelor of Behavioural Science (Psychology)/Bachelor of Social Work"
+    },
+    "LS40": {
+      "slug": "bachelor-of-biomedical-science",
+      "name": "Bachelor of Biomedical Science"
+    },
+    "IX92": {
+      "slug": "bachelor-of-biomedical-science-bachelor-of-business",
+      "name": "Bachelor of Biomedical Science/Bachelor of Business"
+    },
+    "ID47": {
+      "slug": "bachelor-of-biomedical-science-bachelor-of-laws-honours",
+      "name": "Bachelor of Biomedical Science / Bachelor of Laws (Honours)"
+    },
+    "ID28": {
+      "slug": "bachelor-of-biomedical-science-bachelor-of-mathematics",
+      "name": "Bachelor of Biomedical Science/Bachelor of Mathematics"
+    },
+    "AB01": {
+      "slug": "bachelor-of-built-environment-honours-urban-and-regional-planning",
+      "name": "Bachelor of Built Environment (Honours) (Urban and Regional Planning)"
+    },
+    "ID61": {
+      "slug": "bachelor-of-built-environment-honours-construction-management-and-quantity-surveying-bachelor-of-property-economics",
+      "name": "Bachelor of Built Environment (Honours) (Construction Management and Quantity Surveying)/Bachelor of Property Economics"
+    },
+    "ID60": {
+      "slug": "bachelor-of-built-environment-honours-interior-design-bachelor-of-property-economics",
+      "name": "Bachelor of Built Environment (Honours) (Interior Design)/Bachelor of Property Economics"
+    },
+    "AV01": {
+      "slug": "bachelor-of-built-environment-honours-master-of-project-management",
+      "name": "Bachelor of Built Environment (Honours) / Master of Project Management"
+    },
+    "ID52": {
+      "slug": "bachelor-of-built-environment-honours-urban-and-regional-planning-bachelor-of-property-economics",
+      "name": "Bachelor of Built Environment (Honours) (Urban and Regional Planning)/Bachelor of Property Economics"
+    },
+    "BS05": {
+      "slug": "bachelor-of-business-strategic-business-analytics",
+      "name": "Bachelor of Business (Strategic Business Analytics)"
+    },
+    "ID05": {
+      "slug": "bachelor-of-business-bachelor-of-communication",
+      "name": "Bachelor of Business/Bachelor of Communication"
+    },
+    "ID12": {
+      "slug": "bachelor-of-business-bachelor-of-design",
+      "name": "Bachelor of Business/Bachelor of Design"
+    },
+    "IX93": {
+      "slug": "bachelor-of-business-bachelor-of-games-and-interactive-environments",
+      "name": "Bachelor of Business/Bachelor of Games and Interactive Environments"
+    },
+    "IX22": {
+      "slug": "bachelor-of-business-bachelor-of-information-technology",
+      "name": "Bachelor of Business/Bachelor of Information Technology"
+    },
+    "IX89": {
+      "slug": "bachelor-of-business-bachelor-of-justice",
+      "name": "Bachelor of Business/Bachelor of Justice"
+    },
+    "ID43": {
+      "slug": "bachelor-of-business-bachelor-of-laws-honours",
+      "name": "Bachelor of Business / Bachelor of Laws (Honours)"
+    },
+    "BS63": {
+      "slug": "bachelor-of-business-honours-finance",
+      "name": "Bachelor of Business (Honours) (Finance)"
+    },
+    "BS08": {
+      "slug": "bachelor-of-business-international",
+      "name": "Bachelor of Business - International"
+    },
+    "BV99": {
+      "slug": "bachelor-of-business-master-of-design-strategic-design",
+      "name": "Bachelor of Business/Master of Design (Strategic Design)"
+    },
+    "XN51": {
+      "slug": "bachelor-of-clinical-exercise-physiology",
+      "name": "Bachelor of Clinical Exercise Physiology"
+    },
+    "ID38": {
+      "slug": "bachelor-of-communication-media-entrepreneurship-bachelor-of-laws-honours",
+      "name": "Bachelor of Communication (Media Entrepreneurship)/Bachelor of Laws (Honours)"
+    },
+    "KC40": {
+      "slug": "bachelor-of-communication-screen-industries",
+      "name": "Bachelor of Communication (Screen Industries)"
+    },
+    "ID49": {
+      "slug": "bachelor-of-creative-arts-bachelor-of-behavioural-science-psychology",
+      "name": "Bachelor of Creative Arts / Bachelor of Behavioural Science (Psychology)"
+    },
+    "ID58": {
+      "slug": "bachelor-of-creative-arts-bachelor-of-laws-honours",
+      "name": "Bachelor of Creative Arts / Bachelor of Laws (Honours)"
+    },
+    "DS01": {
+      "slug": "bachelor-of-data-science-data-and-decision-analytics",
+      "name": "Bachelor of Data Science (Data and Decision Analytics)"
+    },
+    "ID15": {
+      "slug": "bachelor-of-design-bachelor-of-information-technology",
+      "name": "Bachelor of Design/Bachelor of Information Technology"
+    },
+    "DE43": {
+      "slug": "bachelor-of-design-visual-communication",
+      "name": "Bachelor of Design (Visual Communication)"
+    },
+    "ID14": {
+      "slug": "bachelor-of-design-industrial-design-bachelor-of-engineering-honours",
+      "name": "Bachelor of Design (Industrial Design)/Bachelor of Engineering (Honours)"
+    },
+    "DE45": {
+      "slug": "bachelor-of-design-international",
+      "name": "Bachelor of Design - International"
+    },
+    "DV99": {
+      "slug": "bachelor-of-design-strategic-design-master-of-design-strategic-design",
+      "name": "Bachelor of Design (Strategic Design)/Master of Design (Strategic Design)"
+    },
+    "ED39": {
+      "slug": "bachelor-of-education-early-childhood",
+      "name": "Bachelor of Education (Early Childhood)"
+    },
+    "ED49": {
+      "slug": "bachelor-of-education-primary",
+      "name": "Bachelor of Education (Primary)"
+    },
+    "ID57": {
+      "slug": "bachelor-of-education-secondary-bachelor-of-creative-arts",
+      "name": "Bachelor of Education (Secondary) / Bachelor of Creative Arts"
+    },
+    "EN01": {
+      "slug": "bachelor-of-engineering-honours-medical",
+      "name": "Bachelor of Engineering (Honours) (Medical)"
+    },
+    "EV04": {
+      "slug": "bachelor-of-engineering-honours-master-of-advanced-manufacturing",
+      "name": "Bachelor of Engineering (Honours) / Master of Advanced Manufacturing"
+    },
+    "EV03": {
+      "slug": "bachelor-of-engineering-honours-master-of-renewable-energy",
+      "name": "Bachelor of Engineering (Honours) / Master of Renewable Energy"
+    },
+    "EV11": {
+      "slug": "bachelor-of-engineering-honours-master-of-sustainable-infrastructure",
+      "name": "Bachelor of Engineering (Honours) / Master of Sustainable Infrastructure"
+    },
+    "IN05": {
+      "slug": "bachelor-of-games-and-interactive-environments-software-technologies",
+      "name": "Bachelor of Games and Interactive Environments (Software Technologies)"
+    },
+    "SW03": {
+      "slug": "bachelor-of-human-services",
+      "name": "Bachelor of Human Services"
+    },
+    "IX78": {
+      "slug": "bachelor-of-human-services-bachelor-of-justice",
+      "name": "Bachelor of Human Services/Bachelor of Justice"
+    },
+    "IN01": {
+      "slug": "bachelor-of-information-technology-software-development",
+      "name": "Bachelor of Information Technology (Software Development)"
+    },
+    "ID46": {
+      "slug": "bachelor-of-information-technology-bachelor-of-laws-honours",
+      "name": "Bachelor of Information Technology/Bachelor of Laws (Honours)"
+    },
+    "IV05": {
+      "slug": "bachelor-of-information-technology-master-of-data-science",
+      "name": "Bachelor of Information Technology/Master of Data Science"
+    },
+    "JS34": {
+      "slug": "bachelor-of-justice-policy-politics-and-social-reform",
+      "name": "Bachelor of Justice (Policy, Politics and Social Reform)"
+    },
+    "ID48": {
+      "slug": "bachelor-of-justice-bachelor-of-laws-honours",
+      "name": "Bachelor of Justice / Bachelor of Laws (Honours)"
+    },
+    "LW39": {
+      "slug": "bachelor-of-laws-honours-graduate-entry",
+      "name": "Bachelor of Laws (Honours) (Graduate Entry)"
+    },
+    "MS01": {
+      "slug": "bachelor-of-mathematics-statistics",
+      "name": "Bachelor of Mathematics (Statistics)"
+    },
+    "MV06": {
+      "slug": "bachelor-of-mathematics-master-of-data-science",
+      "name": "Bachelor of Mathematics/Master of Data Science"
+    },
+    "MV01": {
+      "slug": "bachelor-of-mathematics-master-of-teaching-secondary",
+      "name": "Bachelor of Mathematics / Master of Teaching (Secondary)"
+    },
+    "CS48": {
+      "slug": "bachelor-of-medical-imaging-honours",
+      "name": "Bachelor of Medical Imaging (Honours)"
+    },
+    "NS42": {
+      "slug": "bachelor-of-nursing-enrolled-nurse-entry",
+      "name": "Bachelor of Nursing - Enrolled Nurse Entry"
+    },
+    "HL18": {
+      "slug": "bachelor-of-nursing-bachelor-of-behavioural-science-psychology",
+      "name": "Bachelor of Nursing/Bachelor of Behavioural Science (Psychology)"
+    },
+    "XV43": {
+      "slug": "bachelor-of-nutrition-science-master-of-nutrition-and-dietetics",
+      "name": "Bachelor of Nutrition Science/Master of Nutrition and Dietetics"
+    },
+    "CS43": {
+      "slug": "bachelor-of-paramedic-science-graduate-entry",
+      "name": "Bachelor of Paramedic Science - Graduate Entry"
+    },
+    "CS47": {
+      "slug": "bachelor-of-pharmacy-honours",
+      "name": "Bachelor of Pharmacy (Honours)"
+    },
+    "CS44": {
+      "slug": "bachelor-of-podiatry-graduate-entry",
+      "name": "Bachelor of Podiatry - Graduate Entry"
+    },
+    "ID26": {
+      "slug": "bachelor-of-property-economics-bachelor-of-business",
+      "name": "Bachelor of Property Economics/Bachelor of Business"
+    },
+    "ID40": {
+      "slug": "bachelor-of-property-economics-bachelor-of-laws-honours",
+      "name": "Bachelor of Property Economics / Bachelor of Laws (Honours)"
+    },
+    "CS49": {
+      "slug": "bachelor-of-radiation-therapy",
+      "name": "Bachelor of Radiation Therapy"
+    },
+    "ST20": {
+      "slug": "bachelor-of-science-advanced-honours",
+      "name": "Bachelor of Science Advanced (Honours)"
+    },
+    "ID42": {
+      "slug": "bachelor-of-science-bachelor-of-laws-honours",
+      "name": "Bachelor of Science / Bachelor of Laws (Honours)"
+    },
+    "ST01": {
+      "slug": "bachelor-of-science-physics",
+      "name": "Bachelor of Science (Physics)"
+    },
+    "SV02": {
+      "slug": "bachelor-of-science-physics-master-of-teaching-secondary",
+      "name": "Bachelor of Science (Physics) / Master of Teaching (Secondary)"
+    },
+    "SV04": {
+      "slug": "bachelor-of-science-master-of-data-science",
+      "name": "Bachelor of Science/Master of Data Science"
+    },
+    "AB02": {
+      "slug": "diploma-in-architectural-studies-bachelor-of-built-environment-honours",
+      "name": "Diploma in Architectural Studies/Bachelor of Built Environment (Honours)"
+    },
+    "BS40": {
+      "slug": "diploma-in-business-bachelor-of-business",
+      "name": "Diploma in Business/Bachelor of Business"
+    },
+    "IF06": {
+      "slug": "diploma-in-creative-industries-bachelor-of-design",
+      "name": "Diploma in Creative Industries/Bachelor of Design"
+    },
+    "EN02": {
+      "slug": "diploma-in-engineering",
+      "name": "Diploma in Engineering"
+    },
+    "ES21": {
+      "slug": "diploma-in-esports-bachelor-of-business",
+      "name": "Diploma in Esports/Bachelor of Business"
+    },
+    "IT10": {
+      "slug": "diploma-in-information-technology",
+      "name": "Diploma in Information Technology"
+    },
+    "IF49": {
+      "slug": "doctor-of-philosophy",
+      "name": "Doctor of Philosophy"
+    },
+    "GS50": {
+      "slug": "executive-master-of-business-administration",
+      "name": "Executive Master of Business Administration (EMBA)"
+    },
+    "GZ35": {
+      "slug": "graduate-certificate-in-business-public-sector-management",
+      "name": "Graduate Certificate in Business (Public Sector Management)"
+    },
+    "LS60": {
+      "slug": "graduate-certificate-in-diagnostic-genomics",
+      "name": "Graduate Certificate in Diagnostic Genomics"
+    },
+    "BS36": {
+      "slug": "graduate-certificate-in-digital-business-and-innovation",
+      "name": "Graduate Certificate in Digital Business and Innovation"
+    },
+    "PU70": {
+      "slug": "graduate-certificate-in-digital-health-leadership-and-management",
+      "name": "Graduate Certificate in Digital Health Leadership and Management"
+    },
+    "EU60": {
+      "slug": "graduate-certificate-in-education",
+      "name": "Graduate Certificate in Education"
+    },
+    "NS32": {
+      "slug": "graduate-certificate-in-nursing",
+      "name": "Graduate Certificate in Nursing"
+    },
+    "CS30": {
+      "slug": "graduate-certificate-in-podiatric-therapeutics",
+      "name": "Graduate Certificate in Podiatric Therapeutics"
+    },
+    "PM15": {
+      "slug": "graduate-certificate-in-project-management",
+      "name": "Graduate Certificate in Project Management"
+    },
+    "PH71": {
+      "slug": "graduate-diploma-in-applied-science-medical-physics",
+      "name": "Graduate Diploma in Applied Science (Medical Physics)"
+    },
+    "CS61": {
+      "slug": "graduate-diploma-in-cardiac-ultrasound",
+      "name": "Graduate Diploma in Cardiac Ultrasound"
+    },
+    "LS72": {
+      "slug": "graduate-diploma-in-diagnostic-genomics",
+      "name": "Graduate Diploma in Diagnostic Genomics"
+    },
+    "PU67": {
+      "slug": "graduate-diploma-in-environmental-health",
+      "name": "Graduate Diploma in Environmental Health"
+    },
+    "PU77": {
+      "slug": "graduate-diploma-in-health-management-and-leadership",
+      "name": "Graduate Diploma in Health Management and Leadership"
+    },
+    "LP41": {
+      "slug": "graduate-diploma-in-legal-practice",
+      "name": "Graduate Diploma in Legal Practice"
+    },
+    "PU65": {
+      "slug": "graduate-diploma-in-occupational-health-and-safety",
+      "name": "Graduate Diploma in Occupational Health and Safety"
+    },
+    "PU60": {
+      "slug": "graduate-diploma-in-public-health",
+      "name": "Graduate Diploma in Public Health"
+    },
+    "DE83": {
+      "slug": "master-of-architecture",
+      "name": "Master of Architecture"
+    },
+    "BS12": {
+      "slug": "master-of-business-financial-analytics-and-technology",
+      "name": "Master of Business (Financial Analytics and Technology)"
+    },
+    "BN87": {
+      "slug": "master-of-engineering-management",
+      "name": "Master of Engineering Management"
+    },
+    "NS89": {
+      "slug": "master-of-nursing-entry-to-practice",
+      "name": "Master of Nursing - Entry to Practice"
+    },
+    "IF80": {
+      "slug": "master-of-philosophy",
+      "name": "Master of Philosophy"
+    },
+    "BS13": {
+      "slug": "master-of-professional-accounting",
+      "name": "Master of Professional Accounting"
+    },
+    "PM20": {
+      "slug": "master-of-project-management",
+      "name": "Master of Project Management"
+    },
+    "PU86": {
+      "slug": "master-of-public-health",
+      "name": "Master of Public Health"
+    },
+    "EU30": {
+      "slug": "master-of-teaching-early-childhood",
+      "name": "Master of Teaching (Early Childhood)"
+    },
+    "EU40": {
+      "slug": "master-of-teaching-primary",
+      "name": "Master of Teaching (Primary)"
+    },
+    "EU50": {
+      "slug": "master-of-teaching-secondary",
+      "name": "Master of Teaching (Secondary)"
+    },
+    "HC10": {
+      "slug": "undergraduate-certificate-nursing",
+      "name": "Undergraduate Certificate (Nursing)"
+    }
+  }
+}

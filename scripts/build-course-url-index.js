@@ -1,19 +1,24 @@
 #!/usr/bin/env node
 /**
- * Builds a map of course code to QUT URL by crawling the course graph.
+ * Builds an exact map of course code to QUT course URL.
  *
- * Guessing slugs from titles does not work for double degrees. QUT publishes
- * "Bachelor of Engineering (Honours)/Bachelor of Business" at
+ * Two things make this necessary and possible.
+ *
+ * Necessary: slugs cannot be derived from titles. QUT publishes "Bachelor of
+ * Engineering (Honours)/Bachelor of Business" at
  * /courses/bachelor-of-business-bachelor-of-engineering-honours, and the ordering
- * is not consistent enough to derive: other doubles reverse, drop qualifiers, or
- * carry a major in the slug.
+ * varies per course. Title matching was tried first and produced confident nonsense
+ * (Bachelor of Communication/Bachelor of Science landing on a behavioural-science
+ * and design page), so it is not used here.
  *
- * Every course page links to around 60 other course pages, so the URLs can be
- * collected rather than guessed. Crawl a handful of hub degrees, harvest the
- * /courses/ links, then match each unsupported course to the slug whose words best
- * cover its title.
+ * Possible: every course page carries a schema.org Course block whose courseCode is
+ * the real code. QUT does not print the code in the visible text, which is why this
+ * is not obvious.
  *
- * Writes data/course-urls.json: { builtAt, slugs, byCode }.
+ * Discovery works because each course page links to roughly 60 others, so a handful
+ * of hub degrees reveals most of the catalogue's URLs.
+ *
+ * Writes data/course-urls.json: { builtAt, slugCount, byCode: { CODE: { slug, name } } }
  *
  * Usage:
  *   node scripts/build-course-url-index.js
@@ -27,14 +32,10 @@ const { chromium } = require("@playwright/test");
 const OUT = path.join(__dirname, "../data/course-urls.json");
 const BASE = "https://www.qut.edu.au";
 
-const HEADERS = {
-  "User-Agent":
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-  "Accept-Language": "en-AU,en;q=0.9",
-};
+const USER_AGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 
-// Hub degrees whose pages link to most of their doubles.
+// Hub degrees whose pages link to most of their doubles and siblings.
 const SEEDS = [
   "bachelor-of-business",
   "bachelor-of-engineering-honours",
@@ -52,53 +53,48 @@ const SEEDS = [
   "bachelor-of-property-economics",
   "bachelor-of-architectural-design",
   "bachelor-of-built-environment-honours",
+  "bachelor-of-games-and-interactive-environments",
+  "bachelor-of-justice",
+  "bachelor-of-health-science",
+  "bachelor-of-urban-development-honours",
 ];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const STOP = new Set([
-  "bachelor", "of", "master", "the", "and", "in", "with", "for", "a", "an",
-  "honours", "honour", "degree", "science", "studies",
-]);
-
-function tokens(text) {
-  return String(text)
-    .toLowerCase()
-    .replace(/\([^)]*\)/g, " ")
-    .replace(/[^a-z0-9\s-]/g, " ")
-    .split(/[\s-]+/)
-    .filter((t) => t && !STOP.has(t));
-}
-
-/**
- * QUT returns 403 to plain HTTP clients, so this needs a real browser. The whole
- * crawl shares one page to keep it to a single browser launch.
- */
-let sharedPage = null;
+let browser = null;
+let page = null;
 
 async function getPage() {
-  if (sharedPage) return sharedPage;
-  const browser = await chromium.launch();
-  const page = await browser.newPage({ userAgent: HEADERS["User-Agent"] });
-  sharedPage = page;
-  sharedPage.__browser = browser;
+  if (page) return page;
+  browser = await chromium.launch();
+  page = await browser.newPage({ userAgent: USER_AGENT });
   return page;
 }
 
-async function fetchSlugs(slug) {
-  const page = await getPage();
+async function closeBrowser() {
+  if (browser) await browser.close();
+  browser = null;
+  page = null;
+}
+
+async function goto(slug) {
+  const p = await getPage();
   try {
-    await page.goto(`${BASE}/courses/${slug}`, { waitUntil: "domcontentloaded", timeout: 45000 });
-    await page.waitForTimeout(1200);
+    await p.goto(`${BASE}/courses/${slug}`, { waitUntil: "domcontentloaded", timeout: 45000 });
+    await p.waitForTimeout(900);
+    return p;
   } catch {
-    return [];
+    return null;
   }
-  return page.evaluate(() => {
+}
+
+async function linksFrom(slug) {
+  const p = await goto(slug);
+  if (!p) return [];
+  return p.evaluate(() => {
     const slugs = [];
     for (const anchor of document.querySelectorAll('a[href*="/courses/"]')) {
       const raw = anchor.getAttribute("href") || "";
-      // Hrefs are absolute on these pages, so match past the /courses/ segment
-      // rather than assuming a leading slash.
       const match = raw.match(/\/courses\/([a-z0-9-]+)/);
       if (match) slugs.push(match[1]);
     }
@@ -106,106 +102,95 @@ async function fetchSlugs(slug) {
   });
 }
 
-async function closeBrowser() {
-  if (sharedPage && sharedPage.__browser) await sharedPage.__browser.close();
-}
-
-/** Best slug for a title, by how much of the title's words the slug covers. */
-function bestSlug(title, slugs) {
-  const wanted = tokens(title);
-  if (wanted.length === 0) return null;
-
-  let best = null;
-  let bestScore = 0;
-
-  for (const slug of slugs) {
-    const have = new Set(tokens(slug));
-    const covered = wanted.filter((word) => have.has(word)).length;
-    const score = covered / wanted.length;
-    // A double degree must appear in the slug as two "bachelor-of" runs, and a
-    // single degree must not, or a double would be picked for a single course.
-    const isDouble = (slug.match(/bachelor-of/g) || []).length >= 2;
-    const titleIsDouble = String(title).includes("/");
-    if (isDouble !== titleIsDouble) continue;
-    if (score > bestScore) {
-      best = slug;
-      bestScore = score;
+async function courseCodeFrom(slug) {
+  const p = await goto(slug);
+  if (!p) return null;
+  return p.evaluate(() => {
+    for (const block of document.querySelectorAll('script[type="application/ld+json"]')) {
+      try {
+        const parsed = JSON.parse(block.textContent || "");
+        const entries = Array.isArray(parsed) ? parsed : [parsed];
+        for (const entry of entries) {
+          if (entry && entry["@type"] === "Course" && entry.courseCode) {
+            return { code: String(entry.courseCode).toUpperCase(), name: entry.name || null };
+          }
+        }
+      } catch {
+        // A malformed block is not a reason to fail the whole crawl.
+      }
     }
-  }
-
-  // Anything below this is a coincidence rather than a match.
-  return bestScore >= 0.7 ? best : null;
+    return null;
+  });
 }
 
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
-  const structures = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "../data/course-structures.json"), "utf8"),
-  );
-  const catalogue = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "../data/qut-virtual-courses.json"), "utf8"),
-  );
 
-  const byCodeTitle = new Map();
-  for (const course of catalogue.courses || []) {
-    if (course.code && course.title && !byCodeTitle.has(course.code)) {
-      byCodeTitle.set(course.code, course.title);
+  const slugs = new Set();
+  console.log("Crawling hub pages for course links");
+  for (const seed of SEEDS) {
+    const found = await linksFrom(seed);
+    for (const slug of found) slugs.add(slug);
+    console.log(`  ${seed}: ${found.length} links, ${slugs.size} unique so far`);
+    await sleep(150);
+  }
+
+  console.log(`\nHarvested ${slugs.size} slugs. Reading course codes from JSON-LD`);
+
+  const byCode = {};
+  let done = 0;
+  for (const slug of [...slugs].sort()) {
+    const found = await courseCodeFrom(slug);
+    if (found) byCode[found.code] = { slug, name: found.name };
+    done += 1;
+    if (done % 20 === 0) {
+      console.log(`  ${done}/${slugs.size} read, ${Object.keys(byCode).length} codes resolved`);
     }
   }
 
-  const allSlugs = new Set();
-  for (const seed of SEEDS) {
-    const found = await fetchSlugs(seed);
-    for (const slug of found) allSlugs.add(slug);
-    console.log(`  ${seed}: ${found.length} links, ${allSlugs.size} unique so far`);
-    await sleep(200);
+  await closeBrowser();
+
+  let alreadyHave = 0;
+  let missing = [];
+  try {
+    const structures = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "../data/course-structures.json"), "utf8"),
+    );
+    for (const code of Object.keys(byCode)) {
+      if (structures.courses[code]) alreadyHave += 1;
+      else missing.push(code);
+    }
+  } catch {
+    // Without the structures file we cannot tell which are new, which is fine.
   }
 
-  console.log(`\nHarvested ${allSlugs.size} course slugs`);
-
-  const byCode = {};
-  for (const [code, title] of byCodeTitle) {
-    if (structures.courses[code]) continue;
-    const slug = bestSlug(title, allSlugs);
-    if (slug) byCode[code] = slug;
-  }
-
-  // Heads up before using byCode: title matching is not trustworthy. Two titles can
-  // normalise to the same words and land on the wrong slug (Bachelor of
-  // Communication/Bachelor of Science matches a behavioural-science/design page),
-  // and QUT's pages do not expose their course code, so there is nothing exact to
-  // match on. Treat byCode as a starting point for a hand check, and scrape only
-  // pairs a person has confirmed.
-  console.log(`Matched ${Object.keys(byCode).length} unsupported courses to a URL (UNVERIFIED, see comment)`);
-  for (const [code, slug] of Object.entries(byCode).slice(0, 12)) {
-    console.log(`  ${code} -> ${slug}`);
+  console.log(
+    `\nResolved ${Object.keys(byCode).length} codes. ${alreadyHave} already have a plan, ${missing.length} do not.`,
+  );
+  for (const code of missing.slice(0, 25)) {
+    console.log(`  ${code} -> ${byCode[code].slug}`);
   }
 
   if (dryRun) {
     console.log("\n--dry-run: nothing written.");
-    await closeBrowser();
     return;
   }
 
   fs.writeFileSync(
     OUT,
     JSON.stringify(
-      {
-        builtAt: new Date().toISOString(),
-        slugCount: allSlugs.size,
-        slugs: [...allSlugs].sort(),
-        byCode,
-      },
+      { builtAt: new Date().toISOString(), slugCount: slugs.size, byCode },
       null,
       2,
     ) + "\n",
     "utf8",
   );
   console.log(`\nWrote ${path.relative(process.cwd(), OUT)}`);
-  await closeBrowser();
 }
 
-main().catch((err) => {
-  console.error("build-course-url-index failed:", err);
-  process.exit(1);
-});
+main()
+  .catch(async (err) => {
+    console.error("build-course-url-index failed:", err);
+    await closeBrowser();
+    process.exit(1);
+  });

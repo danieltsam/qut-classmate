@@ -64,20 +64,21 @@ request.
 
 ### Courses currently supported
 
-201 courses have a study plan scraped and available in QUT Classmate, of the 329
+213 courses have a study plan scraped and available in QUT Classmate, of the 329
 that QUT lists. That covers 124 bachelors and 39 masters, including IT, engineering,
 business, law, science and nursing, plus masters coursework in IT, engineering
 management, robotics, renewable energy and advanced manufacturing.
 
-Not yet supported: 128 courses, mostly double degrees such as Engineering and
-Business, Fine Arts and Law, and Business and Fine Arts, plus graduate certificates
-and research degrees. If your course is in that group the planner says so rather
-than showing something wrong.
+Double degrees are mostly covered now: 48 of the 55 that QUT publishes, including
+the Business, Engineering, IT, Education and Science combinations. They were the
+awkward ones because QUT lists them under a slug that is often the reverse of the
+course title, so `scripts/build-course-url-index.js` reads the course code out of the
+schema.org block on each page instead of guessing from the name.
 
-Double degrees are the awkward ones. QUT publishes them under a slug that is often
-the reverse of the course title, and its pages do not carry the course code, so
-there is nothing exact to match a code against a page. Guessing from titles gets it
-wrong often enough to be worse than leaving the gap.
+Not yet supported: 116 courses. That is mostly graduate certificates and research
+degrees, plus a handful of doubles whose pages publish no unit structure at all. If
+your course is in that group the planner says so rather than showing something
+wrong.
 
 Teaching period IDs change every year, so a monthly workflow reads them from QUT's
 search pages and opens a PR when they move.
