@@ -76,13 +76,17 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // ---------------------------------------------------------------- CLI
 
 function parseArgs(argv) {
-  const opts = { faculties: [], limit: Infinity, out: DEFAULT_OUT };
+  const opts = { faculties: [], codes: [], limit: Infinity, out: DEFAULT_OUT };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--faculty') {
       const value = argv[++i];
       if (!value) throw new Error('--faculty needs a value');
       opts.faculties.push(value);
+    } else if (arg === '--codes') {
+      const value = argv[++i];
+      if (!value) throw new Error('--codes needs a comma separated list');
+      opts.codes.push(...value.split(',').map((c) => c.trim().toUpperCase()).filter(Boolean));
     } else if (arg === '--limit') {
       const value = Number(argv[++i]);
       if (!Number.isFinite(value) || value <= 0) throw new Error('--limit needs a positive number');
@@ -97,7 +101,10 @@ function parseArgs(argv) {
       throw new Error(`Unknown argument: ${arg}`);
     }
   }
-  if (opts.faculties.length === 0) opts.faculties = [...PRIORITY_FACULTIES];
+  // An explicit code list overrides faculty selection entirely.
+  if (opts.faculties.length === 0 && opts.codes.length === 0) {
+    opts.faculties = [...PRIORITY_FACULTIES];
+  }
   return opts;
 }
 
@@ -128,6 +135,26 @@ function slugVariants(title) {
   // "Bachelor of Science (Advanced)" -> the plain "bachelor-of-science" page.
   const bare = slugify(String(title).replace(/\([^)]*\)/g, ' ').replace(/\s{2,}/g, ' '));
   if (bare && bare !== full) variants.push(bare);
+
+  // Double degrees are not always listed in the same order as the title. QUT
+  // publishes "Bachelor of Engineering (Honours)/Bachelor of Business" at
+  // /courses/bachelor-of-business-bachelor-of-engineering-honours, so the reverse
+  // order has to be tried as well.
+  if (String(title).includes('/')) {
+    const parts = String(title)
+      .split('/')
+      .map((part) => part.trim())
+      .filter(Boolean);
+    if (parts.length === 2) {
+      const reversed = slugify(`${parts[1]}/${parts[0]}`);
+      if (reversed && !variants.includes(reversed)) variants.push(reversed);
+      const reversedBare = slugify(
+        `${parts[1]} ${parts[0]}`.replace(/\([^)]*\)/g, ' ').replace(/\s{2,}/g, ' '),
+      );
+      if (reversedBare && !variants.includes(reversedBare)) variants.push(reversedBare);
+    }
+  }
+
   return variants;
 }
 
@@ -829,7 +856,12 @@ async function main() {
   }
 
   const byCode = loadMetadata();
-  const selected = selectCourses(byCode, opts.faculties);
+  const selected = opts.codes.length > 0
+    ? opts.codes
+        .map((code) => byCode.get(code))
+        .filter(Boolean)
+        .map((course) => ({ ...course, title: course.title }))
+    : selectCourses(byCode, opts.faculties);
   const existing = loadExisting(opts.out);
   // Resume per course code. A code with several titled degrees (BS05 has 14
   // titles) is covered by its parent page's major links, and mergeCourses()

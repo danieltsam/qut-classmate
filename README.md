@@ -18,29 +18,37 @@ well for the ordinary case of finding out when a unit runs and who teaches it.
 
 Once I have my classes chosen for the semester, this is where I build a rough
 timetable around work and everything else I have on. Block out the times you are
-unavailable, say how clumped you want your classes, and the generator searches the
-streams for your units until it finds something that fits. If the first suggestion
-is awkward you can drag a class onto another stream of the same activity. I use it
-once a semester and then forget about it.
+unavailable, say how clumped you want your classes, and the generator picks a
+combination for you.
+
+QUT runs each activity several times, and those alternatives are called streams. A
+unit might have one lecture in the morning and one in the afternoon, and four
+practical groups across the week. Picking a stream decides which column of your week
+that class lands in. Click a class to remove it, or drag it onto another stream of
+the same activity if the first suggestion is awkward. I use this once a semester and
+then forget about it.
 
 ### Campus explorer
 
-You are paying to be at uni, and some of the lectures are genuinely interesting.
-With an hour between classes I will look at what is running nearby and sit in on
-whatever catches my attention, whether that is a supply chain management lecture,
-something out of engineering, or an old class I want a refresher on. Nobody checks
-attendance. This shows what is on right now, sorted by building.
+You are paying to be at uni, and some of the lecturers outside the course you are
+enrolled in are genuinely interesting. When I have an hour or more between classes I
+will look at what is running nearby and sit in on whatever catches my attention. I am
+a fan of a lot of the business school lectures, which often have pretty interesting
+ideas, supply chain management being the one that got me started on this.
 
 ### Course planner
 
-I use this to plan a course properly, especially when I want to underload or
-overload a semester. Every unit in the degree sits on one page with its
-prerequisites, so I can see whether a plan actually holds together instead of
-clicking through QUT's pages one at a time and then copying the result into
-eStudent. Set a semester to 36 credit points and units move along to the next one.
-Set 60 and it compresses. The prerequisite checking is the part I am happiest with:
-it reads QUT's own rules and tells you when a plan is out of order, with a button
-that moves the unit rather than just complaining about it.
+I use this to plan my degree properly, especially when I want to underload or
+overload a semester. Sometimes it is pure fantasising about how quickly I could get
+it all done at six units a semester, which I have never actually done.
+
+The useful part is reading a unit's real information and assignment structure from
+the same page I am planning on, rather than opening QUT's unit pages one at a time.
+The thing I am happiest with is the requisite checking. It knows each unit's
+prerequisites and which semesters it runs in, so a plan that is out of order, or that
+puts a Semester 1 only unit in Semester 2, gets flagged with a button that moves it
+rather than just a warning. Set a semester to 36 credit points and units move along
+to the next one. Set 60 and it compresses.
 
 ## Data
 
@@ -56,15 +64,20 @@ request.
 
 ### Courses currently supported
 
-199 courses have a study plan, of the 329 QUT lists. That covers 123 bachelors and
-39 masters, including IT, engineering, business, law, science and nursing, plus
-masters coursework in IT, engineering management, robotics, renewable energy and
-advanced manufacturing.
+201 courses have a study plan scraped and available in QUT Classmate, of the 329
+that QUT lists. That covers 124 bachelors and 39 masters, including IT, engineering,
+business, law, science and nursing, plus masters coursework in IT, engineering
+management, robotics, renewable energy and advanced manufacturing.
 
-Not yet supported: 131 courses, mostly double degrees (Engineering and Business,
-Fine Arts and Law, Business and Fine Arts, and similar), graduate certificates, and
-research degrees. If your course is in that group the planner will say so rather
+Not yet supported: 128 courses, mostly double degrees such as Engineering and
+Business, Fine Arts and Law, and Business and Fine Arts, plus graduate certificates
+and research degrees. If your course is in that group the planner says so rather
 than showing something wrong.
+
+Double degrees are the awkward ones. QUT publishes them under a slug that is often
+the reverse of the course title, and its pages do not carry the course code, so
+there is nothing exact to match a code against a page. Guessing from titles gets it
+wrong often enough to be worse than leaving the gap.
 
 Teaching period IDs change every year, so a monthly workflow reads them from QUT's
 search pages and opens a PR when they move.

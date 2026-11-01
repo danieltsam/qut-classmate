@@ -124,6 +124,23 @@ Returns old formats like `CH 815-2 - Inorganic Chemistry II`. Paginate until emp
 
 ---
 
+## Course structure scraping
+
+`scripts/scrape-course-structures.js` takes `--faculty` or `--codes IX59,ID22`, and
+resumes by `(course, title)`, so re-running is free for anything already fetched.
+
+**Double degrees are listed in a different order to their title.** QUT publishes
+"Bachelor of Engineering (Honours)/Bachelor of Business" at
+`/courses/bachelor-of-business-bachelor-of-engineering-honours`, with the second
+degree first. `slugVariants` now tries the reversed order as well; before that,
+every double degree failed with "course page not found". If a double still fails,
+check the slug by hand before assuming the course is gone.
+
+Graduate certificates and research degrees are deliberately not scraped. They are
+not what students plan semesters with.
+
+---
+
 ## Unit catalogue coverage
 
 `data/qut-unit-codes.json` is a **partial snapshot**, never a registry of what
