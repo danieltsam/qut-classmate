@@ -5,6 +5,11 @@ import { RATE_LIMIT_CONFIG } from "./lib/config"
 const DAILY_RATE_LIMIT = 15
 const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
 
+// The daily cap started as a courtesy to QUT's servers, but it also blocks
+// test suites and anyone opening a few units in a row. It is off unless
+// explicitly enabled, so production can opt back in via RATE_LIMIT_ENABLED=true.
+const RATE_LIMIT_ENABLED = process.env.RATE_LIMIT_ENABLED === "true"
+
 // In-memory store for rate limits (in a production app, this would be Redis or a database)
 // This is a global variable that persists between requests but will reset when the server restarts
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
@@ -77,7 +82,10 @@ export async function middleware(request: NextRequest) {
     }
 
     // Only apply rate limiting to specific API routes
-    if (pathname.startsWith("/api/timetable") || pathname === "/api/check-rate-limit") {
+    if (
+      RATE_LIMIT_ENABLED &&
+      (pathname.startsWith("/api/timetable") || pathname === "/api/check-rate-limit")
+    ) {
       // Get IP address
       const ip = request.ip || request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
 

@@ -1,15 +1,24 @@
 "use client"
 
 import type React from "react"
+
 import { useState } from "react"
 import { TimetableResults } from "./timetable-results"
-import { Loader2, Search, Info, Clock } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Loader2, Search } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { teachingPeriods } from "@/lib/teaching-periods"
 import { useToast } from "@/components/ui/use-toast"
 import { checkCache, safelyStoreInCache } from "@/lib/storage-utils"
 import type { TimetableEntry } from "@/lib/types"
 import { useRateLimit } from "@/context/RateLimitContext"
 import { UnitCodeAutocomplete } from "./unit-code-autocomplete"
+import { InlineNotice } from "@/components/inline-notice"
+import { SectionNote } from "@/components/section-note"
+import { getUnitTitle } from "@/lib/unit-codes"
+import { QUT_UNREACHABLE, timetableErrorMessage } from "@/lib/messages"
 
 export function UnitSearch() {
   const { toast } = useToast()
@@ -30,14 +39,16 @@ export function UnitSearch() {
 
   // Validate unit code
   const validateUnitCode = (code: string): boolean => {
+    // Empty check
     if (!code.trim()) {
       setValidationError("Please enter a unit code")
       return false
     }
 
+    // Format check: 3 letters followed by 3 digits
     const unitCodePattern = /^[A-Za-z]{3}[0-9]{3}$/
     if (!unitCodePattern.test(code.trim())) {
-      setValidationError("Must be 3 letters & 3 digits (e.g. CAB202)")
+      setValidationError("Unit code must be 3 letters followed by 3 digits (e.g., CAB202)")
       return false
     }
 
@@ -45,7 +56,9 @@ export function UnitSearch() {
     return true
   }
 
+  // Check client-side throttling
   const checkThrottling = (): boolean => {
+    // Check request interval (client-side throttling)
     const now = Date.now()
     if (now - lastRequestTime < REQUEST_INTERVAL) {
       toast({
@@ -55,16 +68,19 @@ export function UnitSearch() {
       })
       return false
     }
+
     return true
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    // Validate unit code
     if (!validateUnitCode(unitCode)) {
       return
     }
 
+    // Strict enforcement - completely prevent searches when limit is reached
     if (isRateLimited) {
       toast({
         title: "Rate Limit Exceeded",
@@ -75,6 +91,7 @@ export function UnitSearch() {
       return
     }
 
+    // Check client-side throttling
     if (!checkThrottling()) {
       return
     }
@@ -85,20 +102,22 @@ export function UnitSearch() {
     const cachedData = checkCache(formattedUnitCode, teachingPeriodId.trim())
     if (cachedData) {
       setTimetableData(cachedData)
-      if (cachedData.length > 0 && cachedData[0].unitName) {
-        setUnitName(cachedData[0].unitName)
-      } else {
-        setUnitName("")
-      }
+
+      // Extract the unit name from the first entry if available, otherwise
+      // fall back to the bundled catalog. The API never sends unitName.
+      setUnitName(cachedData[0]?.unitName || getUnitTitle(formattedUnitCode) || "")
+
       return
     }
 
+    // Set pending state to prevent multiple requests
     setIsPendingRequest(true)
     setLastRequestTime(Date.now())
     setIsLoading(true)
     setError(null)
 
     try {
+      // Use the API endpoint
       const response = await fetch("/api/timetable/search", {
         method: "POST",
         headers: {
@@ -112,8 +131,11 @@ export function UnitSearch() {
 
       const result = await response.json()
 
+
       if (result.error) {
-        setError(result.message)
+        setError(timetableErrorMessage(result.message))
+
+        // Show rate limit toast if applicable
         if (result.rateLimitExceeded || response.status === 429) {
           toast({
             title: "Rate Limit Exceeded",
@@ -123,21 +145,21 @@ export function UnitSearch() {
           })
         }
       } else {
+        console.log(`📡 Fetched ${formattedUnitCode} from server`)
         setTimetableData(result.data)
 
-        // Cache the response data
+        // Cache the response data in localStorage
         const cacheData = {
           data: result.data,
           timestamp: Date.now(),
         }
         safelyStoreInCache(`timetable-${formattedUnitCode}-${teachingPeriodId.trim()}`, cacheData)
 
-        if (result.data.length > 0 && result.data[0].unitName) {
-          setUnitName(result.data[0].unitName)
-        } else {
-          setUnitName("")
-        }
+        // Extract the unit name from the first entry if available, otherwise
+        // fall back to the bundled catalog. The API never sends unitName.
+        setUnitName(result.data?.[0]?.unitName || getUnitTitle(formattedUnitCode) || "")
 
+        // Show remaining requests toast when getting low
         if (result.remainingRequests <= 3) {
           toast({
             title: "Search Limit Warning",
@@ -147,124 +169,132 @@ export function UnitSearch() {
         }
       }
     } catch (err) {
-      setError("An unexpected error occurred. Please try again later.")
-      console.error("Unexpected error:", err)
+      // Keep the technical detail for us; the student gets one plain sentence.
+      console.error("Unit search failed:", err)
+      setError(QUT_UNREACHABLE)
     } finally {
       setIsLoading(false)
       setIsPendingRequest(false)
+
+      // Refresh the rate limit state after the request is complete
       await checkRateLimit()
     }
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow items-start font-sans">
-      
-      {/* Left Column: Explorer Filter Sidebar */}
-      <div className="lg:col-span-1 flex flex-col h-fit bg-[#ece9d8] border border-[#d8d2bd]">
-        <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
-          <span className="flex items-center gap-1.5">
-            <Search className="w-3.5 h-3.5 text-white" /> Search Panel
-          </span>
-        </div>
-        <div className="p-4 space-y-4">
+    <div className="space-y-6">
+      <Card className="border-[#003A6E]/20 dark:border-blue-900/30 rounded-xl shadow-md overflow-hidden transition-all duration-300">
+        <CardHeader className="bg-[#003A6E]/5 dark:bg-blue-900/20 rounded-t-xl">
+          <CardTitle className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+            Search Unit Schedule
+          </CardTitle>
+          <CardDescription className="dark:text-gray-400 transition-colors duration-300">
+            Enter a QUT unit code and teaching period to view the class schedule
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6 dark:bg-gray-900 transition-colors duration-300">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1">
-              <label htmlFor="unitCode" className="text-xs font-bold text-zinc-700 block">
-                Unit Code:
-              </label>
-              <UnitCodeAutocomplete
-                value={unitCode}
-                onChange={(value) => {
-                  setUnitCode(value)
-                  if (validationError) validateUnitCode(value)
-                }}
-                disabled={isLoading || isPendingRequest}
-                placeholder="e.g. CAB202"
-              />
-              {validationError && <p className="text-red-600 text-[10px] font-semibold mt-0.5">{validationError}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="unitCode" className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+                  Unit Code
+                </Label>
+                <UnitCodeAutocomplete
+                  value={unitCode}
+                  onChange={(value) => {
+                    setUnitCode(value)
+                    if (validationError) validateUnitCode(value)
+                  }}
+                  disabled={isLoading || isPendingRequest}
+                  placeholder="e.g. CAB202"
+                />
+                {validationError && <p className="text-red-500 text-xs mt-1">{validationError}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label
+                  htmlFor="teachingPeriod"
+                  className="text-[#003A6E] dark:text-blue-300 transition-colors duration-300"
+                >
+                  Teaching Period
+                </Label>
+                <Select
+                  value={teachingPeriodId}
+                  onValueChange={setTeachingPeriodId}
+                  disabled={isLoading || isPendingRequest}
+                >
+                  <SelectTrigger
+                    id="teachingPeriod"
+                    className="focus:ring-[#003A6E] dark:bg-gray-800 dark:border-gray-700 rounded-lg transition-all duration-200 shadow-sm"
+                  >
+                    <SelectValue placeholder="Select a teaching period">
+                      {teachingPeriods.find((p) => p.id === teachingPeriodId)?.name}
+                      {teachingPeriods.find((p) => p.id === teachingPeriodId)?.campus
+                        ? ` @ ${teachingPeriods.find((p) => p.id === teachingPeriodId)?.campus}`
+                        : ""}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent className="dark:bg-gray-800 rounded-lg max-w-[350px] w-[var(--radix-select-trigger-width)]">
+                    {teachingPeriods.map((period) => (
+                      <SelectItem
+                        key={period.id}
+                        value={period.id}
+                        className="focus:bg-[#003A6E]/10 dark:focus:bg-blue-900/30 transition-colors duration-200 whitespace-normal"
+                      >
+                        <div className="flex flex-col">
+                          <span>
+                            {period.name} {period.campus ? `@ ${period.campus}` : ""}
+                          </span>
+                          {period.dateRange && (
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{period.dateRange}</span>
+                          )}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-
-            <div className="space-y-1">
-              <label htmlFor="teachingPeriod" className="text-xs font-bold text-zinc-700 block">
-                Teaching Period:
-              </label>
-              <select
-                id="teachingPeriod"
-                value={teachingPeriodId}
-                onChange={(e) => setTeachingPeriodId(e.target.value)}
-                disabled={isLoading || isPendingRequest}
-                className="w-full text-xs"
-              >
-                {teachingPeriods.map((period) => (
-                  <option key={period.id} value={period.id}>
-                    {period.name} {period.campus ? `@ ${period.campus}` : ""}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button
+            <Button
               type="submit"
-              className="w-full flex items-center justify-center gap-1.5"
+              className={`w-full ${
+                isRateLimited || isPendingRequest
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#003A6E] hover:bg-[#003A6E]/90 text-white dark:bg-blue-800 dark:hover:bg-blue-700"
+              } rounded-lg transition-all duration-300 shadow-md hover:shadow-lg`}
               disabled={isLoading || isRateLimited || isPendingRequest}
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  <span>Searching...</span>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Searching...
                 </>
               ) : (
                 <>
-                  <Search className="h-3.5 w-3.5" />
-                  <span>Get Schedule</span>
+                  <Search className="mr-2 h-4 w-4" />
+                  Get Unit Schedule
                 </>
               )}
-            </button>
+            </Button>
+            
           </form>
-          
-          <div className="text-[10px] text-zinc-500 bg-[#ffffe1] border border-[#e5c365] p-2 space-y-1">
-            <div className="flex items-start gap-1">
-              <Info className="w-3.5 h-3.5 text-[#e5c365] shrink-0 mt-0.5" />
-              <span>Remaining searches: <strong>{remainingRequests} / 15</strong></span>
-            </div>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Right Column: Search Results */}
-      <div className="lg:col-span-3 flex flex-col bg-white border border-[#d8d2bd]">
-        <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
-          <span className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-white" /> Class Times Listing {unitName ? `— ${unitName}` : ""}
-          </span>
-        </div>
-        
-        <div className="p-4 flex-grow overflow-auto min-h-[400px] bg-white">
-          {error && (
-            <div className="bg-[#ffffe1] border border-red-400 p-3 text-xs text-red-700 mb-4 font-sans">
-              <strong>Error:</strong> {error}
-            </div>
-          )}
+      {error && <InlineNotice variant="error">{error}</InlineNotice>}
 
-          {timetableData.length > 0 ? (
-            <div className="space-y-4">
-              <TimetableResults
-                entries={timetableData}
-                unitName={unitName || undefined}
-              />
-            </div>
-          ) : (
-            <div className="text-center py-20 text-zinc-400 space-y-3 font-sans">
-              <Search className="w-10 h-10 mx-auto text-zinc-300" />
-              <p className="text-xs font-bold text-zinc-500">NO UNIT LOADED</p>
-              <p className="text-[10px] text-zinc-400 max-w-xs mx-auto">
-                Search for any active QUT unit code in the finder panel to fetch and load its schedule.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+      {timetableData.length > 0 && (
+        <TimetableResults
+          entries={timetableData}
+          unitName={unitName || undefined}
+        />
+      )}
 
+      <SectionNote>
+        I never planned my week around tutorials. I turned up on the days I already had work in the city
+        and did everything else online. So on those days I would open this and ask one question: is there
+        a tutorial for one of my units today that I would actually bother sitting in on? If there was, I
+        went. If not, I watched the recording.
+      </SectionNote>
     </div>
   )
 }

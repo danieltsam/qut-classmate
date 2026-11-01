@@ -468,8 +468,19 @@ async function fetchFromOldAPI(unitCode: string, teachingPeriodId: string, remai
 }
 
 export async function POST(req: NextRequest) {
+  // Parse separately: a malformed or missing body is a client error (400), not an
+  // upstream failure. Letting this throw into the outer catch reported it as a 500.
+  let body: { unitCode?: string; teachingPeriodId?: string }
   try {
-    const body = await req.json()
+    body = await req.json()
+  } catch {
+    return NextResponse.json(
+      { error: true, message: "Request body must be JSON with unitCode and teachingPeriodId" },
+      { status: 400 },
+    )
+  }
+
+  try {
     const { unitCode, teachingPeriodId } = body
 
     if (!unitCode || !teachingPeriodId) {

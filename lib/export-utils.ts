@@ -67,7 +67,7 @@ export function exportToICS(entries: TimetableEntry[]): void {
 
   entries.forEach((entry, index) => {
     // Use dayFormatted if available, otherwise fall back to day
-    const dayValue = entry.dayFormatted || entry.day
+    const dayValue = entry.dayFormatted || entry.day || ""
 
     const startDate = timeStringToDate(entry.startTime, dayValue)
     const endDate = timeStringToDate(entry.endTime, dayValue)

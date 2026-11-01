@@ -73,7 +73,15 @@ export function TimetableTable({ entries }: TimetableTableProps) {
           break
         case "day":
           // Custom day order: Monday, Tuesday, etc.
-          const dayOrder = { Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6, Sunday: 7 }
+          const dayOrder: Record<string, number> = {
+            Monday: 1,
+            Tuesday: 2,
+            Wednesday: 3,
+            Thursday: 4,
+            Friday: 5,
+            Saturday: 6,
+            Sunday: 7,
+          }
           comparison = (dayOrder[a.dayFormatted] || 0) - (dayOrder[b.dayFormatted] || 0)
           break
         case "time":

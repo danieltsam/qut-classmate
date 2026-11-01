@@ -1,0 +1,83 @@
+name: Refresh teaching periods
+
+# QUT publishes next year's teaching period IDs months ahead and retires the
+# old ones without notice. When that happens every search for a stale ID fails
+# with "No timetable found". This job re-discovers the current IDs monthly and
+# raises a pull request when they change, so the yearly manual edit is gone.
+
+on:
+  schedule:
+    # 02:17 UTC on the 1st of every month — deliberately off the hour so it
+    # does not pile onto GitHub's busiest cron slots.
+    - cron: "17 2 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # The script only uses node built-ins, so no dependency install is needed.
+      - name: Discover teaching periods from QUT Virtual 4
+        run: node scripts/discover-periods.js
+
+      - name: Validate the result
+        run: |
+          node -e '
+            const fs = require("fs");
+            const { periods } = JSON.parse(fs.readFileSync("data/teaching-periods.json", "utf8"));
+            if (!Array.isArray(periods) || periods.length === 0) {
+              console.error("No periods discovered — QUT markup may have changed.");
+              process.exit(1);
+            }
+            const thisYear = new Date().getFullYear();
+            const hasCurrentOrFuture = periods.some(p => p.year >= thisYear);
+            if (!hasCurrentOrFuture) {
+              console.error("No current or future periods discovered.");
+              process.exit(1);
+            }
+            console.log(`OK: ${periods.length} periods, newest ${periods[0].code}`);
+          '
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet -- data/teaching-periods.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git --no-pager diff -- data/teaching-periods.json
+          fi
+
+      - name: Open pull request
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="chore/refresh-teaching-periods"
+          git checkout -B "$BRANCH"
+          git add data/teaching-periods.json
+          git commit -m "chore: refresh QUT teaching period IDs"
+          git push -f origin "$BRANCH"
+          gh pr create \
+            --title "chore: refresh QUT teaching period IDs" \
+            --body "Automated monthly refresh from QUT Virtual 4.
+
+            Review the new period list, then re-scrape class data if the current semester rolled over:
+
+            \`\`\`
+            node scripts/scrape-classes.js <periodId>
+            \`\`\`" \
+            --base "${GITHUB_REF_NAME}" \
+            --head "$BRANCH" || echo "PR already open for this branch, force-push updated it."

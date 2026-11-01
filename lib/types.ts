@@ -19,6 +19,7 @@ export interface TimetableEntry {
 export interface SelectedClass extends TimetableEntry {
   id: string
   unitCode: string
+  hasConflict?: boolean // Set by the auto timetable generator when a class had to be placed over a conflict
 }
 
 export interface Unit {

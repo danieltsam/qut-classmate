@@ -2,16 +2,25 @@ import { type NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
   try {
-    // Get rate limit headers from middleware
-    const limit = request.headers.get("X-RateLimit-Limit") || "15"
-    const remaining = request.headers.get("X-RateLimit-Remaining") || "15"
-    const reset = request.headers.get("X-RateLimit-Reset") || "0"
+    // Headers are only present when the middleware limiter is enabled
+    // (RATE_LIMIT_ENABLED=true). Without them there is no window to report —
+    // returning epoch zero made the UI show a 1970 reset date.
+    const limit = request.headers.get("X-RateLimit-Limit")
+    const remaining = request.headers.get("X-RateLimit-Remaining")
+    const reset = request.headers.get("X-RateLimit-Reset")
+
+    if (!limit || !remaining) {
+      return NextResponse.json({ unlimited: true, limit: null, remaining: null, resetTime: null })
+    }
+
+    const resetSeconds = Number.parseInt(reset ?? "0", 10)
 
     return NextResponse.json({
-      limit: Number.parseInt(limit),
-      remaining: Number.parseInt(remaining),
-      reset: Number.parseInt(reset),
-      resetTime: new Date(Number.parseInt(reset) * 1000).toISOString(),
+      unlimited: false,
+      limit: Number.parseInt(limit, 10),
+      remaining: Number.parseInt(remaining, 10),
+      reset: resetSeconds,
+      resetTime: resetSeconds > 0 ? new Date(resetSeconds * 1000).toISOString() : null,
     })
   } catch (error) {
     console.error("Rate limit check error:", error)

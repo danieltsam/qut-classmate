@@ -1,16 +1,65 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { WeeklyTimetable } from "./weekly-timetable"
 import { TimetableSidebar } from "./timetable-sidebar"
 import type { TimetableEntry, SelectedClass } from "@/lib/types"
-import { doClassesOverlap, extractWeeksInfo } from "@/lib/format-utils"
+import { doClassesOverlap, extractWeeksInfo, collapseNearDuplicateClasses } from "@/lib/format-utils"
 import { useToast } from "@/components/ui/use-toast"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { exportToICS } from "@/lib/export-utils"
-import { Download, Calendar, Sliders } from "lucide-react"
+import { Download, Calendar } from "lucide-react"
 import { AutoTimetableGenerator } from "./auto-timetable-generator"
+import { SectionNote } from "@/components/section-note"
+
+const TIMETABLE_CACHE_PREFIX = "timetable-"
+
+/**
+ * Reads the class list for a unit out of the per-unit timetable cache that
+ * `timetable-sidebar.tsx` writes through `safelyStoreInCache`.
+ *
+ * Prefers the cache for the period the class itself belongs to; if that is
+ * missing it unions every cached period for the unit, because a class can be
+ * added by the auto generator without its period being what the sidebar cached.
+ */
+function readCachedUnitClasses(unitCode: string, teachingPeriodId?: string): TimetableEntry[] {
+  if (typeof window === "undefined") return []
+
+  const prefix = `${TIMETABLE_CACHE_PREFIX}${unitCode}-`
+
+  const readKey = (key: string): TimetableEntry[] => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) || "{}")
+      return Array.isArray(parsed?.data) ? (parsed.data as TimetableEntry[]) : []
+    } catch (error) {
+      console.error("Error parsing cached timetable data:", error)
+      return []
+    }
+  }
+
+  if (teachingPeriodId) {
+    const exact = readKey(`${prefix}${teachingPeriodId}`)
+    if (exact.length > 0) return exact
+  }
+
+  const collected: TimetableEntry[] = []
+  const seenPeriods = new Set<string>()
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (!key || !key.startsWith(prefix)) continue
+
+    const period = key.slice(prefix.length)
+    if (teachingPeriodId && period === teachingPeriodId) continue
+    if (seenPeriods.has(period)) continue
+
+    seenPeriods.add(period)
+    collected.push(...readKey(key))
+  }
+
+  return collected
+}
 
 export function TimetableMaker() {
   const { toast } = useToast()
@@ -99,7 +148,7 @@ export function TimetableMaker() {
           return []
         })
 
-      setPreviewClasses(matchingClasses)
+      setPreviewClasses(collapseNearDuplicateClasses(matchingClasses))
     } else {
       setPreviewClasses([])
     }
@@ -139,12 +188,28 @@ export function TimetableMaker() {
 
       if (existingClassOfSameType) {
         // Replace the existing class with the new one
+        const newClass = {
+          ...classEntry,
+          id,
+        } as SelectedClass
+
+        // The replacement removes the old stream, so check conflicts against
+        // everything that stays on the timetable rather than the full list.
+        const conflictingClass = selectedClasses
+          .filter((cls) => cls.id !== existingClassOfSameType.id)
+          .find((cls) => doClassesOverlap(cls, newClass))
+
+        if (conflictingClass) {
+          toast({
+            title: "Time Conflict",
+            description: `This class conflicts with ${conflictingClass.unitCode} ${conflictingClass.activityType} on ${conflictingClass.dayFormatted}`,
+            variant: "destructive",
+            duration: 5000,
+          })
+        }
+
         setSelectedClasses((prevClasses) => {
           const updatedClasses = prevClasses.filter((cls) => cls.id !== existingClassOfSameType.id)
-          const newClass = {
-            ...classEntry,
-            id,
-          } as SelectedClass
 
           const result = [...updatedClasses, newClass]
 
@@ -196,6 +261,29 @@ export function TimetableMaker() {
       }
     }
   }
+
+  /**
+   * Every other stream of the same unit + activity type. This is what a drag
+   * offers as drop targets: QUT fixes class times, so "moving" a class means
+   * switching to a different stream of the same activity.
+   */
+  const getClassAlternatives = useCallback((classEntry: TimetableEntry | SelectedClass): TimetableEntry[] => {
+    if (!classEntry.unitCode) return []
+
+    const cachedClasses = readCachedUnitClasses(classEntry.unitCode, classEntry.teachingPeriodId)
+
+    return cachedClasses.filter(
+      (alt) =>
+        alt.activityType === classEntry.activityType &&
+        // Exclude the stream already on the timetable
+        !(
+          alt.dayFormatted === classEntry.dayFormatted &&
+          alt.startTime === classEntry.startTime &&
+          alt.endTime === classEntry.endTime &&
+          alt.location === classEntry.location
+        ),
+    )
+  }, [])
 
   // Handle adding a searched unit
   const handleAddSearchedUnit = (unitCode: string, teachingPeriodId: string) => {
@@ -357,91 +445,88 @@ export function TimetableMaker() {
   }
 
   return (
-    <div className="space-y-4 font-sans">
-      {/* Action Toolbar */}
-      <div className="flex flex-wrap justify-between items-center gap-2 p-2 bg-[#ece9d8] border border-[#d8d2bd]">
-        <span className="text-xs font-bold text-zinc-700">Allocated Classes: {selectedClasses.length}</span>
-        <div className="flex flex-wrap gap-2 items-center">
+    <div className="space-y-6">
+      <div className="flex flex-wrap justify-between items-center gap-2">
+        <h2 className="text-xl font-semibold text-[#003A6E] dark:text-blue-300 transition-colors duration-300">
+          Timetable Creator
+        </h2>
+        <div className="flex flex-wrap gap-2">
           <AutoTimetableGenerator
             onAddClasses={handleAddClasses}
             existingClasses={selectedClasses}
             onAddSearchedUnit={handleAddSearchedUnit}
           />
 
-          <button
+          <Button
             onClick={handleExport}
-            className="flex items-center gap-1.5 py-1 px-3"
+            variant="outline"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
             disabled={selectedClasses.length === 0}
           >
-            <Download className="h-3.5 w-3.5" />
-            <span>Export (.ics)</span>
-          </button>
+            <Download className="mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Export (.ics)</span>
+            <span className="sm:hidden">Export</span>
+          </Button>
 
-          <button
+          <Button
             onClick={handleExportToGoogle}
-            className="flex items-center gap-1.5 py-1 px-3"
+            variant="outline"
+            className="border-[#003A6E]/20 hover:bg-[#003A6E]/10 text-[#003A6E] dark:border-blue-800 dark:hover:bg-blue-900/30 dark:text-blue-300 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
             disabled={selectedClasses.length === 0}
           >
-            <Calendar className="h-3.5 w-3.5" />
-            <span>Google Calendar</span>
-          </button>
+            <Calendar className="mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Google Calendar</span>
+            <span className="sm:hidden">Google</span>
+          </Button>
 
           {selectedClasses.length > 0 && (
-            <button
+            <Button
               onClick={handleClearAll}
-              className="py-1 px-3 border-red-400 text-red-700 font-bold"
+              variant="outline"
+              className="border-red-200 hover:bg-red-50 text-red-600 dark:border-red-800 dark:hover:bg-red-900/30 dark:text-red-400 rounded-lg transition-all duration-200 shadow-sm hover:shadow"
             >
               Clear All
-            </button>
+            </Button>
           )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Left Column: Sidebar Controls */}
-        <div className="lg:col-span-1 flex flex-col h-fit bg-[#ece9d8] border border-[#d8d2bd]">
-          <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
-            <span className="flex items-center gap-1.5">
-              <Sliders className="w-3.5 h-3.5 text-white" /> Class Finder & Streams
-            </span>
-          </div>
-          <div className="p-4 bg-[#ece9d8]">
-            <TimetableSidebar
-              onClassHover={handleClassHover}
-              onClassToggle={handleClassToggle}
-              onActivityTypeHover={handleActivityTypeHover}
-              selectedClasses={selectedClasses}
-              searchedUnits={searchedUnits}
-              onAddSearchedUnit={handleAddSearchedUnit}
-              onAddClasses={handleAddClasses}
-            />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1">
+          <TimetableSidebar
+            onClassHover={handleClassHover}
+            onClassToggle={handleClassToggle}
+            onActivityTypeHover={handleActivityTypeHover}
+            selectedClasses={selectedClasses}
+            searchedUnits={searchedUnits}
+            onAddSearchedUnit={handleAddSearchedUnit}
+            onAddClasses={handleAddClasses}
+          />
         </div>
-
-        {/* Right Column: Weekly Schedule Grid */}
-        <div className="lg:col-span-2 flex flex-col bg-[#ece9d8] border border-[#d8d2bd]">
-          <div className="bg-[#0053e2] text-white px-2 py-1 flex items-center justify-between text-xs font-bold">
-            <span className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-white" /> Weekly Class Schedule Calendar
-            </span>
-          </div>
-          <div className="p-4 bg-white flex-grow overflow-auto min-h-[400px]">
-            {selectedClasses.length > 0 && (
-              <div className="text-[10px] text-zinc-500 mb-2 flex items-center justify-center sm:justify-start">
-                <span className="inline-flex items-center">
-                  <span className="mr-1">💡</span> Tip: Click on any class in the timetable to remove it
-                </span>
-              </div>
-            )}
-            <WeeklyTimetable
-              selectedClasses={selectedClasses}
-              hoveredClass={hoveredClass}
-              onClassToggle={handleClassToggle}
-              previewClasses={previewClasses}
-            />
-          </div>
+        <div className="lg:col-span-2">
+          {selectedClasses.length > 0 && (
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-center sm:justify-start">
+              <span className="inline-flex items-center">
+                <span className="mr-1">💡</span> Tip: Click on any class in the timetable to remove it, or drag it onto a
+                highlighted stream to move it
+              </span>
+            </div>
+          )}
+          <WeeklyTimetable
+            selectedClasses={selectedClasses}
+            hoveredClass={hoveredClass}
+            onClassToggle={handleClassToggle}
+            previewClasses={previewClasses}
+            getAlternatives={getClassAlternatives}
+          />
         </div>
       </div>
+
+      <SectionNote>
+        I do this once at the start of every semester and then forget about it. Put my work shifts in as
+        unavailable blocks, press Auto Generate, and take whatever it gives me. It beats shuffling classes
+        around by hand for twenty minutes.
+      </SectionNote>
     </div>
   )
 }

@@ -2,10 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
 
-const assessmentsPath = path.join(__dirname, '../data/qut-unit-assessments.json');
+const codesPath = path.join(__dirname, '../data/qut-unit-codes.json');
 const outputPath = path.join(__dirname, '../data/qut-unit-classes.json');
 
-const SEMESTER_2_2026_PERIOD_ID = '4381474';
+// Teaching period to scrape. Pass as first CLI arg, e.g.:
+//   node scripts/scrape-classes.js 4382863      -> SEM-1/2027
+//   node scripts/scrape-classes.js              -> defaults to SEM-2/2026 (4381474)
+const PERIOD_ID = process.argv[2] || '4381474';
+const PERIOD_LABEL = process.env.QUT_PERIOD_LABEL || PERIOD_ID;
 
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
@@ -155,15 +159,15 @@ async function scrapeUnitClasses(unitCode) {
   const setCookies = res.headers.getSetCookie ? res.headers.getSetCookie() : [];
   const cookieHeader = buildCookieHeader(setCookies);
 
-  // 2. Parse version number for Semester 2, 2026
+  // 2. Parse version number for the target teaching period
   const metadata = parseUnitSearchPage(html, upperUnitCode);
   if (metadata.unitNotFound) {
     return { empty: true, reason: 'Unit not found' };
   }
 
-  const versionNumber = metadata.versionByPeriod.get(SEMESTER_2_2026_PERIOD_ID);
+  const versionNumber = metadata.versionByPeriod.get(PERIOD_ID);
   if (!versionNumber) {
-    return { empty: true, reason: 'Not offered in Semester 2, 2026' };
+    return { empty: true, reason: `Not offered in period ${PERIOD_LABEL}` };
   }
 
   // 3. Query getUnitClasses resource endpoint
@@ -174,7 +178,7 @@ async function scrapeUnitClasses(unitCode) {
   classesUrl.searchParams.set('p_p_mode', 'view');
   classesUrl.searchParams.set('p_p_resource_id', 'getUnitClasses');
   classesUrl.searchParams.set('p_p_cacheability', 'cacheLevelPage');
-  classesUrl.searchParams.set('_SolrQuest_WAR_solrquest_timePeriodId', SEMESTER_2_2026_PERIOD_ID);
+  classesUrl.searchParams.set('_SolrQuest_WAR_solrquest_timePeriodId', PERIOD_ID);
   classesUrl.searchParams.set('_SolrQuest_WAR_solrquest_unitCode', upperUnitCode);
   classesUrl.searchParams.set('_SolrQuest_WAR_solrquest_versionNumber', versionNumber);
 
@@ -233,14 +237,17 @@ async function scrapeUnitClasses(unitCode) {
 
 // Main execution
 async function main() {
-  if (!fs.existsSync(assessmentsPath)) {
-    console.error(`Error: assessments file not found at ${assessmentsPath}`);
+  if (!fs.existsSync(codesPath)) {
+    console.error(`Error: unit codes file not found at ${codesPath}`);
     process.exit(1);
   }
 
-  const assessmentsData = JSON.parse(fs.readFileSync(assessmentsPath, 'utf8'));
-  const unitCodes = Object.keys(assessmentsData.data || {}).sort();
-  console.log(`Loaded ${unitCodes.length} unit codes from assessments database.`);
+  const codesData = JSON.parse(fs.readFileSync(codesPath, 'utf8'));
+  const unitCodes = (codesData.units || [])
+    .filter((u) => !u.legacy)
+    .map((u) => u.code)
+    .sort();
+  console.log(`Loaded ${unitCodes.length} unit codes for period ${PERIOD_ID}.`);
 
   // Load existing classes if present (incremental recovery)
   let classesDb = {};
@@ -255,7 +262,10 @@ async function main() {
   }
 
   // Filter out units that we already successfully processed or marked skipped
-  const targetUnits = unitCodes.filter(code => !classesDb[code]);
+  const LIMIT = Number.parseInt(process.env.SCRAPE_LIMIT || '0', 10);
+  const targetUnits = unitCodes
+    .filter((code) => !classesDb[code])
+    .slice(0, LIMIT > 0 ? LIMIT : undefined);
   console.log(`Units remaining to process: ${targetUnits.length}`);
 
   if (targetUnits.length === 0) {
@@ -273,7 +283,7 @@ async function main() {
   const saveDatabase = () => {
     fs.writeFileSync(outputPath, JSON.stringify({
       scrapedAt: new Date().toISOString(),
-      teachingPeriodId: SEMESTER_2_2026_PERIOD_ID,
+      teachingPeriodId: PERIOD_ID,
       unitsCount: Object.keys(classesDb).length,
       data: classesDb,
     }, null, 2), 'utf8');
