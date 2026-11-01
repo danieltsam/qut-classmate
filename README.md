@@ -9,63 +9,42 @@ https://github.com/user-attachments/assets/eb6b6a82-7f3d-4f40-9c06-48631e5bf17a
 ### Unit search
 
 Type a code and a semester, get every class with staff, room and weeks, pulled from
-QUT Virtual 4 as you search. I never planned my week around tutorials. I turned up
-on the days I already had work in the city, so the only question I had was whether
-there was a tute worth sitting in today. This answers it.
+QUT Virtual 4 as you search. My use is a bit unusual. I never planned my week around
+tutorials: I turned up on the days I already had work in the city, so the question
+was usually whether there was a tute worth sitting in that day. It works just as
+well for the ordinary case of finding out when a unit runs and who teaches it.
 
 ### Timetable creator
 
-Put classes on a week and see clashes before they happen. Click one to remove it,
-or drag it onto another stream of the same activity to move it. The auto generator
-searches the streams for your units with your work shifts blocked out. I use this
+Once I have my classes chosen for the semester, this is where I build a rough
+timetable around work and everything else I have on. Block out the times you are
+unavailable, say how clumped you want your classes, and the generator searches the
+streams for your units until it finds something that fits. If the first suggestion
+is awkward you can drag a class onto another stream of the same activity. I use it
 once a semester and then forget about it.
 
 ### Campus explorer
 
-For the hour you have to kill between classes. It shows what is running right now,
-by building. Nobody checks attendance, so you can walk in.
+You are paying to be at uni, and some of the lectures are genuinely interesting.
+With an hour between classes I will look at what is running nearby and sit in on
+whatever catches my attention, whether that is a supply chain management lecture,
+something out of engineering, or an old class I want a refresher on. Nobody checks
+attendance. This shows what is on right now, sorted by building.
 
 ### Course planner
 
-Pick a course, a major and a start year, and the whole degree opens as columns.
-Fill the elective slots, drag units between semesters, and set how heavy each one
-should be. Set part-time and the plan re-packs into twelve semesters. Set 60 CP and
-it compresses. Nothing is dropped and every change can be undone.
-
-## The reason to use it
-
-QUT tells you a unit's prerequisites. It does not tell you that your plan breaks
-them. This does, and it offers the fix instead of just the complaint:
-
-```
-Take AYB150 before AYB204            [Move it later]
-EUB111 is not offered in that semester. It runs in Semester 1, 2027.
-```
-
-That second line is the one I did not expect to matter. A unit that only runs in
-one semester is easy to misfile, and you normally find out in week one. It reads the
-semester from QUT's own offerings rather than a hardcoded table.
-
-It also separates a retired unit from a code that never existed, because it keeps a
-record of every unit it has seen, and names the replacement from QUT's equivalence
-data when there is one.
-
-Around 200 courses are covered, including IT, engineering, business, law, science,
-nursing and the masters coursework degrees.
-
-## Advice I would give anyone
-
-If you have a spare elective, spend it on a
-[QUT short-term exchange](https://qutvirtual2.qut.edu.au/ismms-core/studentNav/shortTermPrograms).
-The unit still counts, so you are reattributing the money you would have spent on it
-towards going somewhere new, and NCP funding covers a fair amount of the rest.
-
-Prerequisite checks here are advisory. A waiver is often possible, and a sensible
-email explaining your background or outside projects usually gets one.
+I use this to plan a course properly, especially when I want to underload or
+overload a semester. Every unit in the degree sits on one page with its
+prerequisites, so I can see whether a plan actually holds together instead of
+clicking through QUT's pages one at a time and then copying the result into
+eStudent. Set a semester to 36 credit points and units move along to the next one.
+Set 60 and it compresses. The prerequisite checking is the part I am happiest with:
+it reads QUT's own rules and tells you when a plan is out of order, with a button
+that moves the unit rather than just complaining about it.
 
 ## Data
 
-Scraped from QUT and committed, so the app does not hammer their servers on every
+Scraped from QUT and committed, so the app does not hit their servers on every
 request.
 
 | File | What it is | Size |
@@ -75,8 +54,20 @@ request.
 | `course-structures.json` | 199 courses with semester plans | 19 MB |
 | `qut-unit-classes.json` | one semester of classes, 823 units | 846 KB |
 
+### Courses currently supported
+
+199 courses have a study plan, of the 329 QUT lists. That covers 123 bachelors and
+39 masters, including IT, engineering, business, law, science and nursing, plus
+masters coursework in IT, engineering management, robotics, renewable energy and
+advanced manufacturing.
+
+Not yet supported: 131 courses, mostly double degrees (Engineering and Business,
+Fine Arts and Law, Business and Fine Arts, and similar), graduate certificates, and
+research degrees. If your course is in that group the planner will say so rather
+than showing something wrong.
+
 Teaching period IDs change every year, so a monthly workflow reads them from QUT's
-own search pages and opens a PR when they move.
+search pages and opens a PR when they move.
 
 ## Running it
 
@@ -103,9 +94,9 @@ node scripts/build-known-units.js
 
 ## What is rough
 
-The catalogue is 2130 units and QUT has several thousand, so it covers 96.5% of the
-units the planner references rather than everything. A gap shows up as "we could not
-find that code" instead of a wrong answer.
+The catalogue holds 2130 units, which covers 96.5% of the ones the planner
+references. QUT has several thousand in total, so it is a partial snapshot, and a
+gap shows up as "we could not find that code" instead of a wrong answer.
 
 The class snapshot is from one semester. Campus explorer needs re-scraping when a
 new one starts or it shows last semester. Course structures go stale the same way
@@ -113,7 +104,6 @@ when QUT changes a degree.
 
 ## Contributing
 
-If something is wrong or missing, open a PR. Fixing a scraper is more useful than
-hand-editing a JSON file, since the files are regenerated.
+If you think something could make this better, please open a PR.
 
 Not affiliated with QUT. Always check the official timetable.
